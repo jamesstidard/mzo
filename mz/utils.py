@@ -18,15 +18,15 @@ def async_command(f):
     return wrapper
 
 
-def command(name=None, cls=None, **attrs):
+def command(name=None, cls=None, options_metavar='[options]', **attrs):
     def decorator(f):
         f = async_command(f)
-        return click.command(name=name, cls=cls, **attrs)(f)
+        return click.command(name=name, cls=cls, options_metavar=options_metavar, **attrs)(f)
     return decorator
 
 
-def group(name=None, **attrs):
+def group(name=None, options_metavar='[options]', **attrs):
     def decorator(f):
         f = async_command(f)
-        return click.group(name=name, **attrs)(f)
+        return click.group(name=name, options_metavar=options_metavar, **attrs)(f)
     return decorator
