@@ -1,10 +1,10 @@
 import click
 
 
-class FloatRangeParamType(click.ParamType):
+class FloatRange(click.ParamType):
     name = 'float range'
 
-    def __init__(self, min=None, max=None, clamp=False):
+    def __init__(self, *, min=None, max=None, clamp=False):
         self.min_ = min
         self.max_ = max
         self.clamp = clamp
@@ -29,6 +29,3 @@ class FloatRangeParamType(click.ParamType):
                     % (value, self.max_), param, ctx)
             else:
                 return value
-
-
-FloatRange = FloatRangeParamType()
