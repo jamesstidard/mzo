@@ -18,6 +18,6 @@ amount = partial(
     click.argument,
     'amount',
     nargs=1,
-    type=mz.FloatRange(min=0),
+    type=mz.types.FloatRange(min=0),
     metavar='<amount>',
 )
