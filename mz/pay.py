@@ -1,21 +1,20 @@
 import maya
 
-from mz import arguments, options
-from mz.utils import command
+import mz
 
 
-@command()
-@arguments.name()
-@arguments.amount()
-@options.sort_code()
-@options.account_number()
-@options.message()
-@options.on_datetime()
-@options.daily_frequency_flag()
-@options.weekly_frequency_flag()
-@options.monthly_frequency_flag()
-@options.yearly_frequency_flag()
-@options.user_defined_frequency()
+@mz.command()
+@mz.arguments.name()
+@mz.arguments.amount()
+@mz.options.sort_code()
+@mz.options.account_number()
+@mz.options.message()
+@mz.options.on_datetime()
+@mz.options.daily_frequency_flag()
+@mz.options.weekly_frequency_flag()
+@mz.options.monthly_frequency_flag()
+@mz.options.yearly_frequency_flag()
+@mz.options.user_defined_frequency()
 async def pay(name, amount, sort_code, account_number, message, on, every):
     print('paying:', name)
     print('amount:', amount)

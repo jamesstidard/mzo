@@ -1,13 +1,12 @@
-from mz.pay import pay
-from mz.utils import group
+import mz
 
 
-@group()
+@mz.group()
 def cli():
     pass
 
 
-cli.add_command(pay)
+cli.add_command(mz.pay)
 
 
 if __name__ == '__main__':
