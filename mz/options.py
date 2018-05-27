@@ -3,11 +3,25 @@ from functools import partial
 import click
 
 
+account_id = partial(
+    click.option,
+    '--account-id',
+    metavar='<account-id>',
+    envvar='MONZO_ACCOUNT_ID',
+)
+
+access_token = partial(
+    click.option,
+    '--access-token',
+    metavar='<access-token>',
+    envvar='MONZO_ACCESS_TOKEN',
+)
+
 sort_code = partial(
     click.option,
     '-s',
     '--sort-code',
-    metavar='<sort-code>',
+    metavar='<00-00-00>',
     help='Sort code of the recipient.',
 )
 
@@ -15,7 +29,7 @@ account_number = partial(
     click.option,
     '-a',
     '--account-number',
-    metavar='<account-number>',
+    metavar='<00000000>',
     help='Account number of the recipient.',
 )
 
