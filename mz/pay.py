@@ -19,7 +19,7 @@ from mz.utils import async_command
 @options.user_defined_frequency()
 @async_command
 async def pay(name, amount, sort_code, account_number, message, on, every):
-    print('paying:', ' '.join(name))
+    print('paying:', name)
     print('amount:', amount)
     print('sort_code:', sort_code)
     print('account_number:', account_number)
