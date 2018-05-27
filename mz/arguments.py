@@ -2,7 +2,7 @@ from functools import partial
 
 import click
 
-from mz import types
+from mz.types import FloatRange
 
 
 name = partial(
@@ -18,6 +18,6 @@ amount = partial(
     click.argument,
     'amount',
     nargs=1,
-    type=types.FloatRange(min=0),
+    type=FloatRange(min=0),
     metavar='<amount>',
 )

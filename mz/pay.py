@@ -1,11 +1,10 @@
-import click
 import maya
 
 from mz import arguments, options
-from mz.utils import async_command
+from mz.utils import command
 
 
-@click.command(options_metavar='[options]')
+@command()
 @arguments.name()
 @arguments.amount()
 @options.sort_code()
@@ -17,7 +16,6 @@ from mz.utils import async_command
 @options.monthly_frequency_flag()
 @options.yearly_frequency_flag()
 @options.user_defined_frequency()
-@async_command
 async def pay(name, amount, sort_code, account_number, message, on, every):
     print('paying:', name)
     print('amount:', amount)

@@ -1,9 +1,8 @@
-import click
-
 from mz.pay import pay
+from mz.utils import group
 
 
-@click.group()
+@group()
 def cli():
     pass
 
