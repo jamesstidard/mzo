@@ -12,14 +12,11 @@ import mz
 @mz.pass_user_data
 async def balance(user_data):
     headers = {'Authorization': f'Bearer {user_data.access_token}'}
+    params = {'account_id': user_data.account_id}
 
     async with aiohttp.ClientSession(headers=headers) as session:
-        get_balance = session.get(
-            'https://api.monzo.com/balance',
-            params={'account_id': user_data.account_id})
-        get_pots = session.get(
-            'https://api.monzo.com/pots',
-            params={'account_id': user_data.account_id})
+        get_balance = session.get('https://api.monzo.com/balance', params=params)
+        get_pots = session.get('https://api.monzo.com/pots', params=params)
 
         balance_resp, pots_resp = await asyncio.gather(get_balance, get_pots)
         balance_json = await balance_resp.json()
