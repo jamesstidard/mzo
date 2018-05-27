@@ -25,11 +25,11 @@ async def balance(user_data):
         balance_json = await balance_resp.json()
         pots_json = await pots_resp.json()
 
-        total_balance = f"Σ Total: {balance_json['total_balance']/100}\n"
-        current_balance = f"💰 Current: {balance_json['balance']/100}"
-        pots_balance = "\n".join([
+        total_balance = f"\n💰 Total: {balance_json['total_balance']/100}"
+        current_balance = f"💸 Current: {balance_json['balance']/100}"
+        pots_balance = [
             f"🍯 {p['name']}: {p['balance']/100}"
             for p in pots_json['pots']
-            if not p['deleted']])
+            if not p['deleted']]
 
-        click.echo_via_pager("\n".join([total_balance, current_balance, pots_balance]))
+        click.echo("\n".join([current_balance, *pots_balance, total_balance]))
