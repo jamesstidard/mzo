@@ -3,7 +3,7 @@ import aiohttp
 import mz
 
 
-@mz.command()
+@mz.command(short_help='View all Monzo accounts.')
 @mz.pass_user_data
 async def accounts(user_data):
     url = 'https://api.monzo.com/accounts'

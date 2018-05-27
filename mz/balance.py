@@ -3,7 +3,7 @@ import aiohttp
 import mz
 
 
-@mz.command()
+@mz.command(short_help='View account\'s current balance.')
 @mz.pass_user_data
 async def balance(user_data):
     url = 'https://api.monzo.com/balance'

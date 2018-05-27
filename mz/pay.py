@@ -3,7 +3,7 @@ import maya
 import mz
 
 
-@mz.command()
+@mz.command(short_help='Schedule one-off or reoccurring payment.')
 @mz.arguments.name()
 @mz.arguments.amount()
 @mz.options.sort_code()
