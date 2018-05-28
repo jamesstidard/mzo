@@ -1,6 +1,8 @@
 # Monzo Cli
 A (third-party) command line interface to your monzo account.
 
+_Sometimes_ the command line is more convient then swiping and tapping.
+
 The full monzo API isn't availible yet but the plan is to let easy
 payments via the command line.
 
