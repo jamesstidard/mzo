@@ -1,10 +1,10 @@
 import aiohttp
 
-import mzo
+import monzo
 
 
-@mzo.command(short_help='View all Monzo accounts.')
-@mzo.pass_user_data
+@monzo.command(short_help='View all Monzo accounts.')
+@monzo.pass_user_data
 async def accounts(user_data):
     url = 'https://api.monzo.com/accounts'
     headers = {'Authorization': f'Bearer {user_data.access_token}'}

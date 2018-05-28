@@ -11,8 +11,8 @@ class UserData:
 pass_user_data = click.make_pass_decorator(UserData)
 
 
-from mzo.utils import group, command
-from mzo import types, arguments, options
-from mzo.accounts import accounts
-from mzo.balance import balance
-from mzo.pay import pay
+from monzo.utils import group, command
+from monzo import types, arguments, options
+from monzo.accounts import accounts
+from monzo.balance import balance
+from monzo.pay import pay
