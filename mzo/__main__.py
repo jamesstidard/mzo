@@ -1,22 +1,22 @@
 import click
 
-import mz
+import mzo
 
 
-@mz.group()
+@mzo.group()
 @click.pass_context
-@mz.options.account_id()
-@mz.options.access_token()
+@mzo.options.account_id()
+@mzo.options.access_token()
 async def cli(ctx, account_id, access_token):
-    ctx.obj = mz.UserData(
+    ctx.obj = mzo.UserData(
         account_id=account_id,
         access_token=access_token
     )
 
 
-cli.add_command(mz.accounts)
-cli.add_command(mz.balance)
-cli.add_command(mz.pay)
+cli.add_command(mzo.accounts)
+cli.add_command(mzo.balance)
+cli.add_command(mzo.pay)
 
 
 if __name__ == '__main__':

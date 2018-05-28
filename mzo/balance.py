@@ -5,11 +5,11 @@ import asyncio
 import click
 import aiohttp
 
-import mz
+import mzo
 
 
-@mz.command(short_help='View account\'s current balance.')
-@mz.pass_user_data
+@mzo.command(short_help='View account\'s current balance.')
+@mzo.pass_user_data
 async def balance(user_data):
     headers = {'Authorization': f'Bearer {user_data.access_token}'}
     params = {'account_id': user_data.account_id}
