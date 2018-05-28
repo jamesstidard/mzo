@@ -9,6 +9,7 @@ aiohttp = "*"
 aioconsole = "*"
 "e1839a8" = {path = ".", editable = true}
 maya = "*"
+sanic = "*"
 
 [dev-packages]
 
