@@ -10,7 +10,7 @@ payments via the command line.
 - XOR store refresh token
 
 ### Command Examples
-```sh
+```fish
 # monzo pay <name>... <amount> [--daily|--weekly|--monthly|--yearly|--every <x> (days|weeks|months|years) [--from (monday|tuesday|wednesday|thursday|friday|saturday|sunday)] [--sort-code <code> --account-number <number>]] [--message <message>]
 
 $ monzo pay john 50.40
