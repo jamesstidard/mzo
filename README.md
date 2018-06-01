@@ -29,13 +29,13 @@ $ monzo pay dash 5 --sort-code 40-01-03 --account-number 123456789 --message "gi
 Access tokens held in memory (enviroment varaibles)
 ```yaml
 [default]
-refresh_token_xor=xxxxxxxxxxxx
-refresh_token_xor_verification=xxxxxxxxxx
+refresh_token_xor = "xxxxxxxxxxxx"
+refresh_token_xor_verification = "xxxxxxxxxx"
 ```
 
 ### Config File
 ```yaml
 [default]
-account_id=xxxxxxxxxxx
-output_format=(user|json)
+account_id = "xxxxxxxxxxx"
+output_format = "<user|json>"
 ```
