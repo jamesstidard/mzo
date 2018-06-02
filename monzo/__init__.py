@@ -3,8 +3,8 @@ import click
 
 class UserData:
 
-    def __init__(self, *, config_path, account_id, access_token):
-        self.config_path = config_path
+    def __init__(self, *, app_dir, account_id, access_token):
+        self.app_dir = app_dir
         self.account_id = account_id
         self.access_token = access_token
 

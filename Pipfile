@@ -11,6 +11,7 @@ aioconsole = "*"
 maya = "*"
 sanic = "*"
 toml = "*"
+pynacl = "*"
 
 [dev-packages]
 

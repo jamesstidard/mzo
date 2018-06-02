@@ -8,14 +8,17 @@ from contextlib import redirect_stdout
 
 import toml
 import maya
+import nacl.hash
+import nacl.secret
+import nacl.encoding
 import click
 import aiohttp
 import aioconsole
 
 import monzo
 
-from monzo.oauth_server import OAuthServer
 from monzo.utils import ENV_SETTER
+from monzo.utils.oauth_server import OAuthServer
 
 
 SERVER_KILL_PROMPT = """\
@@ -27,6 +30,13 @@ If your browser has not opened, please manually browse to this link:
 {url:}
 
 Or hit [Enter] to terminate this process
+"""
+
+PASSWORD_PROMPT = """\
+We want to make sure anyone using your machine can not just send themselves all your money, \
+let's add a password. Make it strong.
+
+Password\
 """
 
 
@@ -52,12 +62,21 @@ async def login(user_data):
 
     if got_access_token in completed:
         access_data = got_access_token.result()
-        access_token = access_data['access_token']
-        expires = maya.now().add(seconds=access_data['expires_in'])
-        click.echo(ENV_SETTER.format(name='MONZO_ACCESS_TOKEN', value=access_token))
+        access_data['expires_at'] = maya.now().add(seconds=access_data['expires_in'])
+
+        password = click.prompt(PASSWORD_PROMPT, err=True, confirmation_prompt=True, hide_input=True)
+        secret_key = nacl.hash.sha256(password.encode('utf-8'), encoder=nacl.encoding.RawEncoder)
+
+        secret_box = nacl.secret.SecretBox(secret_key)
+        encrypted_access_data = secret_box.encrypt(toml.dumps(access_data).encode('utf-8'))
+        del password, secret_key
+
+        os.makedirs(user_data.app_dir, exist_ok=True)
+        with open(os.path.join(user_data.app_dir, 'credentials'), 'wb+') as fp:
+            fp.write(encrypted_access_data)
 
         url = 'https://api.monzo.com/accounts'
-        headers = {'Authorization': f'Bearer {access_token}'}
+        headers = {'Authorization': f'Bearer {access_data["access_token"]}'}
 
         async with aiohttp.ClientSession(headers=headers) as session:
             async with session.get(url) as resp:
@@ -67,15 +86,17 @@ async def login(user_data):
         if len(accounts) > 1:
             raise NotImplementedError('cant handle multiple accounts currently')
         else:
-            os.makedirs(user_data.config_path.rstrip('config'), exist_ok=True)
-            with open(user_data.config_path, 'w+') as fp:
+            os.makedirs(user_data.app_dir, exist_ok=True)
+            with open(os.path.join(user_data.app_dir, 'config'), 'w+') as fp:
                 toml.dump({'default': {'account_id': accounts[0]['id']}}, fp)
 
-        message = click.style(f"Session Authenticated [expires: {expires.slang_time()}]", fg='green')
+        click.echo(ENV_SETTER.format(name='MONZO_ACCESS_TOKEN', value=access_data["access_token"]))
+
+        message = click.style(f'Session Authenticated [expires: {access_data["expires_at"].slang_time()}]', fg='green')
     elif user_killed in completed:
-        message = click.style("Authentication Canceled", fg='red')
+        message = click.style('Authentication Canceled', fg='red')
     else:
-        message = click.style("Error", fg='red')
+        message = click.style('Error', fg='red')
 
     with redirect_stdout(sys.stderr):
         click.echo(message=message)
