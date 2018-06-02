@@ -10,6 +10,7 @@ import monzo
 
 @monzo.command(short_help='View account\'s current balance.')
 @click.pass_context
+@monzo.utils.authenticated
 async def balance(ctx):
     headers = {'Authorization': f'Bearer {ctx.obj.access_token}'}
     params = {'account_id': ctx.obj.account_id}

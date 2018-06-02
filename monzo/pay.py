@@ -15,6 +15,7 @@ import monzo
 @monzo.options.monthly_frequency_flag()
 @monzo.options.yearly_frequency_flag()
 @monzo.options.user_defined_frequency()
+@monzo.utils.authenticated
 async def pay(name, amount, sort_code, account_number, message, on, every):
     print('paying:', name)
     print('amount:', amount)

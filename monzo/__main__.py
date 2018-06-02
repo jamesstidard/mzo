@@ -18,9 +18,9 @@ asyncio.set_event_loop(uvloop.new_event_loop())
 @monzo.options.account_id()
 @monzo.options.access_token()
 async def cli(ctx, account_id, access_token):
-    # Override defaults with config defaults
     app_dir = click.get_app_dir('monzo', force_posix=True)
     config_fp = os.path.join(app_dir, 'config')
+
     try:
         config = toml.load(config_fp)
     except FileNotFoundError:
@@ -32,18 +32,16 @@ async def cli(ctx, account_id, access_token):
         if not account_id:
             account_id = config.get('default', {}).get('account_id')
 
-    app_dir = click.get_app_dir('monzo', force_posix=True)
-
     headers = {'Authorization': f'Bearer {access_token}'} if access_token else None
     session = aiohttp.ClientSession(headers=headers)
-    ctx.call_on_close(partial(wait, session.close()))
+    sync_close = partial(wait, session.close())
+    ctx.call_on_close(sync_close)
 
     ctx.obj = monzo.ContextObject(
         http=session,
         app_dir=app_dir,
         account_id=account_id,
-        access_token=access_token,
-    )
+        access_token=access_token)
 
 
 cli.add_command(monzo.login)

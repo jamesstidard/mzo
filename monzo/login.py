@@ -36,7 +36,6 @@ PASSWORD_PROMPT = """\
 We want to make sure anyone using your machine can not just send themselves all your money, \
 let's add a password. Make it strong.
 
-Password\
 """
 
 
@@ -64,7 +63,8 @@ async def login(ctx):
         access_data = got_access_token.result()
         access_data['expires_at'] = maya.now().add(seconds=access_data['expires_in'])
 
-        password = click.prompt(PASSWORD_PROMPT, err=True, confirmation_prompt=True, hide_input=True)
+        click.echo(PASSWORD_PROMPT, err=True)
+        password = click.prompt("Password", err=True, confirmation_prompt=True, hide_input=True)
         secret_key = nacl.hash.sha256(password.encode('utf-8'), encoder=nacl.encoding.RawEncoder)
 
         secret_box = nacl.secret.SecretBox(secret_key)
