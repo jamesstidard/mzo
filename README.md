@@ -10,7 +10,7 @@ payments via the command line.
 - XOR store refresh token
 
 ### Command Examples
-```sh
+```fish
 # monzo pay <name>... <amount> [--daily|--weekly|--monthly|--yearly|--every <x> (days|weeks|months|years) [--from (monday|tuesday|wednesday|thursday|friday|saturday|sunday)] [--sort-code <code> --account-number <number>]] [--message <message>]
 
 $ monzo pay john 50.40
@@ -27,15 +27,15 @@ $ monzo pay dash 5 --sort-code 40-01-03 --account-number 123456789 --message "gi
 
 ### Credentials File
 Access tokens held in memory (enviroment varaibles)
-```yaml
+```toml
 [default]
-refresh_token_xor=xxxxxxxxxxxx
-refresh_token_xor_verification=xxxxxxxxxx
+refresh_token_xor = "xxxxxxxxxxxx"
+refresh_token_xor_verification = "xxxxxxxxxx"
 ```
 
 ### Config File
-```yaml
+```toml
 [default]
-account_id=xxxxxxxxxxx
-output_format=(user|json)
+account_id = "xxxxxxxxxxx"
+output_format = "<user|json>"
 ```
