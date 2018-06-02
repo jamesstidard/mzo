@@ -34,7 +34,7 @@ async def cli(ctx, account_id, access_token):
 
     app_dir = click.get_app_dir('monzo', force_posix=True)
 
-    headers = {'Authorization': f'Bearer {access_token}'} if access_token else {}
+    headers = {'Authorization': f'Bearer {access_token}'} if access_token else None
     session = aiohttp.ClientSession(headers=headers)
     ctx.call_on_close(partial(wait, session.close()))
 
