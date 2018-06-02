@@ -1,10 +1,11 @@
 import secrets
 
 from urllib.parse import urlencode
+from functools import partial
+from asyncio import get_event_loop
 
 import aiohttp
 import click
-import aioconsole
 
 from sanic import Sanic
 from sanic.response import json
@@ -17,6 +18,22 @@ CLIENT_ID = 'oauthclient_00009QgEkW8zP76s4rwEDZ'
 CLIENT_SECRET = 'nf8XwQJa/Tx87EU8pny5OUTHtAf4jch6fv9XxRCn/aRdsEUU02EcTow6+Cod+fJ2VvI7B9UMGWh6sozJgamZ'
 REDIRECT_URI = 'http://localhost:40004/welcome-back'
 RESPONSE_TYPE = 'code'
+
+ENV_SETTER = """\
+export {name:}="{value:}"
+# This command is meant to be used with your shell's eval function.
+# Run 'eval $(monzo login)' to sign into your Monzo account.
+"""
+
+SERVER_KILL_PROMPT = """\
+Your browser-of-choice should be opening ready to request authentication for this
+command line application to access your Monzo account.
+
+If your browser has not opened, please manually browse to this link:
+
+{url:}
+
+Or hit [Enter] to terminate this process"""
 
 
 @monzo.command(short_help='Authenticate application with your Monzo account.')
@@ -36,7 +53,9 @@ async def login():
                 'client_secret': CLIENT_SECRET,
                 'redirect_uri': REDIRECT_URI,
                 'code': request.args['code'][0]})
-            print(await resp.json())
+            payload = await resp.json()
+            setter = ENV_SETTER.format(name='MONZO_ACCESS_TOKEN', value=payload['access_token'])
+            click.echo(setter, err=True)
             return json('done')
 
     _ = await app.create_server(host='localhost', port=40004, access_log=False)
@@ -50,13 +69,11 @@ async def login():
 
     url = f'https://auth.monzo.com?{urlencode(params)}'
     click.launch(url)
-    await aioconsole.ainput(
-        f'Your browser-of-choice should be opening ready to request authentication for this '
-        f'command line application to access your Monzo account.\n'
-        f'\n'
-        f'If your browser has not opened, please manually browse to this link:\n'
-        f'\n'
-        f'{url}\n'
-        f'\n'
-        f'Or hit [Enter] to terminate this process.\n')
-    print('done')
+    user_kill = partial(
+        click.confirm,
+        text=SERVER_KILL_PROMPT.format(url=url),
+        default=True,
+        show_default=False,
+        err=True)
+
+    user_kill()
