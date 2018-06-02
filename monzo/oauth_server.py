@@ -1,5 +1,3 @@
-import os
-
 from asyncio import Event
 
 from urllib.parse import urlencode
