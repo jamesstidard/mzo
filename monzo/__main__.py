@@ -1,6 +1,8 @@
+import os
 import asyncio
 import uvloop
 import click
+import toml
 import monzo
 
 asyncio.set_event_loop(uvloop.new_event_loop())
@@ -11,7 +13,21 @@ asyncio.set_event_loop(uvloop.new_event_loop())
 @monzo.options.account_id()
 @monzo.options.access_token()
 async def cli(ctx, account_id, access_token):
+    # Override defaults with config defaults
+    config_fp = os.path.join(click.get_app_dir('monzo', force_posix=True), 'config')
+    try:
+        config = toml.load(config_fp)
+    except FileNotFoundError:
+        pass
+    except toml.TomlDecodeError:
+        click.echo(f'Unable to read config file "{config_fp}". Make sure it is valid TOML.')
+        ctx.exit()
+    else:
+        if not account_id:
+            account_id = config.get('default', {}).get('account_id')
+
     ctx.obj = monzo.UserData(
+        config_path=config_fp,
         account_id=account_id,
         access_token=access_token
     )

@@ -7,7 +7,6 @@ account_id = partial(
     click.option,
     '--account-id',
     metavar='<account-id>',
-    envvar='MONZO_ACCOUNT_ID',
 )
 
 access_token = partial(

@@ -5,7 +5,7 @@ from urllib.parse import urlencode
 import aiohttp
 
 from sanic import Sanic
-from sanic.response import json
+from sanic.response import text
 from sanic.exceptions import Unauthorized
 
 CLIENT_ID = 'oauthclient_00009QgEkW8zP76s4rwEDZ'
@@ -36,7 +36,7 @@ class OAuthServer:
                     'code': request.args['code'][0]})
                 self._access_token = await resp.json()
                 self._oauth_complete.set()
-                return json('done')
+                return text('Authenticated.')
 
     @property
     def auth_request_url(self):

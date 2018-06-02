@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 import aiohttp
 
 import monzo
@@ -11,6 +13,7 @@ async def accounts(user_data):
 
     async with aiohttp.ClientSession(headers=headers) as session:
         async with session.get(url) as resp:
-            print(resp.status)
-            accounts = await resp.json()
-            print(accounts)
+            accounts_ = (await resp.json())['accounts']
+
+    choices = OrderedDict((a['id'], f"{a['description']}") for a in accounts_)
+

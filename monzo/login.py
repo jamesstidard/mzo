@@ -1,3 +1,4 @@
+import os
 import sys
 import secrets
 import asyncio
@@ -5,8 +6,10 @@ import asyncio
 from asyncio import FIRST_COMPLETED
 from contextlib import redirect_stdout
 
+import toml
 import maya
 import click
+import aiohttp
 import aioconsole
 
 import monzo
@@ -28,7 +31,8 @@ Or hit [Enter] to terminate this process
 
 
 @monzo.command(short_help='Authenticate application with your Monzo account.')
-async def login():
+@monzo.pass_user_data
+async def login(user_data):
     nonce = secrets.token_urlsafe(32)
     server = OAuthServer(nonce=nonce)
 
@@ -51,6 +55,22 @@ async def login():
         access_token = access_data['access_token']
         expires = maya.now().add(seconds=access_data['expires_in'])
         click.echo(ENV_SETTER.format(name='MONZO_ACCESS_TOKEN', value=access_token))
+
+        url = 'https://api.monzo.com/accounts'
+        headers = {'Authorization': f'Bearer {access_token}'}
+
+        async with aiohttp.ClientSession(headers=headers) as session:
+            async with session.get(url) as resp:
+                accounts = (await resp.json())['accounts']
+                accounts = [a for a in accounts if not a['closed']]
+
+        if len(accounts) > 1:
+            raise NotImplementedError('cant handle multiple accounts currently')
+        else:
+            os.makedirs(user_data.config_path.rstrip('config'), exist_ok=True)
+            with open(user_data.config_path, 'w+') as fp:
+                toml.dump({'default': {'account_id': accounts[0]['id']}}, fp)
+
         message = click.style(f"Session Authenticated [expires: {expires.slang_time()}]", fg='green')
     elif user_killed in completed:
         message = click.style("Authentication Canceled", fg='red')

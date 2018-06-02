@@ -10,6 +10,7 @@ aioconsole = "*"
 "e1839a8" = {path = ".", editable = true}
 maya = "*"
 sanic = "*"
+toml = "*"
 
 [dev-packages]
 
