@@ -2,7 +2,6 @@ import secrets
 
 from urllib.parse import urlencode
 from functools import partial
-from asyncio import get_event_loop
 
 import aiohttp
 import click
