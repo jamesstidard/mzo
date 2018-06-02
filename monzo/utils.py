@@ -6,6 +6,13 @@ from functools import wraps
 import click
 
 
+ENV_SETTER = """\
+export {name:}="{value:}"
+# This command is meant to be used with your shell's eval function.
+# Run 'eval $(monzo login)' to sign into your Monzo account.
+"""
+
+
 def async_command(f):
     @wraps(f)
     def wrapper(*args, **kwargs):

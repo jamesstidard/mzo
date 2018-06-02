@@ -18,6 +18,7 @@ async def cli(ctx, account_id, access_token):
 
 
 cli.add_command(monzo.login)
+cli.add_command(monzo.logout)
 cli.add_command(monzo.accounts)
 cli.add_command(monzo.balance)
 cli.add_command(monzo.pay)
