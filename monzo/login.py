@@ -1,8 +1,12 @@
+import sys
 import secrets
+import asyncio
 
+from asyncio import Event, FIRST_COMPLETED
 from urllib.parse import urlencode
-from functools import partial
+from contextlib import redirect_stdout
 
+import aioconsole
 import aiohttp
 import click
 
@@ -25,20 +29,22 @@ export {name:}="{value:}"
 """
 
 SERVER_KILL_PROMPT = """\
-Your browser-of-choice should be opening ready to request authentication for this
+Your browser-of-choice should be opening ready to request authentication for this \
 command line application to access your Monzo account.
 
 If your browser has not opened, please manually browse to this link:
 
 {url:}
 
-Or hit [Enter] to terminate this process"""
+Or hit [Enter] to terminate this process\
+"""
 
 
 @monzo.command(short_help='Authenticate application with your Monzo account.')
 async def login():
-    app = Sanic(__name__)
+    app = Sanic(__name__, configure_logging=False)
     nonce = secrets.token_urlsafe(32)
+    oauth_complete = Event()
 
     @app.route("/welcome-back")
     async def test(request):
@@ -54,7 +60,8 @@ async def login():
                 'code': request.args['code'][0]})
             payload = await resp.json()
             setter = ENV_SETTER.format(name='MONZO_ACCESS_TOKEN', value=payload['access_token'])
-            click.echo(setter, err=True)
+            click.echo(setter)
+            oauth_complete.set()
             return json('done')
 
     _ = await app.create_server(host='localhost', port=40004, access_log=False)
@@ -68,11 +75,24 @@ async def login():
 
     url = f'https://auth.monzo.com?{urlencode(params)}'
     click.launch(url)
-    user_kill = partial(
-        click.confirm,
-        text=SERVER_KILL_PROMPT.format(url=url),
-        default=True,
-        show_default=False,
-        err=True)
 
-    user_kill()
+    # All output needs to be over stderr for prompts to show in eval
+    with redirect_stdout(sys.stderr):
+        pretty_url = click.style(url, fg='blue', underline=True)
+        click.echo(message=SERVER_KILL_PROMPT.format(url=pretty_url))
+
+    user_killed = asyncio.Task(aioconsole.ainput())
+    oauth_completed = asyncio.Task(oauth_complete.wait())
+
+    done, _ = await asyncio.wait([user_killed, oauth_completed], return_when=FIRST_COMPLETED)
+
+    if oauth_completed in done:
+        message = click.style("Session Authenticated", fg='green')
+    elif user_killed in done:
+        message = click.style("Authentication Canceled", fg='red')
+    else:
+        message = click.style("Error", fg='red')
+
+    with redirect_stdout(sys.stderr):
+        click.echo(message=message)
+
