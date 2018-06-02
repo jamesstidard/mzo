@@ -34,13 +34,12 @@ Or hit [Enter] to terminate this process\
 async def login():
     nonce = secrets.token_urlsafe(32)
     server = OAuthServer(nonce=nonce)
-    auth_url = server.auth_request_url
 
-    click.launch(auth_url)
+    click.launch(server.auth_request_url)
 
     # All output needs to be over stderr for prompts to show in eval
     with redirect_stdout(sys.stderr):
-        pretty_url = click.style(auth_url, fg='blue', underline=True)
+        pretty_url = click.style(server.auth_request_url, fg='blue', underline=True)
         click.echo(message=SERVER_KILL_PROMPT.format(url=pretty_url))
 
     await server.run()
