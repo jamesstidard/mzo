@@ -4,6 +4,11 @@ import uvloop
 import click
 import toml
 import monzo
+import aiohttp
+
+from functools import partial
+
+from monzo.utils import wait
 
 asyncio.set_event_loop(uvloop.new_event_loop())
 
@@ -27,10 +32,17 @@ async def cli(ctx, account_id, access_token):
         if not account_id:
             account_id = config.get('default', {}).get('account_id')
 
-    ctx.obj = monzo.UserData(
+    app_dir = click.get_app_dir('monzo', force_posix=True)
+
+    headers = {'Authorization': f'Bearer {access_token}'} if access_token else {}
+    session = aiohttp.ClientSession(headers=headers)
+    ctx.call_on_close(partial(wait, session.close()))
+
+    ctx.obj = monzo.ContextObject(
+        http=session,
         app_dir=app_dir,
         account_id=account_id,
-        access_token=access_token
+        access_token=access_token,
     )
 
 
@@ -41,5 +53,11 @@ cli.add_command(monzo.balance)
 cli.add_command(monzo.pay)
 
 
-if __name__ == '__main__':
+def main():
     cli()
+
+
+if __name__ == '__main__':
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
+    loop.close()

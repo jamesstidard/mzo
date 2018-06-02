@@ -41,10 +41,10 @@ Password\
 
 
 @monzo.command(short_help='Authenticate application with your Monzo account.')
-@monzo.pass_user_data
-async def login(user_data):
+@click.pass_context
+async def login(ctx):
     nonce = secrets.token_urlsafe(32)
-    server = OAuthServer(nonce=nonce)
+    server = OAuthServer(nonce=nonce, http_session=ctx.obj.http)
 
     click.launch(server.auth_request_url)
 
@@ -71,23 +71,22 @@ async def login(user_data):
         encrypted_access_data = secret_box.encrypt(toml.dumps(access_data).encode('utf-8'))
         del password, secret_key
 
-        os.makedirs(user_data.app_dir, exist_ok=True)
-        with open(os.path.join(user_data.app_dir, 'credentials'), 'wb+') as fp:
+        os.makedirs(ctx.obj.app_dir, exist_ok=True)
+        with open(os.path.join(ctx.obj.app_dir, 'credentials'), 'wb+') as fp:
             fp.write(encrypted_access_data)
 
         url = 'https://api.monzo.com/accounts'
         headers = {'Authorization': f'Bearer {access_data["access_token"]}'}
 
-        async with aiohttp.ClientSession(headers=headers) as session:
-            async with session.get(url) as resp:
-                accounts = (await resp.json())['accounts']
-                accounts = [a for a in accounts if not a['closed']]
+        resp = await ctx.obj.http.get(url, headers=headers)
+        accounts = (await resp.json())['accounts']
+        accounts = [a for a in accounts if not a['closed']]
 
         if len(accounts) > 1:
             raise NotImplementedError('cant handle multiple accounts currently')
         else:
-            os.makedirs(user_data.app_dir, exist_ok=True)
-            with open(os.path.join(user_data.app_dir, 'config'), 'w+') as fp:
+            os.makedirs(ctx.obj.app_dir, exist_ok=True)
+            with open(os.path.join(ctx.obj.app_dir, 'config'), 'w+') as fp:
                 toml.dump({'default': {'account_id': accounts[0]['id']}}, fp)
 
         click.echo(ENV_SETTER.format(name='MONZO_ACCESS_TOKEN', value=access_data["access_token"]))

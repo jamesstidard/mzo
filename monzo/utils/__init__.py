@@ -17,11 +17,7 @@ def async_command(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
         result = f(*args, **kwargs)
-        if isinstance(result, Awaitable):
-            loop = asyncio.get_event_loop()
-            return loop.run_until_complete(result)
-        else:
-            return result
+        return wait(result)
     return wrapper
 
 
@@ -37,3 +33,11 @@ def group(name=None, options_metavar='[options]', **attrs):
         f = async_command(f)
         return click.group(name=name, options_metavar=options_metavar, **attrs)(f)
     return decorator
+
+
+def wait(f):
+    if isinstance(f, Awaitable):
+        loop = asyncio.get_event_loop()
+        return loop.run_until_complete(f)
+    else:
+        return f

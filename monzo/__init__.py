@@ -1,15 +1,13 @@
 import click
 
 
-class UserData:
+class ContextObject:
 
-    def __init__(self, *, app_dir, account_id, access_token):
+    def __init__(self, *, http, app_dir, account_id, access_token):
+        self.http = http
         self.app_dir = app_dir
         self.account_id = account_id
         self.access_token = access_token
-
-
-pass_user_data = click.make_pass_decorator(UserData)
 
 
 from monzo.utils import group, command

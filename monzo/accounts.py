@@ -1,19 +1,19 @@
 from collections import OrderedDict
 
 import aiohttp
+import click
 
 import monzo
 
 
 @monzo.command(short_help='View all Monzo accounts.')
-@monzo.pass_user_data
-async def accounts(user_data):
+@click.pass_context
+async def accounts(ctx):
     url = 'https://api.monzo.com/accounts'
-    headers = {'Authorization': f'Bearer {user_data.access_token}'}
+    headers = {'Authorization': f'Bearer {ctx.obj.access_token}'}
 
-    async with aiohttp.ClientSession(headers=headers) as session:
-        async with session.get(url) as resp:
-            accounts_ = (await resp.json())['accounts']
+    resp = await ctx.obj.http.get(url, headers=headers)
+    accounts_ = (await resp.json())['accounts']
 
     choices = OrderedDict((a['id'], f"{a['description']}") for a in accounts_)
 

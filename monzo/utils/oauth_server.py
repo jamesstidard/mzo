@@ -16,7 +16,8 @@ RESPONSE_TYPE = 'code'
 
 class OAuthServer:
 
-    def __init__(self, *, nonce):
+    def __init__(self, *, nonce, http_session):
+        self.http = http_session
         self.app = Sanic(__name__, configure_logging=False)
         self.nonce = nonce
         self._oauth_complete = Event()
@@ -27,16 +28,15 @@ class OAuthServer:
             if request.args['state'][0] != self.nonce:
                 raise Unauthorized("The nonce returned from Monzo does not match the one sent out.")
 
-            async with aiohttp.ClientSession() as session:
-                resp = await session.post('https://api.monzo.com/oauth2/token', data={
-                    'grant_type': 'authorization_code',
-                    'client_id': CLIENT_ID,
-                    'client_secret': CLIENT_SECRET,
-                    'redirect_uri': REDIRECT_URI,
-                    'code': request.args['code'][0]})
-                self._access_token = await resp.json()
-                self._oauth_complete.set()
-                return text('Authenticated.')
+            resp = await self.http.post('https://api.monzo.com/oauth2/token', data={
+                'grant_type': 'authorization_code',
+                'client_id': CLIENT_ID,
+                'client_secret': CLIENT_SECRET,
+                'redirect_uri': REDIRECT_URI,
+                'code': request.args['code'][0]})
+            self._access_token = await resp.json()
+            self._oauth_complete.set()
+            return text('Authenticated.')
 
     @property
     def auth_request_url(self):

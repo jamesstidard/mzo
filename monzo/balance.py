@@ -9,10 +9,10 @@ import monzo
 
 
 @monzo.command(short_help='View account\'s current balance.')
-@monzo.pass_user_data
-async def balance(user_data):
-    headers = {'Authorization': f'Bearer {user_data.access_token}'}
-    params = {'account_id': user_data.account_id}
+@click.pass_context
+async def balance(ctx):
+    headers = {'Authorization': f'Bearer {ctx.obj.access_token}'}
+    params = {'account_id': ctx.obj.account_id}
 
     async with aiohttp.ClientSession(headers=headers) as session:
         get_balance = session.get('https://api.monzo.com/balance', params=params)
