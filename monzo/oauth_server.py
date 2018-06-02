@@ -10,10 +10,10 @@ from sanic import Sanic
 from sanic.response import json
 from sanic.exceptions import Unauthorized
 
-CLIENT_ID = os.environ['OAUTH_CLIENT_ID']
-CLIENT_SECRET = os.environ['OAUTH_CLIENT_SECRET']
-REDIRECT_URI = os.environ['OAUTH_REDIRECT_URL']
-RESPONSE_TYPE = os.environ['OAUTH_RESPONSE_TYPE']
+CLIENT_ID = 'oauthclient_00009QgEkW8zP76s4rwEDZ'
+CLIENT_SECRET = 'nf8XwQJa/Tx87EU8pny5OUTHtAf4jch6fv9XxRCn/aRdsEUU02EcTow6+Cod+fJ2VvI7B9UMGWh6sozJgamZ'
+REDIRECT_URI = 'http://localhost:40004/welcome-back'
+RESPONSE_TYPE = 'code'
 
 
 class OAuthServer:
