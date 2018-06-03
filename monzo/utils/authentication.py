@@ -20,7 +20,6 @@ def authenticated(f):
     async def wrapper(*args, **kwargs):
         ctx = click.get_current_context()
         access_token = ctx.obj.access_token
-        refresh_token = None
         credentials_fp = os.path.join(ctx.obj.app_dir, 'credentials')
         have_credentials = os.path.exists(credentials_fp)
 
