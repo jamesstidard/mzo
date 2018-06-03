@@ -6,8 +6,10 @@ _Sometimes_ the command line is more convient then swiping and tapping.
 The full monzo API isn't availible yet but the plan is to let easy
 payments via the command line.
 
-- Same auth as 1Password cli
-- XOR store refresh token
+### Features
+- Human-first interface
+- Secure credential management
+- One-time and session-based login
 
 ### Command Examples
 ```fish
@@ -26,16 +28,13 @@ $ monzo pay dash 5 --sort-code 40-01-03 --account-number 123456789 --message "gi
 
 
 ### Credentials File
-Access tokens held in memory (enviroment varaibles)
-```toml
-[default]
-refresh_token_xor = "xxxxxxxxxxxx"
-refresh_token_xor_verification = "xxxxxxxxxx"
-```
+OAuth credentials are saved to `~/.monzo/credentials` and are encrypted
+with the user provided key.
 
 ### Config File
+A user editable config file at `~/.monzo/config`.
 ```toml
 [default]
 account_id = "xxxxxxxxxxx"
-output_format = "<user|json>"
+output_format = "<user|json|csv>"
 ```
