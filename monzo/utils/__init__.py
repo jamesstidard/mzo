@@ -2,10 +2,11 @@ import os
 import asyncio
 
 from collections import Awaitable
-from functools import wraps
+from functools import wraps, partial
 
 import toml
 import click
+import aiohttp
 import nacl.hash
 import nacl.secret
 import nacl.encoding
@@ -69,12 +70,21 @@ def authenticated(f):
                 secret_box = nacl.secret.SecretBox(secret_key)
                 try:
                     plain_text = secret_box.decrypt(cipher_text)
-                except nacl.exceptions.InvalidkeyError:
+                except nacl.exceptions.CryptoError:
                     click.echo("Incorrect Password", err=True, color='red')
                 else:
                     del password, secret_key, secret_box
                     access_data = toml.loads(plain_text.decode('utf-8'))
                     access_token = access_data['access_token']
+
+                    headers = {'Authorization': f'Bearer {access_token}'}
+                    session = aiohttp.ClientSession(headers=headers)
+                    sync_close = partial(wait, session.close())
+
+                    ctx.call_on_close(sync_close)
+                    ctx.obj.http = session
+                    ctx.obj.access_token = access_token
+
                     resp = await ctx.obj.http.get('https://api.monzo.com/ping/whoami', headers={
                         'Authorization': f'Bearer {access_token}'})
                     break

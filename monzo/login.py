@@ -61,7 +61,6 @@ async def login(ctx):
 
     if got_access_token in completed:
         access_data = got_access_token.result()
-        access_data['expires_at'] = maya.now().add(seconds=access_data['expires_in'])
 
         click.echo(PASSWORD_PROMPT, err=True)
         password = click.prompt("Password", err=True, confirmation_prompt=True, hide_input=True)
@@ -91,7 +90,8 @@ async def login(ctx):
 
         click.echo(ENV_SETTER.format(name='MONZO_ACCESS_TOKEN', value=access_data["access_token"]))
 
-        message = click.style(f'Session Authenticated [expires: {access_data["expires_at"].slang_time()}]', fg='green')
+        expires = maya.now().add(seconds=access_data['expires_in'])
+        message = click.style(f'Session Authenticated [expires: {expires.slang_time()}]', fg='green')
     elif user_killed in completed:
         message = click.style('Authentication Canceled', fg='red')
     else:
