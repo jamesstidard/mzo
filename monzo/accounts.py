@@ -1,6 +1,5 @@
 from collections import OrderedDict
 
-import aiohttp
 import click
 
 import monzo

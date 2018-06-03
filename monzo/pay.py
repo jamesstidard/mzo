@@ -1,6 +1,5 @@
 import maya
 
-import monzo
 import monzo.utils.authentication
 
 
