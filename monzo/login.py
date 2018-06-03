@@ -1,23 +1,19 @@
-import os
-import sys
-import secrets
 import asyncio
-
+import os
+import secrets
+import sys
 from asyncio import FIRST_COMPLETED
 from contextlib import redirect_stdout
 
-import toml
-import maya
-import click
 import aioconsole
+import click
 import nacl.exceptions
+import toml
 
 import monzo
-
 from monzo.utils import ENV_SETTER
 from monzo.utils.crypto import encrypt, decrypt
 from monzo.utils.oauth_server import OAuthServer
-
 
 SERVER_KILL_PROMPT = """\
 Your browser-of-choice should be opening ready to request authentication for this \
