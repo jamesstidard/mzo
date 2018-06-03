@@ -6,9 +6,7 @@ from sanic import Sanic
 from sanic.response import text
 from sanic.exceptions import Unauthorized
 
-CLIENT_ID = 'oauth2client_00009XGzCVTlL1OWLEsMnx'
-REDIRECT_URI = 'http://localhost:40004/welcome-back'
-RESPONSE_TYPE = 'code'
+from monzo import OAUTH_CLIENT_ID, OAUTH_REDIRECT_URI
 
 
 class OAuthServer:
@@ -27,8 +25,8 @@ class OAuthServer:
 
             resp = await self.http.post('https://monzo-cli.herokuapp.com/oauth2/token', data={
                 'grant_type': 'authorization_code',
-                'client_id': CLIENT_ID,
-                'redirect_uri': REDIRECT_URI,
+                'client_id': OAUTH_CLIENT_ID,
+                'redirect_uri': OAUTH_REDIRECT_URI,
                 'code': request.args['code'][0]})
             self._access_token = await resp.json()
             self._oauth_complete.set()
@@ -37,9 +35,9 @@ class OAuthServer:
     @property
     def auth_request_url(self):
         params = {
-            'client_id': CLIENT_ID,
-            'redirect_uri': REDIRECT_URI,
-            'response_type': RESPONSE_TYPE,
+            'client_id': OAUTH_CLIENT_ID,
+            'redirect_uri': OAUTH_REDIRECT_URI,
+            'response_type': 'code',
             'state': self.nonce}
         return f'https://auth.monzo.com?{urlencode(params)}'
 

@@ -10,6 +10,7 @@ import toml
 import maya
 import click
 import aioconsole
+import nacl.exceptions
 
 import monzo
 
@@ -85,7 +86,8 @@ async def login(ctx, reauthorize, fmt):
         default_account = await select_default_account(ctx, access_token=access_data['access_token'])
 
         click.echo(PASSWORD_PROMPT, err=True)
-        encrypted_access_data = encrypt(toml.dumps(access_data).encode('utf-8'))
+        password = click.prompt("Password", err=True, confirmation_prompt=True, hide_input=True)
+        encrypted_access_data = encrypt(toml.dumps(access_data).encode('utf-8'), password=password)
 
         os.makedirs(ctx.obj.app_dir, exist_ok=True)
 
@@ -95,11 +97,20 @@ async def login(ctx, reauthorize, fmt):
         with open(os.path.join(ctx.obj.app_dir, 'config'), 'w+') as fp:
             toml.dump({'default': {'account_id': default_account['id']}}, fp)
 
-        expires = maya.now().add(seconds=access_data['expires_in'])
-        stderr_echo(f'Session Authenticated [expires: {expires.slang_time()}]', color='green')
+        stderr_echo(f'Session Authenticated', color='green')
     else:
-        plain_text = decrypt(credentials_fp)
-        access_data = toml.loads(plain_text.decode('utf-8'))
+        with open(credentials_fp, 'rb') as fp:
+            cipher_text = fp.read()
+
+        while True:
+            password = click.prompt("Password", hide_input=True, err=True)
+            try:
+                plain_text = decrypt(cipher_text, password=password)
+            except nacl.exceptions.CryptoError:
+                click.echo("Incorrect Password", err=True, color='red')
+            else:
+                access_data = toml.loads(plain_text.decode('utf-8'))
+                break
 
     if fmt == 'raw':
         click.echo(access_data["access_token"])

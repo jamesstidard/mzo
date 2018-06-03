@@ -1,4 +1,6 @@
-import click
+
+OAUTH_CLIENT_ID = 'oauth2client_00009XGzCVTlL1OWLEsMnx'
+OAUTH_REDIRECT_URI = 'http://localhost:40004/welcome-back'
 
 
 class ContextObject:
