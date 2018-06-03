@@ -33,7 +33,9 @@ async def balance(ctx):
             balance_header: p['balance']/100,
         } for p in pots_json['pots'] if not p['deleted']],
         {
-            # Spacing
+            # Spacer
+            name_header: '',
+            balance_header: ''
         },
         {
             name_header: '💰 Total',
@@ -41,5 +43,5 @@ async def balance(ctx):
         }
     ]
 
-    table = ascii_table(rows, columns=[name_header, balance_header], fill='')
+    table = ascii_table(rows, columns=[name_header, balance_header])
     click.echo(table)
