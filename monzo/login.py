@@ -35,7 +35,6 @@ Or hit [Enter] to terminate this process
 PASSWORD_PROMPT = """\
 We want to make sure anyone using your machine can not just send themselves all your money, \
 let's add a password. Make it strong.
-
 """
 
 
@@ -60,6 +59,8 @@ async def login(ctx):
     completed, _ = await asyncio.wait([user_killed, got_access_token], return_when=FIRST_COMPLETED)
 
     if got_access_token in completed:
+        stderr_echo(f'Access Token Received', color='green')
+
         access_data = got_access_token.result()
 
         click.echo(PASSWORD_PROMPT, err=True)
@@ -69,10 +70,6 @@ async def login(ctx):
         secret_box = nacl.secret.SecretBox(secret_key)
         encrypted_access_data = secret_box.encrypt(toml.dumps(access_data).encode('utf-8'))
         del password, secret_key
-
-        os.makedirs(ctx.obj.app_dir, exist_ok=True)
-        with open(os.path.join(ctx.obj.app_dir, 'credentials'), 'wb+') as fp:
-            fp.write(encrypted_access_data)
 
         url = 'https://api.monzo.com/accounts'
         headers = {'Authorization': f'Bearer {access_data["access_token"]}'}
@@ -84,18 +81,28 @@ async def login(ctx):
         if len(accounts) > 1:
             raise NotImplementedError('cant handle multiple accounts currently')
         else:
-            os.makedirs(ctx.obj.app_dir, exist_ok=True)
-            with open(os.path.join(ctx.obj.app_dir, 'config'), 'w+') as fp:
-                toml.dump({'default': {'account_id': accounts[0]['id']}}, fp)
+            default_account = accounts[0]
+
+        # Persist all the things
+        os.makedirs(ctx.obj.app_dir, exist_ok=True)
+        with open(os.path.join(ctx.obj.app_dir, 'credentials'), 'wb+') as fp:
+            fp.write(encrypted_access_data)
+
+        os.makedirs(ctx.obj.app_dir, exist_ok=True)
+        with open(os.path.join(ctx.obj.app_dir, 'config'), 'w+') as fp:
+            toml.dump({'default': {'account_id': default_account['id']}}, fp)
 
         click.echo(ENV_SETTER.format(name='MONZO_ACCESS_TOKEN', value=access_data["access_token"]))
 
         expires = maya.now().add(seconds=access_data['expires_in'])
-        message = click.style(f'Session Authenticated [expires: {expires.slang_time()}]', fg='green')
+        stderr_echo(f'Session Authenticated [expires: {expires.slang_time()}]', color='green')
     elif user_killed in completed:
-        message = click.style('Authentication Canceled', fg='red')
+        stderr_echo('Authentication Canceled', color='red')
     else:
-        message = click.style('Error', fg='red')
+        stderr_echo('Error', color='red')
 
+
+def stderr_echo(message, color=None):
+    message = click.style(message, fg=color)
     with redirect_stdout(sys.stderr):
         click.echo(message=message)
