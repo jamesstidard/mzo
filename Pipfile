@@ -12,6 +12,8 @@ maya = "*"
 sanic = "*"
 toml = "*"
 pynacl = "*"
+terminaltables = "*"
+ordered-set = "*"
 
 [dev-packages]
 

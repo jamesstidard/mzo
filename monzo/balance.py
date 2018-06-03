@@ -4,6 +4,7 @@ import asyncio
 import click
 
 import monzo.utils.authentication
+from monzo.utils.ascii_table import ascii_table
 
 
 @monzo.command(short_help='View account\'s current balance.')
@@ -19,11 +20,26 @@ async def balance(ctx):
     balance_json = await balance_resp.json()
     pots_json = await pots_resp.json()
 
-    total_balance = f"💰 Total: {balance_json['total_balance']/100}"
-    current_balance = f"💸 Current: {balance_json['balance']/100}"
-    pots_balance = [
-        f"🍯 {p['name']}: {p['balance']/100}"
-        for p in pots_json['pots']
-        if not p['deleted']]
+    name_header = click.style('Name', bold=True)
+    balance_header = click.style('Balance', bold=True)
 
-    click.echo("\n".join([current_balance, *pots_balance, f"\n{total_balance}"]))
+    rows = [
+        {
+            name_header: '💸 Current Account',
+            balance_header: balance_json['balance']/100,
+        },
+        *[{
+            name_header: f"🍯 {p['name']}",
+            balance_header: p['balance']/100,
+        } for p in pots_json['pots'] if not p['deleted']],
+        {
+            # Spacing
+        },
+        {
+            name_header: '💰 Total',
+            balance_header: balance_json['total_balance']/100,
+        }
+    ]
+
+    table = ascii_table(rows, columns=[name_header, balance_header], fill='')
+    click.echo(table)
