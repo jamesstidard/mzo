@@ -13,11 +13,15 @@ import nacl.encoding
 import nacl.exceptions
 
 
-
 ENV_SETTER = """\
 export {name:}="{value:}"
 # This command is meant to be used with your shell's eval function.
 # Run 'eval $(monzo login)' to sign into your Monzo account.
+"""
+
+NO_LOGIN_SESSION_ACTIVE = """\
+No login session currently active. You can authorize this one-off command by providing your \
+password, or see `monzo login --help` for persisting authentication between commands.
 """
 
 
@@ -61,6 +65,8 @@ def authenticated(f):
         if access_token:
             resp = await ctx.obj.http.get('https://api.monzo.com/ping/whoami')
         elif os.path.exists(credentials_fp):
+            click.echo(NO_LOGIN_SESSION_ACTIVE, err=True)
+
             with open(credentials_fp, 'rb') as fp:
                 cipher_text = fp.read()
 
