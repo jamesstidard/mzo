@@ -6,11 +6,12 @@ import click
 import aiohttp
 
 import monzo
+import monzo.utils.authentication
 
 
 @monzo.command(short_help='View account\'s current balance.')
 @click.pass_context
-@monzo.utils.authenticated
+@monzo.utils.authentication.authenticated
 async def balance(ctx):
     params = {'account_id': ctx.obj.account_id}
 

@@ -1,6 +1,7 @@
 import maya
 
 import monzo
+import monzo.utils.authentication
 
 
 @monzo.command(short_help='Schedule one-off or reoccurring payment.')
@@ -15,7 +16,7 @@ import monzo
 @monzo.options.monthly_frequency_flag()
 @monzo.options.yearly_frequency_flag()
 @monzo.options.user_defined_frequency()
-@monzo.utils.authenticated
+@monzo.utils.authentication.authenticated
 async def pay(name, amount, sort_code, account_number, message, on, every):
     print('paying:', name)
     print('amount:', amount)
