@@ -3,8 +3,8 @@ from functools import wraps, partial
 
 import aiohttp
 import click
-import toml
 import nacl.exceptions
+import toml
 
 from monzo import OAUTH_CLIENT_ID, OAUTH_REDIRECT_URI
 from monzo.utils import NO_LOGIN_SESSION_ACTIVE, wait
@@ -110,6 +110,7 @@ async def test_access_token(access_token, *, http_session):
 
 
 async def refresh_access_data(refresh_token, *, http_session):
+    click.echo("Refreshing access token", err=True, color='green')
     resp = await http_session.post('https://monzo-cli.herokuapp.com/oauth2/token', data={
         'grant_type': 'refresh_token',
         'client_id': OAUTH_CLIENT_ID,
