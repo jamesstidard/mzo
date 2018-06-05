@@ -12,6 +12,7 @@ import toml
 
 import monzo
 from monzo.utils import ENV_SETTER
+from monzo.utils.authentication import test_access_token, ExpiredAccessToken, refresh_access_data
 from monzo.utils.crypto import encrypt, decrypt
 from monzo.utils.oauth_server import OAuthServer
 
@@ -107,6 +108,16 @@ async def login(ctx, reauthorize, fmt):
             else:
                 access_data = toml.loads(plain_text.decode('utf-8'))
                 break
+
+    try:
+        await test_access_token(access_data['access_token'], http_session=ctx.obj.http)
+    except ExpiredAccessToken:
+        refresh_token = access_data['refresh_token']
+        access_data = await refresh_access_data(refresh_token, http_session=ctx.obj.http)
+        encrypted_access_data = encrypt(toml.dumps(access_data).encode('utf-8'), password=password)
+
+        with open(credentials_fp, 'wb+') as fp:
+            fp.write(encrypted_access_data)
 
     if fmt == 'raw':
         click.echo(access_data["access_token"])
