@@ -107,17 +107,18 @@ async def login(ctx, reauthorize, fmt):
                 click.echo("Incorrect Password", err=True, color='red')
             else:
                 access_data = toml.loads(plain_text.decode('utf-8'))
-                break
 
-    try:
-        await test_access_token(access_data['access_token'], http_session=ctx.obj.http)
-    except ExpiredAccessToken:
-        refresh_token = access_data['refresh_token']
-        access_data = await refresh_access_data(refresh_token, http_session=ctx.obj.http)
-        encrypted_access_data = encrypt(toml.dumps(access_data).encode('utf-8'), password=password)
+                try:
+                    await test_access_token(access_data['access_token'], http_session=ctx.obj.http)
+                except ExpiredAccessToken:
+                    refresh_token = access_data['refresh_token']
+                    access_data = await refresh_access_data(refresh_token, http_session=ctx.obj.http)
+                    encrypted_access_data = encrypt(toml.dumps(access_data).encode('utf-8'), password=password)
 
-        with open(credentials_fp, 'wb+') as fp:
-            fp.write(encrypted_access_data)
+                    with open(credentials_fp, 'wb+') as fp:
+                        fp.write(encrypted_access_data)
+                finally:
+                    break
 
     if fmt == 'raw':
         click.echo(access_data["access_token"])
