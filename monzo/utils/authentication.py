@@ -30,22 +30,10 @@ def authenticated(f):
             except ExpiredAccessToken:
                 # fall back to trying to refresh - will require user password
                 if have_credentials:
-                    with open(credentials_fp, 'rb') as fp_:
-                        cipher_text = fp_.read()
-
-                    password, access_data = retry_decrypt(cipher_text)
-                    refresh_token = access_data['refresh_token']
-                    access_data = await refresh_access_data(refresh_token, http_session=ctx.obj.http)
-                    encrypted_access_data = encrypt(toml.dumps(access_data).encode('utf-8'), password=password)
-
-                    with open(credentials_fp, 'wb+') as fp:
-                        fp.write(encrypted_access_data)
-
-                    click.echo('Your access token had expired, but has now been refreshed. '
-                               'You will need to call `eval (monzo login)` again to update '
-                               'your session value.', err=True, color='yellow')
-
-                    access_token = access_data['access_token']
+                    click.echo('Your access token has expired.'
+                               'You will need to call `eval (monzo login)` again to refresh '
+                               'your token value.', err=True, color='red')
+                    ctx.exit(1)
                 else:
                     click.echo('Your access token had expired and there is no refresh token available. '
                            'Please reauthorize. See `monzo login --help`.', err=True, color='red')
