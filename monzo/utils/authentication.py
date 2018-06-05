@@ -41,6 +41,10 @@ def authenticated(f):
                     with open(credentials_fp, 'wb+') as fp:
                         fp.write(encrypted_access_data)
 
+                    click.echo('Your access token had expired, but has now been refreshed. '
+                               'You will need to call `eval (monzo login)` again to update '
+                               'your session value.', err=True, color='yellow')
+
                     access_token = access_data['access_token']
                 else:
                     click.echo('Your access token had expired and there is no refresh token available. '
