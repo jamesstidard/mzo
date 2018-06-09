@@ -164,7 +164,7 @@ async def login(ctx, reauthorize, fmt):
                     await test_access_token(access_data['access_token'], http_session=ctx.obj.http)
                 except ExpiredAccessToken:
                     refresh_token = access_data['refresh_token']
-                    access_data = await refresh_access_data(refresh_token, http_session=ctx.obj.http)
+                    access_data = await refresh_access_data(refresh_token, ctx=ctx)
                     encrypted_access_data = encrypt(toml.dumps(access_data).encode('utf-8'), password=password)
 
                     with open(credentials_fp, 'wb+') as fp:
