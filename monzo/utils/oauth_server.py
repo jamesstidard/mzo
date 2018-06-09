@@ -19,12 +19,12 @@ class OAuthServer:
         self._oauth_complete = Event()
         self._access_token = None
 
-        @self.app.route("/")
+        @self.app.route("/oauth")
         async def welcome_back(request):
             if request.args['state'][0] != self.nonce:
                 raise Unauthorized("The nonce returned from Monzo does not match the one sent out.")
 
-            resp = await self.http.post('https://auth.monzo.com/oauth2/token', data={
+            resp = await self.http.post('https://api.monzo.com/oauth2/token', data={
                 'grant_type': 'authorization_code',
                 'client_id': client_id,
                 'client_secret': client_secret,

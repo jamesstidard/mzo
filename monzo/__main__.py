@@ -1,13 +1,13 @@
-import os
 import asyncio
-import uvloop
-import click
-import toml
-import monzo
-import aiohttp
-
+import os
 from functools import partial
 
+import aiohttp
+import click
+import toml
+import uvloop
+
+import monzo
 from monzo.utils import wait
 
 asyncio.set_event_loop(uvloop.new_event_loop())
@@ -15,11 +15,14 @@ asyncio.set_event_loop(uvloop.new_event_loop())
 
 @monzo.group()
 @click.pass_context
-@monzo.options.account_id()
-@monzo.options.access_token()
-async def cli(ctx, account_id, access_token):
+async def cli(ctx):
     app_dir = click.get_app_dir('monzo', force_posix=True)
     config_fp = os.path.join(app_dir, 'config')
+
+    client_id = None
+    client_secret = None
+    account_id = None
+    access_token = os.environ.get('MONZO_ACCESS_TOKEN')
 
     try:
         config = toml.load(config_fp)
@@ -29,8 +32,12 @@ async def cli(ctx, account_id, access_token):
         click.echo(f'Unable to read config file "{config_fp}". Make sure it is valid TOML.')
         ctx.exit()
     else:
-        if not account_id:
-            account_id = config.get('default', {}).get('account_id')
+        oauth = config.get('oauth', {})
+        client_id = oauth.get('client_id')
+        client_secret = oauth.get('client_secret')
+
+        default = config.get('default', {})
+        account_id = default.get('account_id')
 
     headers = {'Authorization': f'Bearer {access_token}'} if access_token else None
     session = aiohttp.ClientSession(headers=headers)
@@ -40,6 +47,8 @@ async def cli(ctx, account_id, access_token):
     ctx.obj = monzo.ContextObject(
         http=session,
         app_dir=app_dir,
+        client_id=client_id,
+        client_secret=client_secret,
         account_id=account_id,
         access_token=access_token)
 

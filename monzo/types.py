@@ -1,5 +1,7 @@
 import click
 
+from monzo.utils.formats import Format as _Format
+
 
 class FloatRange(click.ParamType):
     name = 'float range'
@@ -29,3 +31,21 @@ class FloatRange(click.ParamType):
                     % (value, self.max_), param, ctx)
             else:
                 return value
+
+
+class FormatParamType(click.ParamType):
+    name = 'format'
+
+    def convert(self, value, param, ctx):
+        try:
+            value = value.lower()
+        except AttributeError:
+            pass
+        finally:
+            try:
+                return _Format(value)
+            except ValueError:
+                self.fail('%s is not a valid format' % value, param, ctx)
+
+
+Format = FormatParamType()

@@ -2,18 +2,17 @@ from functools import partial
 
 import click
 
+from monzo import types
+from monzo.utils.formats import Format
 
-account_id = partial(
+fmt = partial(
     click.option,
-    '--account-id',
-    metavar='<account-id>',
-)
-
-access_token = partial(
-    click.option,
-    '--access-token',
-    metavar='<access-token>',
-    envvar='MONZO_ACCESS_TOKEN',
+    '--format',
+    'fmt',
+    metavar=f"({'|'.join(Format.__members__)})",
+    type=types.Format,
+    default=Format.human,
+    help='The format the commands will output in.',
 )
 
 sort_code = partial(

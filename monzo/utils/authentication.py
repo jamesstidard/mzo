@@ -102,18 +102,14 @@ async def test_access_token(access_token, *, http_session):
 
 
 async def refresh_access_data(refresh_token, *, ctx):
-    config_fp = os.path.join(ctx.obj.app_dir, 'config')
-    try:
-        config = toml.load(config_fp)
-        client_id = config['oauth']['client_id']
-        client_secret = config['oauth']['client_secret']
-    except FileNotFoundError:
-        click.Abort(f'Unable to find config file at {config_fp} for auth credentials.')
-    except (FileNotFoundError, KeyError):
+    client_id = ctx.obj.client_id
+    client_secret = ctx.obj.client_secret
+
+    if not client_id or not client_secret:
         click.Abort("Unable to find oauth id and secret in config file.")
     else:
         click.echo("Refreshing access token", err=True, color='green')
-        resp = await ctx.obj.http.post('https://auth.monzo.com/oauth2/token', data={
+        resp = await ctx.obj.http.post('https://api.monzo.com/oauth2/token', data={
             'grant_type': 'refresh_token',
             'client_id': client_id,
             'client_secret': client_secret,

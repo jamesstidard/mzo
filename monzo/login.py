@@ -16,7 +16,7 @@ from monzo.utils.authentication import test_access_token, ExpiredAccessToken, re
 from monzo.utils.crypto import encrypt, decrypt
 from monzo.utils.oauth_server import OAuthServer
 
-OAUTH_APPLICATION_PROMPT = """\
+OAUTH_APPLICATION_PROMPT = f"""\
 Monzo currently have a limit on how many users a single developer can have using their \
 applications (like this one) to 20 users.
 
@@ -25,7 +25,7 @@ user. Here are the configuration details you will need:
 
              Name: Monzo CLI
          Logo URL: <blank>
-    Redirect URLs: http://localhost:40004/
+    Redirect URLs: {monzo.OAUTH_REDIRECT_URI}
       Description: Command line application for Monzo.
   Confidentiality: Confidential
   
@@ -118,12 +118,13 @@ async def login(ctx, reauthorize, fmt):
         click.launch(MONZO_OAUTH_CLIENT_CONSOLE_URL)
         stderr_echo(MANUAL_BROWSER_PROMPT.format(url=style_url(MONZO_OAUTH_CLIENT_CONSOLE_URL)))
 
-        client_id = click.prompt('Client ID', err=True)
-        client_secret = click.prompt('Client Secret', err=True)
+        ctx.obj.client_id = click.prompt('Client ID', err=True)
+        ctx.obj.client_secret = click.prompt('Client Secret', err=True)
         stderr_echo('\nPerfect!\n', color='green')
 
-        access_data = await authorize(ctx, client_id=client_id, client_secret=client_secret)
-        default_account = await select_default_account(ctx, access_token=access_data['access_token'])
+        access_data = await authorize(ctx)
+        ctx.obj.access_token = access_data['access_token']
+        default_account = await select_default_account(ctx)
 
         click.echo(PASSWORD_PROMPT, err=True)
         password = click.prompt("Password", err=True, confirmation_prompt=True, hide_input=True)
@@ -141,8 +142,8 @@ async def login(ctx, reauthorize, fmt):
                     'format': 'human',
                 },
                 'oauth': {
-                    'client_id': client_id,
-                    'client_secret': client_secret,
+                    'client_id': ctx.obj.client_id,
+                    'client_secret': ctx.obj.client_secret,
                 }
             }, fp)
 
@@ -189,11 +190,11 @@ def style_url(url):
     return click.style(url, fg='blue', underline=True)
 
 
-async def authorize(ctx, *, client_id, client_secret):
+async def authorize(ctx):
     nonce = secrets.token_urlsafe(32)
     server = OAuthServer(
-        client_id=client_id,
-        client_secret=client_secret,
+        client_id=ctx.obj.client_id,
+        client_secret=ctx.obj.client_secret,
         nonce=nonce,
         http_session=ctx.obj.http)
 
@@ -226,9 +227,9 @@ async def authorize(ctx, *, client_id, client_secret):
         ctx.exit(1)
 
 
-async def select_default_account(ctx, *, access_token):
+async def select_default_account(ctx):
     url = 'https://api.monzo.com/accounts'
-    headers = {'Authorization': f'Bearer {access_token}'}
+    headers = {'Authorization': f'Bearer {ctx.obj.access_token}'}
 
     resp = await ctx.obj.http.get(url, headers=headers)
     accounts = (await resp.json())['accounts']

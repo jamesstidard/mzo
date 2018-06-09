@@ -4,13 +4,14 @@ import asyncio
 import click
 
 import monzo.utils.authentication
-from monzo.utils.ascii_table import ascii_table
+from monzo.utils.formats import Format
 
 
 @monzo.command(short_help='View account\'s current balance.')
 @click.pass_context
+@monzo.options.fmt()
 @monzo.utils.authentication.authenticated
-async def balance(ctx):
+async def balance(ctx, fmt: Format):
     params = {'account_id': ctx.obj.account_id}
 
     get_balance = ctx.obj.http.get('https://api.monzo.com/balance', params=params)
@@ -20,28 +21,51 @@ async def balance(ctx):
     balance_json = await balance_resp.json()
     pots_json = await pots_resp.json()
 
-    name_header = click.style('Name', bold=True)
-    balance_header = click.style('Balance', bold=True)
+    def style_emoji(p):
+        return {
+            'cassette': '📼',
+            'balls': '🎾',
+            'beach_ball': '🏖',
+            'rain': '☔',
+            'fairy_lights': '💡',
+            'yacht': '⛵',
+            'piggy_bank': '🐷',
+            'window': '🏠',
+        }.get(p['style'], '🍯')
 
     rows = [
         {
-            name_header: '💸 Current Account',
-            balance_header: balance_json['balance']/100,
+            'name': 'Current Account',
+            'balance': balance_json['balance'] / 100,
+            'emoji': '💸',
         },
         *[{
-            name_header: f"🍯 {p['name']}",
-            balance_header: p['balance']/100,
+            'name': p['name'],
+            'balance': p['balance'] / 100,
+            'emoji': style_emoji(p)
         } for p in pots_json['pots'] if not p['deleted']],
         {
-            # Spacer
-            name_header: '',
-            balance_header: ''
-        },
-        {
-            name_header: '💰 Total',
-            balance_header: balance_json['total_balance']/100,
+            'name': 'Total',
+            'balance': balance_json['total_balance'] / 100,
+            'emoji': '💰',
         }
     ]
 
-    table = ascii_table(rows, columns=[name_header, balance_header])
-    click.echo(table)
+    key_order = ['name', 'balance']
+
+    if fmt is Format.human:
+        def fmt_header(header):
+            return click.style(header.title(), bold=True)
+
+        key_order = [fmt_header(k) for k in key_order]
+
+        rows = [{
+            # replace row item's keys with header keys and concat emoji to name value
+            fmt_header(k): f'{r["emoji"]} {v}' if k == 'name' else v for k, v in r.items()}
+            for r in rows]
+
+        # Spacer between total row
+        rows.insert(-1, dict.fromkeys(key_order, ''))
+
+    output = fmt.dumps(rows, keys=key_order)
+    click.echo(output)
