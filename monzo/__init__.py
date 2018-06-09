@@ -13,10 +13,10 @@ class ContextObject:
         self.access_token = access_token
 
 
+from monzo.utils import group, command
 from monzo import types, arguments, options
 from monzo.accounts import accounts
 from monzo.balance import balance
 from monzo.login import login
 from monzo.logout import logout
 from monzo.pay import pay
-from monzo.utils import group, command
