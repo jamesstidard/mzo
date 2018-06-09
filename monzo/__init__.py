@@ -1,6 +1,5 @@
 
-OAUTH_CLIENT_ID = 'oauth2client_00009XGzCVTlL1OWLEsMnx'
-OAUTH_REDIRECT_URI = 'http://localhost:40004/welcome-back'
+OAUTH_REDIRECT_URI = 'http://localhost:40004/'
 
 
 class ContextObject:
@@ -12,10 +11,10 @@ class ContextObject:
         self.access_token = access_token
 
 
-from monzo.utils import group, command
 from monzo import types, arguments, options
 from monzo.accounts import accounts
 from monzo.balance import balance
-from monzo.pay import pay
 from monzo.login import login
 from monzo.logout import logout
+from monzo.pay import pay
+from monzo.utils import group, command

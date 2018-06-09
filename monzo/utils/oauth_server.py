@@ -1,31 +1,33 @@
 from asyncio import Event
-
 from urllib.parse import urlencode
 
 from sanic import Sanic
-from sanic.response import text
 from sanic.exceptions import Unauthorized
+from sanic.response import text
 
-from monzo import OAUTH_CLIENT_ID, OAUTH_REDIRECT_URI
+from monzo import OAUTH_REDIRECT_URI
 
 
 class OAuthServer:
 
-    def __init__(self, *, nonce, http_session):
+    def __init__(self, *, client_id, client_secret, nonce, http_session):
         self.http = http_session
         self.app = Sanic(__name__, configure_logging=False)
+        self.client_id = client_id
+        self.client_secret = client_secret
         self.nonce = nonce
         self._oauth_complete = Event()
         self._access_token = None
 
-        @self.app.route("/welcome-back")
+        @self.app.route("/")
         async def welcome_back(request):
             if request.args['state'][0] != self.nonce:
                 raise Unauthorized("The nonce returned from Monzo does not match the one sent out.")
 
-            resp = await self.http.post('https://monzo-cli.herokuapp.com/oauth2/token', data={
+            resp = await self.http.post('https://auth.monzo.com/oauth2/token', data={
                 'grant_type': 'authorization_code',
-                'client_id': OAUTH_CLIENT_ID,
+                'client_id': client_id,
+                'client_secret': client_secret,
                 'redirect_uri': OAUTH_REDIRECT_URI,
                 'code': request.args['code'][0]})
             self._access_token = await resp.json()
@@ -35,7 +37,7 @@ class OAuthServer:
     @property
     def auth_request_url(self):
         params = {
-            'client_id': OAUTH_CLIENT_ID,
+            'client_id': self.client_id,
             'redirect_uri': OAUTH_REDIRECT_URI,
             'response_type': 'code',
             'state': self.nonce}

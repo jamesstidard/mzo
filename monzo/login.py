@@ -16,20 +16,48 @@ from monzo.utils.authentication import test_access_token, ExpiredAccessToken, re
 from monzo.utils.crypto import encrypt, decrypt
 from monzo.utils.oauth_server import OAuthServer
 
+OAUTH_APPLICATION_PROMPT = """\
+Monzo currently have a limit on how many users a single developer can have using their \
+applications (like this one) to 20 users.
+
+To get around this you can instead register as a developer and become your own \
+user. Here are the configuration details you will need:
+
+             Name: Monzo CLI
+         Logo URL: <blank>
+    Redirect URLs: http://localhost:40004/
+      Description: Command line application for Monzo.
+  Confidentiality: Confidential
+  
+Once completed you will be given a Client ID and a Client Secret which you can return here with.
+"""
+
+MONZO_OAUTH_CLIENT_CONSOLE_URL = "https://developers.monzo.com/apps/home"
+
+
+MANUAL_BROWSER_PROMPT = """
+    If your browser has not opened, please manually browse to this link: 
+    {url:}
+"""
+
+
+OAUTH_PROMPT = """\
+Now that you've registered this application as your own you need to log in as your own first user.
+
+Your Client ID and Secret will be saved so you will not need to provide this them again in future.
+"""
+
+
 SERVER_KILL_PROMPT = """\
-Your browser-of-choice should be opening ready to request authentication for this \
-command line application to access your Monzo account.
+Please complete the authentication process in the browser to grant this application access to \
+your account.
 
-If your browser has not opened, please manually browse to this link:
-
-{url:}
-
-Or hit [Enter] to terminate this process
+Or hit [ENTER] to terminate this process.
 """
 
 PASSWORD_PROMPT = """\
 We want to make sure anyone using your machine can not just send themselves all your money, \
-let's add a password. Make it strong.
+let's add a password. Keep it secret, keep it safe.
 """
 
 
@@ -79,7 +107,22 @@ async def login(ctx, reauthorize, fmt):
     have_credentials = os.path.isfile(credentials_fp)
 
     if reauthorize or not have_credentials:
-        access_data = await authorize(ctx)
+        stderr_echo(OAUTH_APPLICATION_PROMPT)
+        _ = click.prompt(
+            text='Hit [ENTER] to open browser to developer console where you can register your own application',
+            default='done',
+            hide_input=True,
+            show_default=False,
+            err=True)
+
+        click.launch(MONZO_OAUTH_CLIENT_CONSOLE_URL)
+        stderr_echo(MANUAL_BROWSER_PROMPT.format(url=style_url(MONZO_OAUTH_CLIENT_CONSOLE_URL)))
+
+        client_id = click.prompt('Client ID', err=True)
+        client_secret = click.prompt('Client Secret', err=True)
+        stderr_echo('\nPerfect!\n', color='green')
+
+        access_data = await authorize(ctx, client_id=client_id, client_secret=client_secret)
         default_account = await select_default_account(ctx, access_token=access_data['access_token'])
 
         click.echo(PASSWORD_PROMPT, err=True)
@@ -92,7 +135,16 @@ async def login(ctx, reauthorize, fmt):
             fp.write(encrypted_access_data)
 
         with open(os.path.join(ctx.obj.app_dir, 'config'), 'w+') as fp:
-            toml.dump({'default': {'account_id': default_account['id']}}, fp)
+            toml.dump({
+                'default': {
+                    'account_id': default_account['id'],
+                    'format': 'human',
+                },
+                'oauth': {
+                    'client_id': client_id,
+                    'client_secret': client_secret,
+                }
+            }, fp)
 
         stderr_echo(f'Session Authenticated', color='green')
     else:
@@ -133,14 +185,29 @@ def stderr_echo(message, color=None, underline=False):
         click.echo(message=message)
 
 
-async def authorize(ctx):
+def style_url(url):
+    return click.style(url, fg='blue', underline=True)
+
+
+async def authorize(ctx, *, client_id, client_secret):
     nonce = secrets.token_urlsafe(32)
-    server = OAuthServer(nonce=nonce, http_session=ctx.obj.http)
+    server = OAuthServer(
+        client_id=client_id,
+        client_secret=client_secret,
+        nonce=nonce,
+        http_session=ctx.obj.http)
+
+    stderr_echo(OAUTH_PROMPT)
+    _ = click.prompt(
+        text='Hit [ENTER] to open your browser to authenticate this application to your Monzo account',
+        default='done',
+        hide_input=True,
+        show_default=False,
+        err=True)
 
     click.launch(server.auth_request_url)
-
-    pretty_url = click.style(server.auth_request_url, fg='blue', underline=True)
-    stderr_echo(SERVER_KILL_PROMPT.format(url=pretty_url))
+    pretty_url = style_url(server.auth_request_url)
+    stderr_echo(MANUAL_BROWSER_PROMPT.format(url=pretty_url) + '\n' + SERVER_KILL_PROMPT)
 
     await server.run()
 

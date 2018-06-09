@@ -6,7 +6,7 @@ import click
 import nacl.exceptions
 import toml
 
-from monzo import OAUTH_CLIENT_ID, OAUTH_REDIRECT_URI
+from monzo import OAUTH_REDIRECT_URI
 from monzo.utils import NO_LOGIN_SESSION_ACTIVE, wait
 from monzo.utils.crypto import decrypt, encrypt
 
@@ -52,7 +52,7 @@ def authenticated(f):
                 await test_access_token(access_data['access_token'], http_session=ctx.obj.http)
             except ExpiredAccessToken:
                 refresh_token = access_data['refresh_token']
-                access_data = await refresh_access_data(refresh_token, http_session=ctx.obj.http)
+                access_data = await refresh_access_data(refresh_token, ctx=ctx)
                 encrypted_access_data = encrypt(toml.dumps(access_data).encode('utf-8'), password=password)
 
                 with open(credentials_fp, 'wb+') as fp:
@@ -101,12 +101,23 @@ async def test_access_token(access_token, *, http_session):
         raise ExpiredAccessToken()
 
 
-async def refresh_access_data(refresh_token, *, http_session):
-    click.echo("Refreshing access token", err=True, color='green')
-    resp = await http_session.post('https://monzo-cli.herokuapp.com/oauth2/token', data={
-        'grant_type': 'refresh_token',
-        'client_id': OAUTH_CLIENT_ID,
-        'redirect_uri': OAUTH_REDIRECT_URI,
-        'refresh_token': refresh_token})
+async def refresh_access_data(refresh_token, *, ctx):
+    config_fp = os.path.join(ctx.obj.app_dir, 'config')
+    try:
+        config = toml.load(config_fp)
+        client_id = config['oauth']['client_id']
+        client_secret = config['oauth']['client_secret']
+    except FileNotFoundError:
+        click.Abort(f'Unable to find config file at {config_fp} for auth credentials.')
+    except (FileNotFoundError, KeyError):
+        click.Abort("Unable to find oauth id and secret in config file.")
+    else:
+        click.echo("Refreshing access token", err=True, color='green')
+        resp = await ctx.obj.http.post('https://auth.monzo.com/oauth2/token', data={
+            'grant_type': 'refresh_token',
+            'client_id': client_id,
+            'client_secret': client_secret,
+            'redirect_uri': OAUTH_REDIRECT_URI,
+            'refresh_token': refresh_token})
 
-    return await resp.json()
+        return await resp.json()
