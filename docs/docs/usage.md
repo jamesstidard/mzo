@@ -140,7 +140,18 @@ $ monzo balance
 +--------------------+---------+
 ```
 
-The balance command also supports different output formats like `csv` and `json`.
+For full documentation check out `monzo balance --help`.
+
+## Transactions
+coming soon.
+
+## Pots
+coming soon.
+
+## Formats
+Most commands support different output formats like `human`, `csv`, and `json`.
+
+Here's a example with the balance command:
 
 ```bash
 $ monzo balance --format csv
@@ -176,10 +187,18 @@ $ monzo balance --format json | jq '.[] | select(.name == "Total") | .balance'
 1337.0
 ```
 
-For full documentation check out `monzo balance --help`.
+By default the formats for commands is get to `human`. You can change this by
+editing the `~/.monzo/config` file and setting the default format to either
+`human`, `csv` or `json`.
 
-## Transactions
-...
+```toml
+[default]
+account_id = "acc_xxxxx"
+format = "human"
 
-## Pots
-...
+[oauth]
+client_id = "oauth2client_xxxxx"
+client_secret = "xxxxxxxxxxxxxx"
+```
+
+Check out the documentation for each command with `--help` for full documentation.

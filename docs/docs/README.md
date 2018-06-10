@@ -23,5 +23,5 @@ Commands:
 ```
 
 The installation, set-up process, and usage should be accessible enough for both
-command-line veterans and toe-dipper alike. Let me know if you have any
+command-line veterans and toe-dippers alike. Let me know if you have any
 problems and I'll update and clarify the documentation.
