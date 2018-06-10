@@ -7,7 +7,7 @@ meta:
     content: A command line interface between you and your Monzo account.
   - name: keywords
     content: Monzo Command Line Interface CLI
-actionText: Install →
+actionText: Install Options →
 actionLink: /install
 features:
 - title: Human First
