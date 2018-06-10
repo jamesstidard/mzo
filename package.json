@@ -1,7 +1,9 @@
 {
   "scripts": {
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:build": "vuepress build docs",
+    "predocs:deploy": "yarn docs:build",
+    "docs:deploy": "./deploy-docs.sh"
   },
   "devDependencies": {
     "vuepress": "^0.10.1"
