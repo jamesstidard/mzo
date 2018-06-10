@@ -69,6 +69,6 @@ The documentation on how to build the environment should be on the
 project's README.
 
 ```bash
-git clone https://github.com/jamesstidard/monzo-cli.git
-cat monzo-cli/README.md
+$ git clone https://github.com/jamesstidard/monzo-cli.git
+$ cat monzo-cli/README.md
 ```
