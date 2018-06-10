@@ -2,7 +2,7 @@
 
 ## Homebrew
 [Homebrew](https://brew.sh/) is the de-facto package manager on macOS.
-If you are installing on a macOS, this is the way to go.
+If you are installing on macOS, this is the way to go.
 
 ```bash
 # install
@@ -60,3 +60,15 @@ $ pipsi upgrade monzo-cli
 
 Though if you've opted to install through this method, you probably
 already have a install process in mind.
+
+## Source
+If you'd like to get it directly from the source, it can be found
+hosted on GitHub [here](https://github.com/jamesstidard/monzo-cli).
+
+The documentation on how to build the environment should be on the
+project's README.
+
+```bash
+git clone https://github.com/jamesstidard/monzo-cli.git
+cat monzo-cli/README.md
+```
