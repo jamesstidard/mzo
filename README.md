@@ -1,40 +1,32 @@
 # Monzo Cli
-A (third-party) command line interface to your monzo account.
+A (third-party) command-line interface to your monzo account. 
+Because _Sometimes_ the command-line is more convient then 
+swiping and tapping.
 
-_Sometimes_ the command line is more convient then swiping and tapping.
+This README covers the enviroment setup if you are looking to
+run the applications source code / work on the project. If you
+are looking for the documentation and more straight forward
+installation instructions [see the docs](https://jamesstidard.github.io/Monzo-Cli/).
 
-The full monzo API isn't availible yet but the plan is to let easy
-payments via the command line.
+## Prerequisets
+At the time of writing this the project is using Python 3.4.6.
+You will need that version of python installed before starting.
+If you don't currently have a method of managing multiple Python
+versions on your machine, I would recommend checking out [pyenv](https://github.com/pyenv/pyenv).
 
-### Features
-- Human-first interface
-- Secure credential management
-- One-time and session-based login
+The projects dependancies are also managed by [pipenv](https://docs.pipenv.org/).
+You should head over there and make sure that you also have that
+tool setup.
 
-### Command Examples
-```fish
-# monzo pay <name>... <amount> [--daily|--weekly|--monthly|--yearly|--every <x> (days|weeks|months|years) [--from (monday|tuesday|wednesday|thursday|friday|saturday|sunday)] [--sort-code <code> --account-number <number>]] [--message <message>]
+## Summoning Ritual
+Once you've completed the prerequisets above you should be able
+to bring the application to life with the following commands.
 
-$ monzo pay john 50.40
+```bash
+# clone the source code to your machine
+$ git clone https://github.com/jamesstidard/monzo-cli
 
-$ monzo pay patrick selman 30
+$ cd monzo-cli/
 
-$ monzo pay james 5 --weekly --from tomorrow
-
-$ monzo pay vlad 2 --every 4 days --from friday
-
-$ monzo pay dash 5 --sort-code 40-01-03 --account-number 123456789 --message "give it back"
-```
-
-
-### Credentials File
-OAuth credentials are saved to `~/.monzo/credentials` and are encrypted
-with the user provided key.
-
-### Config File
-A user editable config file at `~/.monzo/config`.
-```toml
-[default]
-account_id = "xxxxxxxxxxx"
-output_format = "<user|json|csv>"
+$ pipenv install --dev --python 3.4.6
 ```
