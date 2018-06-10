@@ -26,9 +26,9 @@ user. Here are the configuration details you will need:
              Name: Monzo CLI
          Logo URL: <blank>
     Redirect URLs: {monzo.OAUTH_REDIRECT_URI}
-      Description: Command line application for Monzo.
+      Description: Command-line application for Monzo.
   Confidentiality: Confidential
-  
+
 Once completed you will be given a Client ID and a Client Secret which you can return here with.
 """
 
@@ -36,7 +36,7 @@ MONZO_OAUTH_CLIENT_CONSOLE_URL = "https://developers.monzo.com/apps/home"
 
 
 MANUAL_BROWSER_PROMPT = """
-    If your browser has not opened, please manually browse to this link: 
+    If your browser has not opened, please manually browse to this link:
     {url:}
 """
 
@@ -147,7 +147,7 @@ async def login(ctx, reauthorize, fmt):
                 }
             }, fp)
 
-        stderr_echo(f'Session Authenticated', color='green')
+        stderr_echo(f'Client Authorized', color='green')
     else:
         with open(credentials_fp, 'rb') as fp:
             cipher_text = fp.read()
@@ -176,6 +176,7 @@ async def login(ctx, reauthorize, fmt):
     if fmt == 'raw':
         click.echo(access_data["access_token"])
     else:
+        stderr_echo(f'Login Session Active', color='green')
         click.echo(ENV_SETTER.format(name='MONZO_ACCESS_TOKEN', value=access_data["access_token"]))
 
 

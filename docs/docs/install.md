@@ -1,7 +1,7 @@
 # Install Options
 
 ## Homebrew
-[Homebrew](https://brew.sh/) is the defacto package manager on macOS.
+[Homebrew](https://brew.sh/) is the de-facto package manager on macOS.
 If you are installing on a macOS, this is the way to go.
 
 ```bash
@@ -33,21 +33,21 @@ Download the appropriate binary for your machine and place it somewhere
 in your shell's `$PATH`.
 
 ::: warning
-There is no self-update mechanisim built into this application so new
+There is no self-update mechanism built into this application so new
 versions will need to be manually downloaded to replace the existing
 binary. A package manager is recommended because of this.
 :::
 
 ## PyPI
 ::: warning
-For those familier with Python package management.
+For those familiar with Python package management.
 :::
 Monzo CLI is a Python application and is hosted on PyPI so can be
 installed as a Python package.
 
 I'd personally recommend using [pipsi](https://github.com/mitsuhiko/pipsi)
 for installing global Python packages as it manages creating specific
-Python virtual enviroments for each package - preventing any dependancy
+Python virtual environments for each package - preventing any dependency
 conflicts with other installed python packages.
 
 ```bash

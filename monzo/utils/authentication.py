@@ -31,7 +31,7 @@ def authenticated(f):
                 # fall back to trying to refresh - will require user password
                 if have_credentials:
                     click.echo('Your access token has expired.'
-                               'You will need to call `eval (monzo login)` again to refresh '
+                               'You will need to call `eval $(monzo login)` again to refresh '
                                'your token value.', err=True, color='red')
                     ctx.exit(1)
                 else:

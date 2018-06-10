@@ -1,18 +1,17 @@
 module.exports = {
   title: 'Monzo CLI',
-  description: 'A command-line interface between you and your Monzo account',
+  description: 'Sometimes typing is more convenient then swiping and tapping... Sometimes.',
   ga: 'UA-33148627-2',
   themeConfig: {
     nav: [
-      // { text: 'Home', link: '/' },
-      { text: 'Documentation', link: '/install' },
+      { text: 'Documentation', link: '/docs/' },
       { text: 'GitHub', link: 'https://github.com/jamesstidard/monzo-cli' },
     ],
     sidebar: [
-      '/',
-      '/install',
-      '/uninstall',
-      // ['/page-b', 'Explicit link text']
-    ]
+      '/docs/',
+      '/docs/install',
+      '/docs/usage',
+      '/docs/uninstall',
+    ],
   },
 }

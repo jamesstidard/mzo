@@ -14,5 +14,5 @@ async def logout():
     click.echo(ENV_SETTER.format(name='MONZO_ACCESS_TOKEN', value=""))
 
     with redirect_stdout(sys.stderr):
-        message = click.style(f"Logged Out", fg='green')
+        message = click.style(f"Login Session Ended", fg='green')
         click.echo(message=message)
