@@ -22,7 +22,15 @@ VERSION = None
 
 # What packages are required for this module to be executed?
 REQUIRED = [
-    # 'requests', 'maya', 'records',
+    'click',
+    'aiohttp',
+    'aioconsole',
+    'maya',
+    'sanic',
+    'toml',
+    'pynacl',
+    'terminaltables',
+    'ordered-set',
 ]
 
 # The rest you shouldn't have to touch too much :)
