@@ -12,7 +12,7 @@ from shutil import rmtree
 from setuptools import find_packages, setup, Command
 
 # Package meta-data.
-NAME = 'monzo-cli'
+NAME = 'mzo'
 DESCRIPTION = 'A simple command line interface to your monzo account.'
 URL = 'https://github.com/jamesstidard/Monzo-CLI'
 EMAIL = 'james@stidard.com'
@@ -105,7 +105,7 @@ setup(
     # If your package is a single module, use this instead of 'packages':
     packages=find_packages(exclude=('tests', 'docs')),
     entry_points={
-        'console_scripts': ['monzo=monzo.__main__:cli'],
+        'console_scripts': ['mzo=monzo.__main__:cli'],
     },
     install_requires=REQUIRED,
     include_package_data=True,
