@@ -14,7 +14,7 @@ from setuptools import find_packages, setup, Command
 # Package meta-data.
 NAME = 'mzo'
 DESCRIPTION = 'A simple command line interface to your monzo account.'
-URL = 'https://github.com/jamesstidard/Monzo-CLI'
+URL = 'https://github.com/jamesstidard/mzo-cli'
 EMAIL = 'james@stidard.com'
 AUTHOR = 'James Stidard'
 REQUIRES_PYTHON = '>=3.6.0'
@@ -48,7 +48,7 @@ with io.open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
 # Load the package's __version__.py module as a dictionary.
 about = {}
 if not VERSION:
-    with open(os.path.join(here, 'monzo', '__version__.py')) as f:
+    with open(os.path.join(here, 'mzo', '__version__.py')) as f:
         exec(f.read(), about)
 else:
     about['__version__'] = VERSION
@@ -105,7 +105,7 @@ setup(
     # If your package is a single module, use this instead of 'packages':
     packages=find_packages(exclude=('tests', 'docs')),
     entry_points={
-        'console_scripts': ['mzo=monzo.__main__:cli'],
+        'console_scripts': ['mzo=mzo.__main__:cli'],
     },
     install_requires=REQUIRED,
     include_package_data=True,

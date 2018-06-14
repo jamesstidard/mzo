@@ -1,4 +1,4 @@
-# Monzo Cli
+# mzo
 A (third-party) command-line interface to your monzo account. 
 Because _Sometimes_ the command-line is more convient then 
 swiping and tapping.
@@ -6,9 +6,9 @@ swiping and tapping.
 This README covers the enviroment setup if you are looking to
 run the applications source code / work on the project. If you
 are looking for the documentation and more straight forward
-installation instructions [see the docs](https://jamesstidard.github.io/Monzo-Cli/).
+installation instructions [see the docs](https://jamesstidard.github.io/Mzo-Cli/).
 
-## Prerequisets
+## Prerequisites
 At the time of writing this the project is using Python 3.4.6.
 You will need that version of python installed before starting.
 If you don't currently have a method of managing multiple Python
@@ -24,9 +24,9 @@ to bring the application to life with the following commands.
 
 ```bash
 # clone the source code to your machine
-$ git clone https://github.com/jamesstidard/monzo-cli
+$ git clone https://github.com/jamesstidard/mzo-cli
 
-$ cd monzo-cli/
+$ cd mzo-cli/
 
 $ pipenv install --dev --python 3.4.6
 ```

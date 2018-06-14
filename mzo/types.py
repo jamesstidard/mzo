@@ -1,6 +1,6 @@
 import click
 
-from monzo.utils.formats import Format as _Format
+from mzo.utils.formats import Format as _Format
 
 
 class FloatRange(click.ParamType):

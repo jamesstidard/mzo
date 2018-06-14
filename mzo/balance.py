@@ -3,14 +3,14 @@ import asyncio
 
 import click
 
-import monzo.utils.authentication
-from monzo.utils.formats import Format
+import mzo.utils.authentication
+from mzo.utils.formats import Format
 
 
-@monzo.command(short_help='View account\'s current balance.')
+@mzo.command(short_help='View account\'s current balance.')
 @click.pass_context
-@monzo.options.fmt()
-@monzo.utils.authentication.authenticated
+@mzo.options.fmt()
+@mzo.utils.authentication.authenticated
 async def balance(ctx, fmt: Format):
     params = {'account_id': ctx.obj.account_id}
 

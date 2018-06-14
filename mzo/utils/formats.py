@@ -1,8 +1,8 @@
 import json
 from enum import Enum
 
-from monzo.utils import ascii_table, csv
-from monzo.utils.dict_helpers import unify_dicts
+from mzo.utils import ascii_table, csv
+from mzo.utils.dict_helpers import unify_dicts
 
 
 class Format(Enum):

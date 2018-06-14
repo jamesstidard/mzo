@@ -2,8 +2,8 @@ from functools import partial
 
 import click
 
-from monzo import types
-from monzo.utils.formats import Format
+from mzo import types
+from mzo.utils.formats import Format
 
 fmt = partial(
     click.option,

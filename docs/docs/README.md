@@ -4,14 +4,14 @@ more of their life glued to a desktop operating system rather then their
 mobiles.
 
 The Monzo CLI does this by making itself present in your machine's terminal,
-addressable with the name `monzo`.
+addressable with the name `mzo`.
 
 Each command can be invoked with the `--help` option which can be used to
 explore all available commands/options.
 
 ```bash
-$ monzo --help
-Usage: monzo [options] COMMAND [ARGS]...
+$ mzo --help
+Usage: mzo [options] COMMAND [ARGS]...
 
 Options:
   --help  Show this message and exit.

@@ -7,16 +7,16 @@ import click
 import toml
 import uvloop
 
-import monzo
-from monzo.utils import wait
+import mzo
+from mzo.utils import wait
 
 asyncio.set_event_loop(uvloop.new_event_loop())
 
 
-@monzo.group()
+@mzo.group()
 @click.pass_context
 async def cli(ctx):
-    app_dir = click.get_app_dir('monzo', force_posix=True)
+    app_dir = click.get_app_dir('mzo', force_posix=True)
     config_fp = os.path.join(app_dir, 'config')
 
     client_id = None
@@ -44,7 +44,7 @@ async def cli(ctx):
     sync_close = partial(wait, session.close())
     ctx.call_on_close(sync_close)
 
-    ctx.obj = monzo.ContextObject(
+    ctx.obj = mzo.ContextObject(
         http=session,
         app_dir=app_dir,
         client_id=client_id,
@@ -53,10 +53,10 @@ async def cli(ctx):
         access_token=access_token)
 
 
-cli.add_command(monzo.login)
-cli.add_command(monzo.logout)
+cli.add_command(mzo.login)
+cli.add_command(mzo.logout)
 # cli.add_command(monzo.accounts)
-cli.add_command(monzo.balance)
+cli.add_command(mzo.balance)
 # cli.add_command(monzo.pay)
 
 

@@ -1,12 +1,12 @@
 ---
 home: true
-title: Monzo CLI
+title: mzo
 lang: en-US
 meta:
   - name: description
     content: A command-line interface between you and your Monzo account.
   - name: keywords
-    content: Monzo Command Line Interface CLI
+    content: Monzo Command-line Interface CLI
 actionText: Get Started →
 actionLink: /docs/
 features:
@@ -31,10 +31,10 @@ so both could break at any time.
 
 # Example Usage
 ```bash
-$ eval $(monzo login)
+$ eval $(mzo login)
 Password:
 
-$ monzo balance
+$ mzo balance
 +--------------------+---------+
 | Name               | Balance |
 +--------------------+---------+
@@ -44,7 +44,7 @@ $ monzo balance
 | 💰 Total           | 1337.00 |
 +--------------------+---------+
 
-$ monzo pots deposit 50 --into disposable
+$ mzo pots deposit 50 --into disposable
 +--------------------+---------+---------+
 | Name               | Current |   Final |
 +--------------------+---------+---------+
@@ -55,5 +55,5 @@ $ monzo pots deposit 50 --into disposable
 Confirm this transfer [y/N]: y
 Transfer Successful
 
-$ eval $(monzo logout)
+$ eval $(mzo logout)
 ```

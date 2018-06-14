@@ -6,10 +6,10 @@ If you are installing on macOS, this is the way to go.
 
 ```bash
 # install
-$ brew install monzo-cli
+$ brew install mzo
 
 # update
-$ brew update monzo-cli
+$ brew update mzo
 ```
 
 ## Snap
@@ -18,16 +18,16 @@ package manager for those running Ubuntu and other Linux distros.
 
 ```bash
 # install
-$ snap install monzo-cli
+$ snap install mzo
 
 # update
-$ snap refresh monzo-cli
+$ snap refresh mzo
 ```
 
 ## Binaries
 If you do not use a package manager (or at least the ones currently
 supported), you can get the pre-compiled versions of each release on
-the [projects GitHub releases page](https://github.com/jamesstidard/Monzo-Cli/releases).
+the [projects GitHub releases page](https://github.com/jamesstidard/mzo-cli/releases).
 
 Download the appropriate binary for your machine and place it somewhere
 in your shell's `$PATH`.
@@ -52,10 +52,10 @@ conflicts with other installed python packages.
 
 ```bash
 # install
-$ pipsi install monzo-cli --python path/to/python3.6
+$ pipsi install mzo --python path/to/python3.6
 
 # update
-$ pipsi upgrade monzo-cli
+$ pipsi upgrade mzo
 ```
 
 Though if you've opted to install through this method, you probably

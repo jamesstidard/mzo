@@ -4,18 +4,18 @@ from functools import wraps
 
 import click
 
-from monzo.utils import csv
-from monzo.utils.ascii_table import ascii_table
+from mzo.utils import csv
+from mzo.utils.ascii_table import ascii_table
 
 ENV_SETTER = """\
 export {name:}="{value:}"
 # This command is meant to be used with your shell's eval function.
-# Run 'eval $(monzo login)' to sign into your Monzo account.
+# Run 'eval $(mzo login)' to sign into your Monzo account.
 """
 
 NO_LOGIN_SESSION_ACTIVE = """\
 No login session currently active. You can authorize this one-off command by providing your \
-password, or see `monzo login --help` for persisting authentication between commands.
+password, or see `mzo login --help` for persisting authentication between commands.
 """
 
 

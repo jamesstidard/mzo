@@ -10,10 +10,10 @@ the application:
 
 ```bash
 # Homebrew
-$ brew uninstall monzo-cli
+$ brew uninstall mzo
 
 # Snap
-$ snap remove monzo-cli
+$ snap remove mzo
 ```
 
 ## Removing Application Data
@@ -21,5 +21,5 @@ Application data is stored in a hidden folder in your home directory
 named `.monzo`. This can be removed from your terminal with:
 
 ```bash
-$ rm -rf ~/.monzo
+$ rm -rf ~/.mzo
 ```

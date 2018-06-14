@@ -1,6 +1,6 @@
 from terminaltables import AsciiTable
 
-from monzo.utils.dict_helpers import unify_dicts
+from mzo.utils.dict_helpers import unify_dicts
 
 
 def ascii_table(dicts=None, columns=None, title=None, fill='-'):

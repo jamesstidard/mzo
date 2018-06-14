@@ -6,9 +6,9 @@ import click
 import nacl.exceptions
 import toml
 
-from monzo import OAUTH_REDIRECT_URI
-from monzo.utils import NO_LOGIN_SESSION_ACTIVE, wait
-from monzo.utils.crypto import decrypt, encrypt
+from mzo import OAUTH_REDIRECT_URI
+from mzo.utils import NO_LOGIN_SESSION_ACTIVE, wait
+from mzo.utils.crypto import decrypt, encrypt
 
 
 class ExpiredAccessToken(Exception):
@@ -31,12 +31,12 @@ def authenticated(f):
                 # fall back to trying to refresh - will require user password
                 if have_credentials:
                     click.echo('Your access token has expired.'
-                               'You will need to call `eval $(monzo login)` again to refresh '
+                               'You will need to call `eval $(mzo login)` again to refresh '
                                'your token value.', err=True, color='red')
                     ctx.exit(1)
                 else:
                     click.echo('Your access token had expired and there is no refresh token available. '
-                           'Please reauthorize. See `monzo login --help`.', err=True, color='red')
+                           'Please reauthorize. See `mzo login --help`.', err=True, color='red')
                     raise click.Abort()
 
         # No session access token given, load from credentials file and test is it works
@@ -62,7 +62,7 @@ def authenticated(f):
 
         # No access token from session or from credentials. Point user in right direction
         else:
-            click.echo('You are not logged in. See `monzo login --help`.', err=True, color='red')
+            click.echo('You are not logged in. See `mzo login --help`.', err=True, color='red')
             raise click.Abort()
 
         # Recreate session with any updates to access_token

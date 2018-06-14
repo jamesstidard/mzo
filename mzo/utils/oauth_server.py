@@ -5,7 +5,7 @@ from sanic import Sanic
 from sanic.exceptions import Unauthorized
 from sanic.response import text
 
-from monzo import OAUTH_REDIRECT_URI
+from mzo import OAUTH_REDIRECT_URI
 
 
 class OAuthServer:

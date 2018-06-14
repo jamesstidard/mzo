@@ -10,11 +10,11 @@ import click
 import nacl.exceptions
 import toml
 
-import monzo
-from monzo.utils import ENV_SETTER
-from monzo.utils.authentication import test_access_token, ExpiredAccessToken, refresh_access_data
-from monzo.utils.crypto import encrypt, decrypt
-from monzo.utils.oauth_server import OAuthServer
+import mzo
+from mzo.utils import ENV_SETTER
+from mzo.utils.authentication import test_access_token, ExpiredAccessToken, refresh_access_data
+from mzo.utils.crypto import encrypt, decrypt
+from mzo.utils.oauth_server import OAuthServer
 
 OAUTH_APPLICATION_PROMPT = f"""\
 Monzo currently have a limit on how many users a single developer can have using their \
@@ -25,7 +25,7 @@ user. Here are the configuration details you will need:
 
              Name: Monzo CLI
          Logo URL: <blank>
-    Redirect URLs: {monzo.OAUTH_REDIRECT_URI}
+    Redirect URLs: {mzo.OAUTH_REDIRECT_URI}
       Description: Command-line application for Monzo.
   Confidentiality: Confidential
 
@@ -61,7 +61,7 @@ let's add a password. Keep it secret, keep it safe.
 """
 
 
-@monzo.command(short_help='Authorization & session management')
+@mzo.command(short_help='Authorization & session management')
 @click.option('-f', '--format', 'fmt', type=click.Choice(['raw', 'cmd']), default='cmd', help='Chose the format the access token is return in.')
 @click.option('--reauthorize', is_flag=True, help='Reauthorize the application\'s access to your Monzo account.')
 @click.pass_context

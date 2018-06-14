@@ -2,10 +2,10 @@ from collections import OrderedDict
 
 import click
 
-import monzo
+import mzo
 
 
-@monzo.command(short_help='View all Monzo accounts.')
+@mzo.command(short_help='View all Monzo accounts.')
 @click.pass_context
 async def accounts(ctx):
     url = 'https://api.monzo.com/accounts'

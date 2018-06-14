@@ -21,7 +21,7 @@ this application, there is an extra step where you'll need to register as
 a developer yourself. You can then become your own user.
 
 You will be additionally guided through this step from the command-line
-on invoking `eval $(monzo login)` for the first time.
+on invoking `eval $(mzo login)` for the first time.
 
 Later releases will remove this extra step, simplifying the initial login
 process.
@@ -31,7 +31,7 @@ You should be able to call the command below to start the process and follow
 the instructions provided in the prompt:
 
 ```bash
-$ eval $(monzo login)
+$ eval $(mzo login)
 ```
 
 At the end of this process you will have both authorized the application to
@@ -45,7 +45,7 @@ application. If you have not completed this step see [Initial Authorization](/do
 before continuing.
 
 ### One-off
-If you call a command (such as displaying your balance with `monzo balance`)
+If you call a command (such as displaying your balance with `mzo balance`)
 you will be prompted for your password. You can simply provide the password
 and the command will complete.
 
@@ -53,11 +53,11 @@ Authenticating commands in this one-off style will be most convenient when
 you just want to open the terminal and perform a single action on your account.
 
 ```bash
-$ monzo balance
+$ mzo balance
 No login session currently active.
   You can authorize this one-off command
   by providing your password, or see
-  `monzo login --help` for persisting
+  `mzo login --help` for persisting
   authentication between commands.
 
 Password:
@@ -78,12 +78,12 @@ sessions.
 
 ```bash
 # start login session providing your password
-$ eval $(monzo login)
+$ eval $(mzo login)
 Password:
 Login Session Active
 
 # invoke x number of commands
-$ monzo balance
+$ mzo balance
 +--------------------+---------+
 | Name               | Balance |
 +--------------------+---------+
@@ -98,7 +98,7 @@ $ monzo balance
 # or a new login session to be started.
 # Sessions can also be ended by closing the
 # terminal window.
-$ eval $(monzo logout)
+$ eval $(mzo logout)
 Login Session Ended
 ```
 
@@ -108,19 +108,19 @@ session's environment variables. you can see this if you issue the `env` command
 during a login session.
 
 A command-line application can not set a environment variable directly in the
-shell session which invoked it. Instead, both `monzo login` and `monzo logout`
+shell session which invoked it. Instead, both `mzo login` and `mzo logout`
 both return commands for (un)setting the access token which can be automatically
 executed by the parent shell by wrapping it in its `eval` function.
 
 You'll be able to see this by calling these commands without the eval function:
 
 ```bash
-$ monzo login
+$ mzo login
 Password:
 Login Session Active
 export MONZO_ACCESS_TOKEN="xxxxxx.xxxxxxxxxxxxxxxxxxx.xxxxxxx"
 # This command is meant to be used with your shell's eval function.
-# Run 'eval $(monzo login)' to sign into your Monzo account.
+# Run 'eval $(mzo login)' to sign into your Monzo account.
 ```
 
 If your shell doesn't support that syntax (`bash` and `fish` do that I
@@ -134,7 +134,7 @@ The balance command returns the current balance of your current account along
 with the balance of all of your pots.
 
 ```bash
-$ monzo balance
+$ mzo balance
 +--------------------+---------+
 | Name               | Balance |
 +--------------------+---------+
@@ -145,7 +145,7 @@ $ monzo balance
 +--------------------+---------+
 ```
 
-For full documentation check out `monzo balance --help`.
+For full documentation check out `mzo balance --help`.
 
 ## Transactions
 coming soon.
@@ -159,13 +159,13 @@ Most commands support different output formats like `human`, `csv`, and `json`.
 Here's a example with the balance command:
 
 ```bash
-$ monzo balance --format csv
+$ mzo balance --format csv
 name,balance
 Current Account,1337.0
 Disposable,0.0
 Total,1337.0
 
-$ monzo balance --format json
+$ mzo balance --format json
 [
   {
     "name": "Current Account",
@@ -186,14 +186,14 @@ You can use this to create spreadsheets or to pipe into other applications like
 [jq](https://stedolan.github.io/jq/).
 
 ```bash
-$ monzo balance --format csv > ~/Desktop/balance.csv
+$ mzo balance --format csv > ~/Desktop/balance.csv
 
-$ monzo balance --format json | jq '.[] | select(.name == "Total") | .balance'
+$ mzo balance --format json | jq '.[] | select(.name == "Total") | .balance'
 1337.0
 ```
 
 By default the formats for commands is get to `human`. You can change this by
-editing the `~/.monzo/config` file and setting the default format to either
+editing the `~/.mzo/config` file and setting the default format to either
 `human`, `csv` or `json`.
 
 ```toml

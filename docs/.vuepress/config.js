@@ -6,7 +6,7 @@ module.exports = {
   themeConfig: {
     nav: [
       { text: 'Documentation', link: '/docs/' },
-      { text: 'GitHub', link: 'https://github.com/jamesstidard/monzo-cli' },
+      { text: 'GitHub', link: 'https://github.com/jamesstidard/mzo-cli' },
     ],
     sidebar: [
       '/docs/',

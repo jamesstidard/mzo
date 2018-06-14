@@ -4,12 +4,12 @@ from contextlib import redirect_stdout
 
 import click
 
-import monzo
+import mzo
 
-from monzo.utils import ENV_SETTER
+from mzo.utils import ENV_SETTER
 
 
-@monzo.command(short_help='Logout of authenticated session.')
+@mzo.command(short_help='Logout of authenticated session.')
 async def logout():
     click.echo(ENV_SETTER.format(name='MONZO_ACCESS_TOKEN', value=""))
 
