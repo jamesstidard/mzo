@@ -108,7 +108,6 @@ async def refresh_access_data(refresh_token, *, ctx):
     if not client_id or not client_secret:
         click.Abort("Unable to find oauth id and secret in config file.")
     else:
-        click.echo("Refreshing access token", err=True, color='green')
         resp = await ctx.obj.http.post('https://api.monzo.com/oauth2/token', data={
             'grant_type': 'refresh_token',
             'client_id': client_id,
@@ -116,4 +115,9 @@ async def refresh_access_data(refresh_token, *, ctx):
             'redirect_uri': OAUTH_REDIRECT_URI,
             'refresh_token': refresh_token})
 
-        return await resp.json()
+        payload = await resp.json()
+
+        if 200 <= resp.status < 300:
+            return payload
+        else:
+            click.Abort(payload['message'])
