@@ -63,12 +63,12 @@ already have a install process in mind.
 
 ## Source
 If you'd like to get it directly from the source, it can be found
-hosted on GitHub [here](https://github.com/jamesstidard/monzo-cli).
+hosted on GitHub [here](https://github.com/jamesstidard/mzo-cli).
 
 The documentation on how to build the environment should be on the
 project's README.
 
 ```bash
-$ git clone https://github.com/jamesstidard/monzo-cli.git
-$ cat monzo-cli/README.md
+$ git clone https://github.com/jamesstidard/mzo-cli.git
+$ cat mzo-cli/README.md
 ```
