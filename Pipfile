@@ -16,6 +16,7 @@ terminaltables = "*"
 ordered-set = "*"
 
 [dev-packages]
+twine = "*"
 
 [requires]
 python_version = "3.6"
