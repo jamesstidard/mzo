@@ -5,14 +5,9 @@
 If you are installing on macOS, this is the way to go.
 
 ```bash
-# add the mzo tap
+# add repo and install
 $ brew tap jamesstidard/mzo
-
-# install
 $ brew install mzo
-
-# update
-$ brew update mzo
 ```
 
 ## PyPI
@@ -30,9 +25,6 @@ conflicts with other installed python packages.
 ```bash
 # install
 $ pipsi install mzo --python path/to/python3.6
-
-# update
-$ pipsi upgrade mzo
 ```
 
 Though if you've opted to install through this method, you probably
