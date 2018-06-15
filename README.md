@@ -9,7 +9,7 @@ are looking for the documentation and more straight forward
 installation instructions [see the docs](https://jamesstidard.github.io/Mzo-Cli/).
 
 ## Prerequisites
-At the time of writing this the project is using Python 3.4.6.
+At the time of writing this the project is using Python 3.6.5.
 You will need that version of python installed before starting.
 If you don't currently have a method of managing multiple Python
 versions on your machine, I would recommend checking out [pyenv](https://github.com/pyenv/pyenv).
@@ -28,5 +28,5 @@ $ git clone https://github.com/jamesstidard/mzo-cli
 
 $ cd mzo-cli/
 
-$ pipenv install --dev --python 3.4.6
+$ pipenv install --dev --python 3.6.5
 ```
