@@ -1,0 +1,24 @@
+name: mzo
+version: '0.0.1' # TODO: template
+summary: A command-line interface to your monzo account.
+description: |
+  This is a third-party, command-line tool which allows
+  control over your Monzo bank account. Allows you to
+  you blance, move money between pots, view transaction
+  history, etc.
+
+grade: devel # must be 'stable' to release into candidate/stable channels
+confinement: devmode # use 'strict' once you have the right plugs and slots
+
+parts:
+  mzo:
+    source: .
+    plugin: python
+    python-version: python3
+    build: |
+      pip install pipenv
+      pipenv install
+
+apps:
+  mzo:
+    command: bin/mzo
