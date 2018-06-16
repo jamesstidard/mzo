@@ -36,12 +36,12 @@ $ eval $(mzo login)
 
 At the end of this process you will have both authorized the application to
 have access to your Monzo account as well as started your first
-[login session](/docs/usage.html#Sessions).
+[login session](/usage.html#Sessions).
 
 ## Logins
 All commands through the CLI require your password in order to be executed -
 you would have provided this during the initial authorization step of the
-application. If you have not completed this step see [Initial Authorization](/docs/usage.html#Initial-Authorization)
+application. If you have not completed this step see [Initial Authorization](/usage.html#Initial-Authorization)
 before continuing.
 
 ### One-off

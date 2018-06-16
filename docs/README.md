@@ -8,7 +8,7 @@ meta:
   - name: keywords
     content: Monzo Command-line Interface CLI
 actionText: Get Started →
-actionLink: /docs/
+actionLink: /overview
 features:
 - title: Human First
   details: The application should be easy to install and setup. While the commands and outputs should to be intuitive and even pretty at times.
