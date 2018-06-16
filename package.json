@@ -6,7 +6,7 @@
     "docs:deploy": "./scripts/deploy-docs.sh",
 
     "mzo:deploy": "pipenv run python setup.py upload",
-    "postmzo:deploy": "pipenv run python ./scripts/deploy-hombrew.py"
+    "postmzo:deploy": "pipenv run python ./scripts/deploy-homebrew.py"
   },
   "devDependencies": {
     "vuepress": "^0.10.1"
