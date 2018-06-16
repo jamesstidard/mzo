@@ -21,7 +21,7 @@ tool setup.
 Finally I've used a `package.json` in my Python project (herasy
 I'm sure), which aggrigates all ansilary project scripts together
 for building and deploying. Specifically I'm using the [yarn](https://yarnpkg.com/lang/en/)
-package manager for these node dependancies.
+package manager for these npm dependancies.
 
 ## Summoning Ritual
 Once you've completed the prerequisets above you should be able
