@@ -5,14 +5,14 @@ module.exports = {
   // base: '/Monzo-Cli/', // For github pages. Not needed for custom domain
   themeConfig: {
     nav: [
-      { text: 'Documentation', link: '/overview' },
+      { text: 'Documentation', link: '/docs/' },
       { text: 'GitHub', link: 'https://github.com/jamesstidard/mzo-cli' },
     ],
     sidebar: [
-      '/overview',
-      '/install',
-      '/usage',
-      '/uninstall',
+      '/docs/',
+      '/docs/install',
+      '/docs/usage',
+      '/docs/uninstall',
     ],
   },
 }
