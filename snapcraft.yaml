@@ -27,10 +27,10 @@ parts:
   mzo:
     plugin: dump
     source: .
-    install: |
+    override-build: |
       # Create directory to serve as mount point for Python
       mkdir $SNAPCRAFT_PART_INSTALL/python
-      python3 -V
+      $SNAPCRAFT_PART_INSTALL/python/bin/python -V
       pip install pipenv
       pipenv install
     prime:
