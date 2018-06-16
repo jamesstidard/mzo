@@ -18,6 +18,11 @@ The projects dependancies are also managed by [pipenv](https://docs.pipenv.org/)
 You should head over there and make sure that you also have that
 tool setup.
 
+Finally I've used a `package.json` in my Python project (herasy
+I'm sure), which aggrigates all ansilary project scripts together
+for building and deploying. Specifically I'm using the [yarn](https://yarnpkg.com/lang/en/)
+package manager for these node dependancies.
+
 ## Summoning Ritual
 Once you've completed the prerequisets above you should be able
 to bring the application to life with the following commands.
