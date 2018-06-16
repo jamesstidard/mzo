@@ -1,8 +1,11 @@
 import os
 import re
+import time
 import tarfile
 import hashlib
 import subprocess
+import urllib.request
+import urllib.error
 
 from tempfile import TemporaryDirectory
 from contextlib import contextmanager
@@ -72,6 +75,17 @@ with TemporaryDirectory() as td:
         # Ignore development pipenv environment and make a new one for release
         with env({'PIPENV_IGNORE_VIRTUALENVS': '1', 'PIPENV_VENV_IN_PROJECT': '1', 'LANG': 'en_US.utf8'}):
             os.system('pipenv install --dev')
+
+            # wait for mzo to be available on pypi
+            print('Waiting for release to be visible on PyPI...')
+            while True:
+                try:
+                    urllib.request.urlopen(f'https://pypi.org/project/mzo/{version}/')
+                except urllib.error.HTTPError:
+                    time.sleep(5)
+                else:
+                    break
+
             resources = subprocess.check_output('pipenv run poet mzo', shell=True).decode('ascii')
             # remove mzo so homebrew detects mzo as a new binary
             resources = re.sub(' {2}resource "mzo".+?end', '', resources, flags=re.DOTALL)
