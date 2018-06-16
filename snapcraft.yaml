@@ -12,11 +12,14 @@ confinement: devmode # use 'strict' once you have the right plugs and slots
 
 parts:
   mzo:
-    after: [python3.6]
+    prepare: |
+      add-apt-repository ppa:deadsnakes/ppa
+      apt-get update
+      apt-get install python3.6
     source: .
     build: |
-      pip install pipenv
-      pipenv install
+      python3.6 -m pip install pipenv
+      python3.6 -m pipenv install
 
 apps:
   mzo:
