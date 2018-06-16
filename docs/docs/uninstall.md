@@ -16,7 +16,7 @@ $ brew untap jamesstidard/mzo
 
 ## Removing Application Data
 Application data is stored in a hidden folder in your home directory
-named `.monzo`. This can be removed from your terminal with:
+named `.mzo`. This can be removed from your terminal with:
 
 ```bash
 $ rm -rf ~/.mzo
