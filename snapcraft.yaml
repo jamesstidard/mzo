@@ -30,7 +30,6 @@ parts:
     install: |
       # Create directory to serve as mount point for Python
       mkdir $SNAPCRAFT_PART_INSTALL/python
-      python3 -m pip install pipenv
-      python3 -m pipenv install
+      python3 -V
     prime:
       - python/
