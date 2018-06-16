@@ -9,11 +9,13 @@ import uvloop
 
 import mzo
 from mzo.utils import wait
+from mzo.__version__ import __version__
 
 asyncio.set_event_loop(uvloop.new_event_loop())
 
 
 @mzo.group()
+@click.version_option(__version__)
 @click.pass_context
 async def cli(ctx):
     app_dir = click.get_app_dir('mzo', force_posix=True)
