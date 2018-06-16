@@ -10,17 +10,26 @@ description: |
 grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
 
-parts:
-  mzo:
-    prepare: |
-      add-apt-repository ppa:deadsnakes/ppa
-      apt-get update
-      apt-get install python3.6
-    source: .
-    build: |
-      python3.6 -m pip install pipenv
-      python3.6 -m pipenv install
+plugs:
+  python3:
+    interface: content
+    content: python3
+    target: python
+    default-provider: python36-jamesh
 
 apps:
   mzo:
     command: bin/mzo
+    plugs: python3
+
+parts:
+  mzo:
+    plugin: dump
+    source: .
+    install: |
+      # Create directory to serve as mount point for Python
+      mkdir $SNAPCRAFT_PART_INSTALL/python
+      python3 -m pip install pipenv
+      python3 -m pipenv install
+    prime:
+      - python/
