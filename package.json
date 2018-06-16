@@ -3,7 +3,10 @@
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "predocs:deploy": "yarn docs:build",
-    "docs:deploy": "./deploy-docs.sh"
+    "docs:deploy": "./scripts/deploy-docs.sh",
+
+    "mzo:deploy": "pipenv run python setup.py upload",
+    "postmzo:deploy": "pipenv run python scripts/deploy-hombrew.py"
   },
   "devDependencies": {
     "vuepress": "^0.10.1"

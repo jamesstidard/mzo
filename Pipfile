@@ -17,6 +17,7 @@ ordered-set = "*"
 
 [dev-packages]
 twine = "*"
+homebrew-pypi-poet = "*"
 
 [requires]
 python_version = "3.6"
