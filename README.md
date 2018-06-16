@@ -29,4 +29,30 @@ $ git clone https://github.com/jamesstidard/mzo-cli
 $ cd mzo-cli/
 
 $ pipenv install --dev --python 3.6.5
+$ pipenv shell
+```
+
+### Run
+```bash
+$ mzo --help
+```
+
+### Test
+```bash
+$ yarn test
+```
+
+### Document
+```bash
+$ yarn docs:dev
+```
+
+### Deploy mzo
+```bash
+$ yarn mzo:deploy
+```
+
+### Deploy Docs
+```bash
+$ yarn docs:deploy
 ```

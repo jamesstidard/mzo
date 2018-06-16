@@ -1,5 +1,7 @@
 {
   "scripts": {
+    "test": "pipenv run pytest",
+
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "predocs:deploy": "yarn docs:build",
