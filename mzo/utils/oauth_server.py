@@ -19,6 +19,10 @@ class OAuthServer:
         self._oauth_complete = Event()
         self._access_token = None
 
+        @self.app.route('/favicon.ico')
+        def ignore_favicon(_):
+            return text('no favicon, sorry.')
+
         @self.app.route("/oauth")
         async def welcome_back(request):
             if request.args['state'][0] != self.nonce:
