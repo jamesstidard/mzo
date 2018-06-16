@@ -20,6 +20,8 @@ plugs:
 apps:
   mzo:
     command: bin/mzo
+    override-build: |
+      python3 -V
     plugs:
       - python3
 
@@ -30,7 +32,5 @@ parts:
     install: |
       # Create directory to serve as mount point for Python
       mkdir $SNAPCRAFT_PART_INSTALL/python
-      ls $SNAPCRAFT_PART_INSTALL/python
-      python3 -V
     prime:
       - python/
