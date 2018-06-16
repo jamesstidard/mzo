@@ -20,7 +20,8 @@ plugs:
 apps:
   mzo:
     command: bin/mzo
-    plugs: python3
+    plugs:
+      - python3
 
 parts:
   mzo:
