@@ -17,5 +17,10 @@ apps:
 parts:
   mzo:
     plugin: make
-    source: https://www.python.org/ftp/python/3.6.5/Python-3.6.5.tar.xz
-    source-checksum: md5/9f49654a4d6f733ff3284ab9d227e9fd
+    source: https://www.python.org/ftp/python/3.6.5/Python-3.6.5.tgz
+    source-checksum: md5/ab25d24b1f8cc4990ade979f6dc37883
+    build: |
+      ./configure
+      make
+      make test
+      sudo make install
