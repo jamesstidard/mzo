@@ -26,8 +26,8 @@ parts:
   mzo:
     after: [python36]
     plugin: nil
-    source: https://github.com/jamesstidard/Mzo-Cli/archive/v0.0.5.tar.gz
-    source-checksum: sha256/ad70091661bc3bf920022b59423999d82c7f050338832f14c84a3044a431d48c
+    source: https://github.com/jamesstidard/Mzo-Cli/archive/v0.0.5.tar.gz # TODO: template
+    source-checksum: sha256/ad70091661bc3bf920022b59423999d82c7f050338832f14c84a3044a431d48c # TODO: template
     build: |
       /usr/local/bin/python3 -V
       /usr/local/bin/python3 -m pip install pipenv
