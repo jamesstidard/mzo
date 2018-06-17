@@ -21,12 +21,12 @@ parts:
     stage-packages:
       - make
       - zlib1g-dev
-      - openssl
+      - opensslo
       - libssl-dev
     source: https://www.python.org/ftp/python/3.6.5/Python-3.6.5.tar.xz
     source-checksum: md5/9f49654a4d6f733ff3284ab9d227e9fd
     override-build: |
-      ./configure
+      ./configure --enable-optimizations
       make
       sudo make install
   mzo:
@@ -38,3 +38,4 @@ parts:
       /usr/local/bin/python3 -m pip install --upgrade pip wheel setuptools pipenv
       pipenv lock --requirements > requirements.txt
       /usr/local/bin/python3 -m pip install -r requirements.txt
+      mzo --version
