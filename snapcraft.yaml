@@ -15,12 +15,19 @@ apps:
     command: bin/mzo
 
 parts:
-  mzo:
+  python36:
     plugin: make
     source: https://www.python.org/ftp/python/3.6.5/Python-3.6.5.tgz
     source-checksum: md5/ab25d24b1f8cc4990ade979f6dc37883
     build: |
       ./configure
       make
-      make test
       sudo make install
+  mzo:
+    after: [python36]
+    plugin: nil
+    source: https://github.com/jamesstidard/Mzo-Cli/archive/v0.0.5.tar.gz
+    source-checksum: sha256/ad70091661bc3bf920022b59423999d82c7f050338832f14c84a3044a431d48c
+    build: |
+      /usr/local/bin/python3 -m pip install pipenv
+      /usr/local/bin/python3 -m pipenv install
