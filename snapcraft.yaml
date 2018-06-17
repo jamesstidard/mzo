@@ -12,7 +12,7 @@ confinement: devmode # use 'strict' once you have the right plugs and slots
 
 apps:
   mzo:
-    command: /usr/local/bin/mzo
+    command: usr/local/bin/mzo
     plugs: [network, network-bind]
 
 parts:
