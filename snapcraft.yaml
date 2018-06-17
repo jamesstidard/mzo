@@ -28,7 +28,7 @@ parts:
     plugin: dump
     source: .
     override-build: |
-      python3.6 -V
+      $SNAP/python/bin/python3.6 -V
     after: [bar]
   bar:
     plugin: dump
