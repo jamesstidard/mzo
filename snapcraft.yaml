@@ -12,7 +12,7 @@ confinement: devmode # use 'strict' once you have the right plugs and slots
 
 apps:
   mzo:
-    command: mzo
+    command: /usr/local/bin/mzo
     plugs: [network, network-bind]
 
 parts:
@@ -39,4 +39,5 @@ parts:
       /usr/local/bin/python3 -m pip install --upgrade pip wheel setuptools pipenv
       pipenv lock --requirements > requirements.txt
       /usr/local/bin/python3 -m pip install -r requirements.txt
-      /usr/local/bin/mzo --version
+    prime:
+      - /usr/local/bin/mzo
