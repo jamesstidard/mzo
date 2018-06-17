@@ -10,31 +10,15 @@ description: |
 grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
 
-plugs:
-  python3:
-    interface: content
-    content: python3
-    target: python
-    default-provider: python36-jamesh
-
 apps:
   mzo:
     command: bin/mzo
-    plugs:
-      - python3
 
 parts:
-  foo:
-    plugin: dump
+  mzo:
+    plugin: nil
+    stage-packages:
+      - python3.6
     source: .
-    override-build: |
-      $SNAP/python/bin/python3.6 -V
-    after: [bar]
-  bar:
-    plugin: dump
-    source: .
-    override-build: |
-      # Create directory to serve as mount point for Python
-      mkdir $SNAPCRAFT_PART_INSTALL/python
-    prime:
-      - python/
+    build: |
+      python3.6 -V
