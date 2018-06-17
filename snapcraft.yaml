@@ -17,8 +17,8 @@ apps:
 parts:
   python36:
     plugin: make
-    source: https://www.python.org/ftp/python/3.6.5/Python-3.6.5.tgz
-    source-checksum: md5/ab25d24b1f8cc4990ade979f6dc37883
+    source: https://www.python.org/ftp/python/3.6.5/Python-3.6.5.tar.xz
+    source-checksum: md5/9f49654a4d6f733ff3284ab9d227e9fd
     build: |
       ./configure
       make
@@ -31,4 +31,4 @@ parts:
     build: |
       /usr/local/bin/python3 -V
       /usr/local/bin/python3 -m pip install pipenv
-      /usr/local/bin/python3 -m pipenv install
+      pipenv install --system
