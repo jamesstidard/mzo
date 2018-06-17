@@ -24,15 +24,17 @@ apps:
       - python3
 
 parts:
-  mzo:
+  foo:
+    plugin: dump
+    source: .
+    override-build: |
+      python3.6 -V
+    after: [bar]
+  bar:
     plugin: dump
     source: .
     override-build: |
       # Create directory to serve as mount point for Python
       mkdir $SNAPCRAFT_PART_INSTALL/python
-      python3.6 -V
-      ls $SNAPCRAFT_PART_INSTALL/python
-      pip install pipenv
-      pipenv install
     prime:
       - python/
