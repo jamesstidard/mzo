@@ -12,7 +12,7 @@ confinement: devmode # use 'strict' once you have the right plugs and slots
 
 apps:
   mzo:
-    command: /usr/local/bin/mzo
+    command: bin/mzo
     plugs: [network, network-bind]
 
 parts:
@@ -35,6 +35,6 @@ parts:
     source: https://github.com/jamesstidard/Mzo-Cli/archive/v0.0.5.tar.gz # TODO: template
     source-checksum: sha256/ad70091661bc3bf920022b59423999d82c7f050338832f14c84a3044a431d48c # TODO: template
     override-build: |
-      /usr/local/bin/python3 -m pip install --upgrade pip wheel setuptools
-      /usr/local/bin/python3 -m pip install pipenv
-      pipenv install --system
+      /usr/local/bin/python3 -m pip install --upgrade pip wheel setuptools pipenv
+      pipenv lock --requirements > requirements.txt
+      /usr/local/bin/python3 -m pip install -r requirements.txt
