@@ -12,7 +12,7 @@ confinement: devmode # use 'strict' once you have the right plugs and slots
 
 apps:
   mzo:
-    command: bin/mzo
+    command: mzo
     plugs: [network, network-bind]
 
 parts:
@@ -23,6 +23,7 @@ parts:
       - zlib1g-dev
       - openssl
       - libssl-dev
+      - libffi-dev
     source: https://www.python.org/ftp/python/3.6.5/Python-3.6.5.tar.xz
     source-checksum: md5/9f49654a4d6f733ff3284ab9d227e9fd
     override-build: |
