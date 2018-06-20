@@ -5,9 +5,16 @@
 If you are installing on macOS, this is the way to go.
 
 ```bash
-# add repo and install
 $ brew tap jamesstidard/mzo
 $ brew install mzo
+```
+
+## Snap
+The Monzo CLI can also be grabbe from [Snap](https://snapcraft.io/), for
+those using Linux distros (such as Ubuntu).
+
+```bash
+$ sudo snap install --edge mzo --devmod
 ```
 
 ## PyPI
