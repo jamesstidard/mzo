@@ -9,14 +9,6 @@ $ brew tap jamesstidard/mzo
 $ brew install mzo
 ```
 
-## Snap
-The Monzo CLI can also be grabbe from [Snap](https://snapcraft.io/), for
-those using Linux distros (such as Ubuntu).
-
-```bash
-$ sudo snap install --edge mzo --devmod
-```
-
 ## PyPI
 ::: warning
 For those familiar with Python package management.

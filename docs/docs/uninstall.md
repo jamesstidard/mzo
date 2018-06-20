@@ -12,9 +12,6 @@ the application:
 # Homebrew
 $ brew uninstall mzo
 $ brew untap jamesstidard/mzo
-
-# Snap
-$ snap remove mzo
 ```
 
 ## Removing Application Data
