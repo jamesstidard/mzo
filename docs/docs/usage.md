@@ -192,7 +192,7 @@ $ mzo balance --format json | jq '.[] | select(.name == "Total") | .balance'
 1337.0
 ```
 
-By default the formats for commands is get to `human`. You can change this by
+By default the formats for commands is set to `human`. You can change this by
 editing the `~/.mzo/config` file and setting the default format to either
 `human`, `csv` or `json`.
 
