@@ -1,7 +1,7 @@
 # Overview
-The aim of this project is to provide a quick way for those who spend
+The aim of this project is to provide a quick way, for those who spend
 more of their life glued to a desktop operating system rather then their
-mobiles.
+mobiles, of accessing their Monzo account details.
 
 The Monzo CLI does this by making itself present in your machine's terminal,
 addressable with the name `mzo`.
