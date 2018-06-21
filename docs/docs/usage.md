@@ -72,7 +72,7 @@ Password:
 ```
 
 ### Sessions
-The will be times when you want to perform a number of commands without needing
+There will be times when you want to perform a number of commands without needing
 to provide your password for each command. For this the Monzo CLI provides login
 sessions.
 
