@@ -103,9 +103,9 @@ Login Session Ended
 ```
 
 ::: tip What's with the eval?
-Sessions are managed by temporarily storing the a access token in your terminal
-session's environment variables. you can see this if you issue the `env` command
-during a login session.
+Sessions are managed by temporarily storing a decrypted access token in
+your terminal session's environment variables. you can see this if you
+issue the `env` command during a login session.
 
 A command-line application can not set a environment variable directly in the
 shell session which invoked it. Instead, both `mzo login` and `mzo logout`
@@ -125,7 +125,7 @@ export MONZO_ACCESS_TOKEN="xxxxxx.xxxxxxxxxxxxxxxxxxx.xxxxxxx"
 
 If your shell doesn't support that syntax (`bash` and `fish` do that I
 know of), you can use the `--format raw` option to handle setting the
-`MONZO_ACCESS_TOKEN` enviroment varaible yourself. If you are not sure
+`MONZO_ACCESS_TOKEN` environment variable yourself. If you are not sure
 which shell you are running, it is probably bash.
 :::
 

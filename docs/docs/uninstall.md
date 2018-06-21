@@ -5,7 +5,7 @@ application data (which stores your encrypted credentials and personal
 configurations).
 
 ## Removing the Application
-Removing the binary depends on which method you used to initally install
+Removing the binary depends on which method you used to initially install
 the application:
 
 ```bash

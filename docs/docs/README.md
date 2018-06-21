@@ -22,6 +22,8 @@ Commands:
   logout   Logout of authenticated session.
 ```
 
-The installation, set-up process, and usage should be accessible enough for both
-command-line veterans and toe-dippers alike. Let me know if you have any
-problems and I'll update and clarify the documentation.
+The installation, set-up process, and usage should be accessible enough
+for both command-line veterans and toe-dippers alike.
+[Let me know](https://github.com/jamesstidard/Mzo-Cli/issues) if you
+have any problems and I'll update and clarify the documentation. Or make
+a pull request.

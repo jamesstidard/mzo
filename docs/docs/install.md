@@ -16,14 +16,16 @@ For those familiar with Python package management.
 Monzo CLI is a Python application and is hosted on PyPI so can be
 installed as a Python package.
 
-I'd personally recommend using [pipsi](https://github.com/mitsuhiko/pipsi)
-for installing global Python packages as it manages creating specific
-Python virtual environments for each package - preventing any dependency
-conflicts with other installed python packages.
+I personally use [pyenv](https://github.com/pyenv/pyenv) for managing
+multiple Python versions on a single machine in combination with
+[pipsi](https://github.com/mitsuhiko/pipsi) for installing global Python
+packages as it manages creating specific Python virtual environments for
+each package - preventing any dependency conflicts with other installed
+python packages.
 
 ```bash
 # install
-$ pipsi install mzo --python path/to/python3.6
+$ pipsi install mzo --python 3.6.5
 ```
 
 Though if you've opted to install through this method, you probably
