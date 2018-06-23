@@ -94,10 +94,10 @@ async def login(ctx, reauthorize, fmt):
     terminal. This means that your password will not be needed for all commands executed
     within that session. This is done by decrypting the access token with your provided
     password and storing it in memory as a environment variable on the machine (aptly named:
-    MONZO_ACCESS_TOKEN).
+    MZO_ACCESS_TOKEN).
 
     For convince this command will return the required shell command to set the environment
-    variable (e.g. `export MONZO_ACCESS_TOKEN="xxx"`) which means you can call this function
+    variable (e.g. `export MZO_ACCESS_TOKEN="xxx"`) which means you can call this function
     within your shell's eval command so the above statement is executed for you and the
     environment variable set. However you may be using a shell that doesn't use the above syntax
     or want to manage the token yourself, in which case providing the `--format raw` will simply
@@ -177,7 +177,7 @@ async def login(ctx, reauthorize, fmt):
         click.echo(access_data["access_token"])
     else:
         stderr_echo(f'Login Session Active', color='green')
-        click.echo(ENV_SETTER.format(name='MONZO_ACCESS_TOKEN', value=access_data["access_token"]))
+        click.echo(ENV_SETTER.format(name='MZO_ACCESS_TOKEN', value=access_data["access_token"]))
 
 
 def stderr_echo(message, color=None, underline=False):

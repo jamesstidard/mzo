@@ -118,14 +118,14 @@ You'll be able to see this by calling these commands without the eval function:
 $ mzo login
 Password:
 Login Session Active
-export MONZO_ACCESS_TOKEN="xxxxxx.xxxxxxxxxxxxxxxxxxx.xxxxxxx"
+export MZO_ACCESS_TOKEN="xxxxxx.xxxxxxxxxxxxxxxxxxx.xxxxxxx"
 # This command is meant to be used with your shell's eval function.
 # Run 'eval $(mzo login)' to sign into your Monzo account.
 ```
 
 If your shell doesn't support that syntax (`bash` and `fish` do that I
 know of), you can use the `--format raw` option to handle setting the
-`MONZO_ACCESS_TOKEN` environment variable yourself. If you are not sure
+`MZO_ACCESS_TOKEN` environment variable yourself. If you are not sure
 which shell you are running, it is probably bash.
 :::
 

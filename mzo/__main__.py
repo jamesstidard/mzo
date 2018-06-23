@@ -24,7 +24,7 @@ async def cli(ctx):
     client_id = None
     client_secret = None
     account_id = None
-    access_token = os.environ.get('MONZO_ACCESS_TOKEN')
+    access_token = os.environ.get('MZO_ACCESS_TOKEN')
 
     try:
         config = toml.load(config_fp)
@@ -57,9 +57,10 @@ async def cli(ctx):
 
 cli.add_command(mzo.login)
 cli.add_command(mzo.logout)
-# cli.add_command(monzo.accounts)
 cli.add_command(mzo.balance)
-# cli.add_command(monzo.pay)
+
+if os.environ.get('MZO_PRERELEASE') == '1':
+    cli.add_command(mzo.transactions)
 
 
 def main():

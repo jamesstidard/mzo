@@ -15,8 +15,7 @@ class ContextObject:
 
 from mzo.utils import group, command
 from mzo import types, arguments, options
-from mzo.accounts import accounts
 from mzo.balance import balance
+from mzo.transactions import transactions
 from mzo.login import login
 from mzo.logout import logout
-from mzo.pay import pay
