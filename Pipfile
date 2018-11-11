@@ -16,7 +16,7 @@ toml = "*"
 pynacl = "*"
 terminaltables = "*"
 ordered-set = "*"
-maya = "*"
+python-dateutil = "*"
 
 [dev-packages]
 twine = "*"

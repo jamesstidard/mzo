@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import click
 
-from maya import MayaDT
+from dateutil.parser import parse as iso8601_parse
 
 import mzo.utils.authentication
 from mzo.utils.formats import Format
@@ -34,7 +34,7 @@ async def transactions(ctx, fmt: Format):
                     value = f'{abs(value):.2f}'
             if key == 'created':
                 if value:
-                    value = f'{MayaDT.from_iso8601(value).datetime():%a %d %B}'
+                    value = f'{iso8601_parse(value):%a %d %B}'
 
             return click.style(key.title(), bold=True), value
 

@@ -25,7 +25,7 @@ REQUIRED = [
     'click',
     'aiohttp',
     'aioconsole',
-    'maya',
+    'python-dateutil',
     'sanic',
     'toml',
     'pynacl',
