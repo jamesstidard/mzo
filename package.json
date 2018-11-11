@@ -1,4 +1,8 @@
 {
+  "engines": {
+    "node": ">=11.0.0",
+    "npm": ">=6.4.1"
+  },
   "scripts": {
     "test": "pipenv run pytest",
     "docs:dev": "vuepress dev docs",
