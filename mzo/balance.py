@@ -36,17 +36,17 @@ async def balance(ctx, fmt: Format):
     rows = [
         {
             'name': 'Current Account',
-            'balance': balance_json['balance'] / 100,
+            'balance': f'{balance_json["balance"]/100:.2f}',
             'emoji': '💸',
         },
         *[{
             'name': p['name'],
-            'balance': p['balance'] / 100,
+            'balance': f'{p["balance"]/100}:.2f',
             'emoji': style_emoji(p)
         } for p in pots_json['pots'] if not p['deleted']],
         {
             'name': 'Total',
-            'balance': balance_json['total_balance'] / 100,
+            'balance': f'{balance_json["total_balance"]/100}:.2f',
             'emoji': '💰',
         }
     ]
