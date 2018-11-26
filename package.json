@@ -7,12 +7,12 @@
     "test": "pipenv run pytest",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "predocs:deploy": "yarn docs:build",
+    "predocs:deploy": "npm run docs:build",
     "docs:deploy": "./scripts/deploy-docs.sh",
     "mzo:deploy": "pipenv run python setup.py upload",
     "postmzo:deploy": "pipenv run python ./scripts/deploy-homebrew.py"
   },
   "devDependencies": {
-    "vuepress": "^1.0.0-alpha.20"
+    "vuepress": "^1.0.0-alpha.24"
   }
 }
