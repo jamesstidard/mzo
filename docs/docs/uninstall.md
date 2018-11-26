@@ -11,7 +11,7 @@ the application:
 ```bash
 # Homebrew
 $ brew uninstall mzo
-$ brew untap jamesstidard/mzo
+$ brew untap jamesstidard/formulas
 ```
 
 ## Removing Application Data

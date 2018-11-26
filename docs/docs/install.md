@@ -5,7 +5,7 @@
 If you are installing on macOS, this is the way to go.
 
 ```bash
-$ brew tap jamesstidard/mzo
+$ brew tap jamesstidard/formulas
 $ brew install mzo
 ```
 

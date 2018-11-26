@@ -91,8 +91,8 @@ with TemporaryDirectory() as td:
             resources = re.sub(' {2}resource "mzo".+?end', '', resources, flags=re.DOTALL)
 
     # Update Homebrew tap repo
-    homebrew_repo = os.path.join(td, 'homebrew-mzo')
-    os.system(f'git clone git@github.com:jamesstidard/homebrew-mzo "{homebrew_repo}"')
+    homebrew_repo = os.path.join(td, 'homebrew-formulas')
+    os.system(f'git clone git@github.com:jamesstidard/homebrew-formulas "{homebrew_repo}"')
     with change_dir(homebrew_repo):
         tap = TAP_TEMPLATE.format(
             url=tar_release_url,
