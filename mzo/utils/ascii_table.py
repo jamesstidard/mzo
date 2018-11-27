@@ -12,7 +12,6 @@ def ascii_table(dicts=None, columns=None, title=None, fill='-', justify_columns=
 
         if justify_columns:
             justifications = {i: justify_columns.get(c, 'left') for i, c in enumerate(columns)}
-            print(justifications)
             table.justify_columns = justifications
 
         return table.table
