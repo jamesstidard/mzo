@@ -10,9 +10,9 @@ class Format(Enum):
     json = 'json'
     csv = 'csv'
 
-    def dumps(self, dicts=None, keys=None, title=None, fill=None):
+    def dumps(self, dicts=None, keys=None, title=None, fill=None, justify_columns=None):
         if self is Format.human:
-            return ascii_table(dicts=dicts, columns=keys, title=title, fill=fill)
+            return ascii_table(dicts=dicts, columns=keys, title=title, fill=fill, justify_columns=justify_columns)
         elif self is Format.json:
             dicts = unify_dicts(dicts, key_order=keys, fill=fill)
             return json.dumps(dicts, indent=2)

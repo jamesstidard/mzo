@@ -52,12 +52,14 @@ async def balance(ctx, fmt: Format):
     ]
 
     key_order = ['name', 'balance']
+    justify_columns = {'balance': 'right'}
 
     if fmt is Format.human:
         def fmt_header(header):
             return click.style(header.title(), bold=True)
 
         key_order = [fmt_header(k) for k in key_order]
+        justify_columns = {fmt_header(k): v for k, v in justify_columns.items()}
 
         rows = [{
             # replace row item's keys with header keys and concat emoji to name value
@@ -67,5 +69,5 @@ async def balance(ctx, fmt: Format):
         # Spacer between total row
         rows.insert(-1, dict.fromkeys(key_order, ''))
 
-    output = fmt.dumps(rows, keys=key_order)
+    output = fmt.dumps(rows, keys=key_order, justify_columns=justify_columns)
     click.echo(output)
