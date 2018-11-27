@@ -6,6 +6,7 @@ import hashlib
 import subprocess
 import urllib.request
 import urllib.error
+from datetime import datetime
 
 from tempfile import TemporaryDirectory
 from contextlib import contextmanager
@@ -102,10 +103,14 @@ with TemporaryDirectory() as td:
         with open('mzo.rb', 'w') as fp:
             fp.write(tap)
 
+        now = datetime.utcnow()
+        start = datetime(now.year, now.month, now.day)
+        delta = (now-start).total_seconds()
+
         os.system('git add .')
-        os.system(f'git commit -m "v{version}"')
+        os.system(f'git commit -m "mzo v{version}"')
         os.system('git push origin master')
-        os.system(f'git tag v{version}')
-        os.system(f'git push origin v{version}')
+        os.system(f'git tag v{now:%Y.%m.%d}.{delta:.0f}')
+        os.system(f'git push origin v{now:%Y.%m.%d}.{delta:.0f}')
 
 print('Homebrew tap updated')
