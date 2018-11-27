@@ -55,11 +55,11 @@ about = {}
 with open(os.path.join(here, '..', 'mzo', '__version__.py')) as f:
     exec(f.read(), about)
 
-version = about['__version__']
+mzo_version = about['__version__']
 
 with TemporaryDirectory() as td:
     # Download current release source from git tag
-    tar_release_url = f'https://github.com/jamesstidard/Mzo-Cli/archive/v{version}.tar.gz'
+    tar_release_url = f'https://github.com/jamesstidard/Mzo-Cli/archive/v{mzo_version}.tar.gz'
     tar_release_path = os.path.join(td, 'release.tar.gz')
     os.system(f'curl --location "{tar_release_url}" --output {tar_release_path}')
 
@@ -81,7 +81,7 @@ with TemporaryDirectory() as td:
             print('Waiting for release to be visible on PyPI...')
             while True:
                 try:
-                    urllib.request.urlopen(f'https://pypi.org/project/mzo/{version}/')
+                    urllib.request.urlopen(f'https://pypi.org/project/mzo/{mzo_version}/')
                 except urllib.error.HTTPError:
                     time.sleep(5)
                 else:
@@ -106,11 +106,12 @@ with TemporaryDirectory() as td:
         now = datetime.utcnow()
         start = datetime(now.year, now.month, now.day)
         delta = (now-start).total_seconds()
+        repo_version = f'v{now:%Y.%m.%d}.{delta:.0f}'
 
         os.system('git add .')
-        os.system(f'git commit -m "mzo v{version}"')
+        os.system(f'git commit -m "mzo v{mzo_version}"')
         os.system('git push origin master')
-        os.system(f'git tag v{now:%Y.%m.%d}.{delta:.0f}')
-        os.system(f'git push origin v{now:%Y.%m.%d}.{delta:.0f}')
+        os.system(f'git tag {repo_version}')
+        os.system(f'git push origin {repo_version}')
 
 print('Homebrew tap updated')
