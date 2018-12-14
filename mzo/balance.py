@@ -12,14 +12,29 @@ from mzo.utils.formats import Format
 @mzo.options.fmt()
 @mzo.utils.authentication.authenticated
 async def balance(ctx, fmt: Format):
-    params = {'account_id': ctx.obj.account_id}
+    params = {
+        'account_id': ctx.obj.account_id,
+    }
 
-    get_balance = ctx.obj.http.get('https://api.monzo.com/balance', params=params)
-    get_pots = ctx.obj.http.get('https://api.monzo.com/pots', params=params)
+    get_balance = ctx.obj.http.get(
+        url='https://api.monzo.com/balance',
+        params=params,
+    )
 
-    balance_resp, pots_resp = await asyncio.gather(get_balance, get_pots)
-    balance_json = await balance_resp.json()
-    pots_json = await pots_resp.json()
+    get_pots = ctx.obj.http.get(
+        url='https://api.monzo.com/pots',
+        params=params,
+    )
+
+    balance_resp, pots_resp = await asyncio.gather(
+        get_balance,
+        get_pots,
+    )
+
+    balance_json, pots_json = await asyncio.gather(
+        balance_resp.json(),
+        pots_resp.json(),
+    )
 
     def style_emoji(p):
         return {
