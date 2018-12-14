@@ -16,22 +16,22 @@ async def balance(ctx, fmt: Format):
         'account_id': ctx.obj.account_id,
     }
 
-    get_balance = ctx.obj.http.get(
+    balance_req = ctx.obj.http.get(
         url='https://api.monzo.com/balance',
         params=params,
     )
 
-    get_pots = ctx.obj.http.get(
+    pots_req = ctx.obj.http.get(
         url='https://api.monzo.com/pots',
         params=params,
     )
 
     balance_resp, pots_resp = await asyncio.gather(
-        get_balance,
-        get_pots,
+        balance_req,
+        pots_req,
     )
 
-    balance_json, pots_json = await asyncio.gather(
+    balance_, pots = await asyncio.gather(
         balance_resp.json(),
         pots_resp.json(),
     )
@@ -51,17 +51,17 @@ async def balance(ctx, fmt: Format):
     rows = [
         {
             'name': 'Current Account',
-            'balance': f'{balance_json["balance"]/100:.2f}',
+            'balance': f'{balance_["balance"]/100:.2f}',
             'emoji': '💸',
         },
         *[{
             'name': p['name'],
             'balance': f'{p["balance"]/100:.2f}',
             'emoji': style_emoji(p)
-        } for p in pots_json['pots'] if not p['deleted']],
+        } for p in pots['pots'] if not p['deleted']],
         {
             'name': 'Total',
-            'balance': f'{balance_json["total_balance"]/100:.2f}',
+            'balance': f'{balance_["total_balance"]/100:.2f}',
             'emoji': '💰',
         }
     ]
