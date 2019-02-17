@@ -74,11 +74,16 @@ async def balance(ctx, fmt: Format):
             return click.style(header.title(), bold=True)
 
         key_order = [fmt_header(k) for k in key_order]
-        justify_columns = {fmt_header(k): v for k, v in justify_columns.items()}
+        justify_columns = {
+            fmt_header(k): v
+            for k, v in justify_columns.items()
+        }
 
         rows = [{
-            # replace row item's keys with header keys and concat emoji to name value
-            fmt_header(k): f'{r["emoji"]} {v}' if k == 'name' else v for k, v in r.items()}
+            # replace row item's keys with header keys and
+            # concat emoji to name value
+            fmt_header(k): f'{r["emoji"]} {v}' if k == 'name' else v
+            for k, v in r.items()}
             for r in rows]
 
         # Spacer between total row

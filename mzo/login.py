@@ -12,16 +12,18 @@ import toml
 
 import mzo
 from mzo.utils import ENV_SETTER
-from mzo.utils.authentication import test_access_token, ExpiredAccessToken, refresh_access_data
-from mzo.utils.crypto import encrypt, decrypt
+from mzo.utils.authentication import (
+    ExpiredAccessToken, refresh_access_data, test_access_token,
+)
+from mzo.utils.crypto import decrypt, encrypt
 from mzo.utils.oauth_server import OAuthServer
 
 OAUTH_APPLICATION_PROMPT = f"""\
-Monzo currently have a limit on how many users a single developer can have using their \
-applications (like this one) to 20 users.
+Monzo currently have a limit on how many users a single developer can have \
+using their applications (like this one) to 20 users.
 
-To get around this you can instead register as a developer and become your own \
-user. Here are the configuration details you will need:
+To get around this you can instead register as a developer and become your \
+own user. Here are the configuration details you will need:
 
              Name: Monzo CLI
          Logo URL: <blank>
@@ -29,7 +31,8 @@ user. Here are the configuration details you will need:
       Description: Command-line application for Monzo.
   Confidentiality: Confidential
 
-Once completed you will be given a Client ID and a Client Secret which you can return here with.
+Once completed you will be given a Client ID and a Client Secret which you \
+can return here with.
 """
 
 MONZO_OAUTH_CLIENT_CONSOLE_URL = "https://developers.monzo.com/apps/home"
@@ -42,36 +45,51 @@ MANUAL_BROWSER_PROMPT = """
 
 
 OAUTH_PROMPT = """\
-Now that you've registered this application as your own you need to log in as your own first user.
+Now that you've registered this application as your own you need to log in as \
+your own first user.
 
-Your Client ID and Secret will be saved so you will not need to provide this them again in future.
+Your Client ID and Secret will be saved so you will not need to provide this \
+them again in future.
 """
 
 
 SERVER_KILL_PROMPT = """\
-Please complete the authentication process in the browser to grant this application access to \
-your account.
+Please complete the authentication process in the browser to grant this \
+application access to your account.
 
 Or hit [ENTER] to terminate this process.
 """
 
 PASSWORD_PROMPT = """\
-We want to make sure anyone using your machine can not just send themselves all your money, \
-let's add a password. Keep it secret, keep it safe.
+We want to make sure anyone using your machine can not just send themselves \
+all your money, let's add a password. Keep it secret, keep it safe.
 """
 
 
-@mzo.command(short_help='Authorization & session management')
-@click.option('-f', '--format', 'fmt', type=click.Choice(['raw', 'cmd']), default='cmd', help='Chose the format the access token is return in.')
-@click.option('--reauthorize', is_flag=True, help='Reauthorize the application\'s access to your Monzo account.')
+@mzo.command(
+    short_help='Authorization & session management'
+)
+@click.option(
+    '-f',
+    '--format',
+    'fmt',
+    type=click.Choice(['raw', 'cmd']),
+    default='cmd',
+    help='Chose the format the access token is return in.'
+)
+@click.option(
+    '--reauthorize',
+    is_flag=True,
+    help='Reauthorize the application\'s access to your Monzo account.'
+)
 @click.pass_context
 async def login(ctx, reauthorize, fmt):
     """
-    Manages authorizing this application to access your Monzo account as well as
-    creating authenticated sessions.
+    Manages authorizing this application to access your Monzo account as well \
+    as creating authenticated sessions.
 
-    This function should be called within your shell's eval statement for the login session
-    to be persisted.
+    This function should be called within your shell's eval statement for the \
+    login session to be persisted.
 
     \b
     Authorization:

@@ -31,7 +31,9 @@ async def cli(ctx):
     except FileNotFoundError:
         pass
     except toml.TomlDecodeError:
-        click.echo(f'Unable to read config file "{config_fp}". Make sure it is valid TOML.')
+        click.echo(
+            f'Unable to read config file "{config_fp}". '
+            'Make sure it is valid TOML.')
         ctx.exit()
     else:
         oauth = config.get('oauth', {})
@@ -41,7 +43,12 @@ async def cli(ctx):
         default = config.get('default', {})
         account_id = default.get('account_id')
 
-    headers = {'Authorization': f'Bearer {access_token}'} if access_token else None
+    headers = None
+    if access_token:
+        headers = {
+            'Authorization': f'Bearer {access_token}',
+        }
+
     session = aiohttp.ClientSession(headers=headers)
     sync_close = partial(wait, session.close())
     ctx.call_on_close(sync_close)

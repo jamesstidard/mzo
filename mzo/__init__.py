@@ -22,9 +22,9 @@ class ContextObject:
         self.access_token = access_token
 
 
-from mzo.utils import group, command
-from mzo import types, arguments, options
-from mzo.balance import balance
-from mzo.transactions import transactions
-from mzo.login import login
-from mzo.logout import logout
+from mzo.utils import group, command  # NOQA: E402, F401
+from mzo import types, arguments, options  # NOQA: E402, F401
+from mzo.balance import balance  # NOQA: E402, F401
+from mzo.transactions import transactions  # NOQA: E402, F401
+from mzo.login import login  # NOQA: E402, F401
+from mzo.logout import logout  # NOQA: E402, F401
