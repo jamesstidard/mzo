@@ -4,7 +4,16 @@ OAUTH_REDIRECT_URI = 'http://localhost:40004/oauth'
 
 class ContextObject:
 
-    def __init__(self, *, http, app_dir, client_id, client_secret, account_id, access_token):
+    def __init__(
+        self,
+        *,
+        http,
+        app_dir,
+        client_id,
+        client_secret,
+        account_id,
+        access_token,
+    ):
         self.http = http
         self.app_dir = app_dir
         self.client_id = client_id
