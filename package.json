@@ -13,6 +13,6 @@
     "postmzo:deploy": "pipenv run python ./scripts/deploy-homebrew.py"
   },
   "devDependencies": {
-    "vuepress": "^1.0.0-alpha.24"
+    "vuepress": "^1.3.0"
   }
 }
