@@ -10,15 +10,17 @@ python_version = "3.7"
 click = "*"
 aiohttp = "*"
 aioconsole = "*"
-"e1839a8" = {path = ".", editable = true}
 sanic = "*"
 toml = "*"
 pynacl = "*"
 terminaltables = "*"
 ordered-set = "*"
 python-dateutil = "*"
+mzo = {editable = true,path = "."}
 
 [dev-packages]
 twine = "*"
 homebrew-pypi-poet = "*"
 pytest = "*"
+mypy = "*"
+flake8 = "*"
