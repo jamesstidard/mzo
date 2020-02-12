@@ -48,7 +48,7 @@ class OAuthServer:
         return f'https://auth.monzo.com?{urlencode(params)}'
 
     async def run(self):
-        await self.app.create_server(host='localhost', port=40004, access_log=False)
+        return self.app.create_server(host='localhost', port=40004, access_log=False)
 
     async def access_token(self):
         await self._oauth_complete.wait()
