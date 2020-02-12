@@ -1,16 +1,16 @@
-import pytest
-import aiohttp
+from click.testing import CliRunner
 
-from mzo.utils.oauth_server import OAuthServer
+from mzo.__main__ import cli
 
 
-@pytest.mark.asyncio
-async def test_server_run():
-    session = aiohttp.ClientSession()
-    server = OAuthServer(
-        client_id="client_id",
-        client_secret="secret",
-        nonce="nonce",
-        http_session=session,
+def test_authorize():
+    runner = CliRunner()
+    result = runner.invoke(
+        cli,
+        args=["login"],
+        input="""
+client_id
+secret
+"""
     )
-    await server.run()
+    assert result

@@ -251,12 +251,13 @@ async def authorize(ctx):
         MANUAL_BROWSER_PROMPT.format(url=pretty_url) + "\n" + SERVER_KILL_PROMPT
     )
 
-    server_errors = asyncio.Task(server.run())
+    await server.run()
+
     user_killed = asyncio.Task(aioconsole.ainput())
     got_access_token = asyncio.Task(server.access_token())
 
     completed, _ = await asyncio.wait(
-        [server_errors, user_killed, got_access_token], return_when=FIRST_COMPLETED
+        [user_killed, got_access_token], return_when=FIRST_COMPLETED
     )
 
     if got_access_token in completed:
