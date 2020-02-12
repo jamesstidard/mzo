@@ -25,3 +25,7 @@ pytest = "*"
 mypy = "*"
 flake8 = "*"
 pytest-asyncio = "*"
+black = "*"
+
+[pipenv]
+allow_prereleases = true
