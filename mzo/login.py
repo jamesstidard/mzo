@@ -13,7 +13,9 @@ import toml
 import mzo
 from mzo.utils import ENV_SETTER
 from mzo.utils.authentication import (
-    ExpiredAccessToken, refresh_access_data, test_access_token,
+    ExpiredAccessToken,
+    refresh_access_data,
+    test_access_token,
 )
 from mzo.utils.crypto import decrypt, encrypt
 from mzo.utils.oauth_server import OAuthServer
@@ -66,21 +68,19 @@ all your money, let's add a password. Keep it secret, keep it safe.
 """
 
 
-@mzo.command(
-    short_help='Authorization & session management'
+@mzo.command(short_help="Authorization & session management")
+@click.option(
+    "-f",
+    "--format",
+    "fmt",
+    type=click.Choice(["raw", "cmd"]),
+    default="cmd",
+    help="Chose the format the access token is return in.",
 )
 @click.option(
-    '-f',
-    '--format',
-    'fmt',
-    type=click.Choice(['raw', 'cmd']),
-    default='cmd',
-    help='Chose the format the access token is return in.'
-)
-@click.option(
-    '--reauthorize',
+    "--reauthorize",
     is_flag=True,
-    help='Reauthorize the application\'s access to your Monzo account.'
+    help="Reauthorize the application's access to your Monzo account.",
 )
 @click.pass_context
 async def login(ctx, reauthorize, fmt):
@@ -121,53 +121,63 @@ async def login(ctx, reauthorize, fmt):
     or want to manage the token yourself, in which case providing the `--format raw` will simply
     return the value of the access token instead of the shell command.
     """
-    credentials_fp = os.path.join(ctx.obj.app_dir, 'credentials')
+    credentials_fp = os.path.join(ctx.obj.app_dir, "credentials")
     have_credentials = os.path.isfile(credentials_fp)
 
     if reauthorize or not have_credentials:
         stderr_echo(OAUTH_APPLICATION_PROMPT)
         _ = click.prompt(
-            text='Hit [ENTER] to open browser to developer console where you can register your own application',
-            default='done',
+            text="Hit [ENTER] to open browser to developer console where you can register your own application",
+            default="done",
             hide_input=True,
             show_default=False,
-            err=True)
+            err=True,
+        )
 
         click.launch(MONZO_OAUTH_CLIENT_CONSOLE_URL)
-        stderr_echo(MANUAL_BROWSER_PROMPT.format(url=style_url(MONZO_OAUTH_CLIENT_CONSOLE_URL)))
+        stderr_echo(
+            MANUAL_BROWSER_PROMPT.format(url=style_url(MONZO_OAUTH_CLIENT_CONSOLE_URL))
+        )
 
-        ctx.obj.client_id = click.prompt('Client ID', err=True)
-        ctx.obj.client_secret = click.prompt('Client Secret', err=True)
-        stderr_echo('\nPerfect!\n', color='green')
+        ctx.obj.client_id = click.prompt("Client ID", err=True)
+        ctx.obj.client_secret = click.prompt("Client Secret", err=True)
+        stderr_echo("\nPerfect!\n", color="green")
 
         access_data = await authorize(ctx)
-        ctx.obj.access_token = access_data['access_token']
+        ctx.obj.access_token = access_data["access_token"]
         default_account = await select_default_account(ctx)
 
         click.echo(PASSWORD_PROMPT, err=True)
-        password = click.prompt("Password", err=True, confirmation_prompt=True, hide_input=True)
-        encrypted_access_data = encrypt(toml.dumps(access_data).encode('utf-8'), password=password)
+        password = click.prompt(
+            "Password", err=True, confirmation_prompt=True, hide_input=True
+        )
+        encrypted_access_data = encrypt(
+            toml.dumps(access_data).encode("utf-8"), password=password
+        )
 
         os.makedirs(ctx.obj.app_dir, exist_ok=True)
 
-        with open(os.path.join(ctx.obj.app_dir, 'credentials'), 'wb+') as fp:
+        with open(os.path.join(ctx.obj.app_dir, "credentials"), "wb+") as fp:
             fp.write(encrypted_access_data)
 
-        with open(os.path.join(ctx.obj.app_dir, 'config'), 'w+') as fp:
-            toml.dump({
-                'default': {
-                    'account_id': default_account['id'],
-                    'format': 'human',
+        with open(os.path.join(ctx.obj.app_dir, "config"), "w+") as fp:
+            toml.dump(
+                {
+                    "default": {
+                        "account_id": default_account["id"],
+                        "format": "human",
+                    },
+                    "oauth": {
+                        "client_id": ctx.obj.client_id,
+                        "client_secret": ctx.obj.client_secret,
+                    },
                 },
-                'oauth': {
-                    'client_id': ctx.obj.client_id,
-                    'client_secret': ctx.obj.client_secret,
-                }
-            }, fp)
+                fp,
+            )
 
-        stderr_echo(f'Client Authorized', color='green')
+        stderr_echo(f"Client Authorized", color="green")
     else:
-        with open(credentials_fp, 'rb') as fp:
+        with open(credentials_fp, "rb") as fp:
             cipher_text = fp.read()
 
         while True:
@@ -175,27 +185,35 @@ async def login(ctx, reauthorize, fmt):
             try:
                 plain_text = decrypt(cipher_text, password=password)
             except nacl.exceptions.CryptoError:
-                click.echo("Incorrect Password", err=True, color='red')
+                click.echo("Incorrect Password", err=True, color="red")
             else:
-                access_data = toml.loads(plain_text.decode('utf-8'))
+                access_data = toml.loads(plain_text.decode("utf-8"))
 
                 try:
-                    await test_access_token(access_data['access_token'], http_session=ctx.obj.http)
+                    await test_access_token(
+                        access_data["access_token"], http_session=ctx.obj.http
+                    )
                 except ExpiredAccessToken:
-                    refresh_token = access_data['refresh_token']
+                    refresh_token = access_data["refresh_token"]
                     access_data = await refresh_access_data(refresh_token, ctx=ctx)
-                    encrypted_access_data = encrypt(toml.dumps(access_data).encode('utf-8'), password=password)
+                    encrypted_access_data = encrypt(
+                        toml.dumps(access_data).encode("utf-8"), password=password
+                    )
 
-                    with open(credentials_fp, 'wb+') as fp:
+                    with open(credentials_fp, "wb+") as fp:
                         fp.write(encrypted_access_data)
                 finally:
                     break
 
-    if fmt == 'raw':
+    if fmt == "raw":
         click.echo(access_data["access_token"])
     else:
-        stderr_echo(f'Login Session Active', color='green')
-        click.echo(ENV_SETTER.format(name='MZO_ACCESS_TOKEN', value=access_data["access_token"]))
+        stderr_echo(f"Login Session Active", color="green")
+        click.echo(
+            ENV_SETTER.format(
+                name="MZO_ACCESS_TOKEN", value=access_data["access_token"]
+            )
+        )
 
 
 def stderr_echo(message, color=None, underline=False):
@@ -206,7 +224,7 @@ def stderr_echo(message, color=None, underline=False):
 
 
 def style_url(url):
-    return click.style(url, fg='blue', underline=True)
+    return click.style(url, fg="blue", underline=True)
 
 
 async def authorize(ctx):
@@ -215,46 +233,51 @@ async def authorize(ctx):
         client_id=ctx.obj.client_id,
         client_secret=ctx.obj.client_secret,
         nonce=nonce,
-        http_session=ctx.obj.http)
+        http_session=ctx.obj.http,
+    )
 
     stderr_echo(OAUTH_PROMPT)
     _ = click.prompt(
-        text='Hit [ENTER] to open your browser to authenticate this application to your Monzo account',
-        default='done',
+        text="Hit [ENTER] to open your browser to authenticate this application to your Monzo account",
+        default="done",
         hide_input=True,
         show_default=False,
-        err=True)
+        err=True,
+    )
 
     click.launch(server.auth_request_url)
     pretty_url = style_url(server.auth_request_url)
-    stderr_echo(MANUAL_BROWSER_PROMPT.format(url=pretty_url) + '\n' + SERVER_KILL_PROMPT)
+    stderr_echo(
+        MANUAL_BROWSER_PROMPT.format(url=pretty_url) + "\n" + SERVER_KILL_PROMPT
+    )
 
-    await server.run()
-
+    server_errors = asyncio.Task(server.run())
     user_killed = asyncio.Task(aioconsole.ainput())
     got_access_token = asyncio.Task(server.access_token())
 
-    completed, _ = await asyncio.wait([user_killed, got_access_token], return_when=FIRST_COMPLETED)
+    completed, _ = await asyncio.wait(
+        [server_errors, user_killed, got_access_token], return_when=FIRST_COMPLETED
+    )
 
     if got_access_token in completed:
         return got_access_token.result()
     elif user_killed in completed:
-        stderr_echo('Authentication Canceled', color='red')
+        stderr_echo("Authentication Canceled", color="red")
         ctx.exit(0)
     else:
-        stderr_echo('Error', color='red')
+        stderr_echo("Error", color="red")
         ctx.exit(1)
 
 
 async def select_default_account(ctx):
-    url = 'https://api.monzo.com/accounts'
-    headers = {'Authorization': f'Bearer {ctx.obj.access_token}'}
+    url = "https://api.monzo.com/accounts"
+    headers = {"Authorization": f"Bearer {ctx.obj.access_token}"}
 
     resp = await ctx.obj.http.get(url, headers=headers)
-    accounts = (await resp.json())['accounts']
-    accounts = [a for a in accounts if not a['closed']]
+    accounts = (await resp.json())["accounts"]
+    accounts = [a for a in accounts if not a["closed"]]
 
     if len(accounts) > 1:
-        raise NotImplementedError('cant handle multiple accounts currently')
+        raise NotImplementedError("cant handle multiple accounts currently")
     else:
         return accounts[0]

@@ -4,9 +4,6 @@ from functools import wraps
 
 import click
 
-from mzo.utils import csv
-from mzo.utils.ascii_table import ascii_table
-
 ENV_SETTER = """\
 export {name:}="{value:}"
 # This command is meant to be used with your shell's eval function.
@@ -24,20 +21,25 @@ def async_command(f):
     def wrapper(*args, **kwargs):
         result = f(*args, **kwargs)
         return wait(result)
+
     return wrapper
 
 
-def command(name=None, cls=None, options_metavar='[options]', **attrs):
+def command(name=None, cls=None, options_metavar="[options]", **attrs):
     def decorator(f):
         f = async_command(f)
-        return click.command(name=name, cls=cls, options_metavar=options_metavar, **attrs)(f)
+        return click.command(
+            name=name, cls=cls, options_metavar=options_metavar, **attrs
+        )(f)
+
     return decorator
 
 
-def group(name=None, options_metavar='[options]', **attrs):
+def group(name=None, options_metavar="[options]", **attrs):
     def decorator(f):
         f = async_command(f)
         return click.group(name=name, options_metavar=options_metavar, **attrs)(f)
+
     return decorator
 
 
