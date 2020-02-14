@@ -1,7 +1,8 @@
 import json
 from enum import Enum
 
-from mzo.utils import ascii_table, csv
+from mzo.utils import csv
+from mzo.utils.ascii_table import ascii_table
 from mzo.utils.dict_helpers import unify_dicts
 
 
