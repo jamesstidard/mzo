@@ -11,6 +11,6 @@ def test_authorize():
         input="""
 client_id
 secret
-"""
+access_token"""
     )
     assert result

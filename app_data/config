@@ -1,0 +1,7 @@
+[default]
+account_id = "acc_00009OPxoz4msR6TpLX67F"
+format = "human"
+
+[oauth]
+client_id = "oauth2client_00009s2ch3fajfm7HU5s7V"
+client_secret = "mnzconf.xUNoaqk7TLWc8BsTVW1OSihTsxSbvrFBFHy2kJuh7aLv90CF9SViz0nD4e3DldtaXMc7KvT9VmpgSlT8J0xX"

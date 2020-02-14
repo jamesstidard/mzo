@@ -18,7 +18,9 @@ asyncio.set_event_loop(uvloop.new_event_loop())
 @click.version_option(__version__)
 @click.pass_context
 async def cli(ctx):
-    app_dir = click.get_app_dir("mzo", force_posix=True)
+    default_app_dir = click.get_app_dir("mzo", force_posix=True)
+    app_dir = os.environ.get("MZO_APP_DIR", default_app_dir)
+
     config_fp = os.path.join(app_dir, "config")
 
     client_id = None

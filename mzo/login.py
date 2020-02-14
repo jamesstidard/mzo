@@ -62,6 +62,17 @@ application access to your account.
 Or hit [ENTER] to terminate this process.
 """
 
+
+IN_APP_AUTHENTICATION_PROMPT = """\
+You should now received a push notification on your phone for the application
+asking for permission for this application to access your monzo account.
+
+Accept this request.
+
+Or hit [ENTER] to terminate this process.
+"""
+
+
 PASSWORD_PROMPT = """\
 We want to make sure anyone using your machine can not just send themselves \
 all your money, let's add a password. Keep it secret, keep it safe.
@@ -143,9 +154,8 @@ async def login(ctx, reauthorize, fmt):
         ctx.obj.client_secret = click.prompt("Client Secret", err=True)
         stderr_echo("\nPerfect!\n", color="green")
 
-        access_data = await authorize(ctx)
+        access_data, default_account = await authorize(ctx)
         ctx.obj.access_token = access_data["access_token"]
-        default_account = await select_default_account(ctx)
 
         click.echo(PASSWORD_PROMPT, err=True)
         password = click.prompt(
@@ -254,28 +264,78 @@ async def authorize(ctx):
     await server.run()
 
     user_killed = asyncio.Task(aioconsole.ainput())
-    got_access_token = asyncio.Task(server.access_token())
+    got_access_data = asyncio.Task(server.access_data())
 
     completed, _ = await asyncio.wait(
-        [user_killed, got_access_token], return_when=FIRST_COMPLETED
+        [user_killed, got_access_data], return_when=FIRST_COMPLETED
     )
 
-    if got_access_token in completed:
-        return got_access_token.result()
+    if got_access_data in completed:
+        access_data = got_access_data.result()
+
+        stderr_echo(IN_APP_AUTHENTICATION_PROMPT)
+        got_user = asyncio.Task(retry(
+            select_default_account,
+            kwargs=dict(http=ctx.obj.http, access_token=access_data["access_token"]),
+            allowed_exceptions=InsufficientPermissions,
+        ))
+
+        completed, _ = await asyncio.wait(
+            [user_killed, got_user], return_when=FIRST_COMPLETED
+        )
+
+        if user_killed in completed:
+            stderr_echo("Authentication Canceled", color="red")
+            ctx.exit(0)
+        elif got_user in completed:
+            default_user = got_user.result()
+            return access_data, default_user
+        else:
+            stderr_echo("Unhandled Condition", color="red")
+            ctx.exit(1)
+
     elif user_killed in completed:
         stderr_echo("Authentication Canceled", color="red")
         ctx.exit(0)
     else:
-        stderr_echo("Error", color="red")
+        stderr_echo("Unhandled Condition", color="red")
         ctx.exit(1)
 
 
-async def select_default_account(ctx):
-    url = "https://api.monzo.com/accounts"
-    headers = {"Authorization": f"Bearer {ctx.obj.access_token}"}
+async def retry(
+    fn, *, args=(), kwargs=(), limit=None, allowed_exceptions=Exception, sleep=0
+):
+    args = list(args)
+    kwargs = dict(kwargs)
 
-    resp = await ctx.obj.http.get(url, headers=headers)
-    accounts = (await resp.json())["accounts"]
+    attempt = 1
+    while True:
+        try:
+            return await fn(*args, **kwargs)
+        except allowed_exceptions:
+            if limit and limit > attempt:
+                return
+            elif limit:
+                limit += 1
+
+            await asyncio.sleep(sleep)
+
+
+class InsufficientPermissions(Exception):
+    pass
+
+
+async def select_default_account(*, http, access_token):
+    url = "https://api.monzo.com/accounts"
+    headers = {"Authorization": f"Bearer {access_token}"}
+
+    resp = await http.get(url, headers=headers)
+    body = await resp.json()
+
+    if body.get("code") == "forbidden.insufficient_permissions":
+        raise InsufficientPermissions(body)
+
+    accounts = body["accounts"]
     accounts = [a for a in accounts if not a["closed"]]
 
     if len(accounts) > 1:

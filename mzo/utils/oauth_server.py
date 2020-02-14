@@ -16,7 +16,7 @@ class OAuthServer:
         self.client_secret = client_secret
         self.nonce = nonce
         self._oauth_complete = Event()
-        self._access_token = None
+        self._access_data = None
 
         @self.app.route("/favicon.ico")
         def ignore_favicon(_):
@@ -39,9 +39,9 @@ class OAuthServer:
                     "code": request.args["code"][0],
                 },
             )
-            self._access_token = await resp.json()
+            self._access_data = await resp.json()
             self._oauth_complete.set()
-            return text("Authenticated.")
+            return text("Authenticated. Back to the terminal with you.")
 
     @property
     def auth_request_url(self):
@@ -54,8 +54,10 @@ class OAuthServer:
         return f"https://auth.monzo.com?{urlencode(params)}"
 
     async def run(self):
-        return self.app.create_server(host="localhost", port=40004, access_log=False)
+        return await self.app.create_server(
+            host="localhost", port=40004, access_log=False, return_asyncio_server=True
+        )
 
-    async def access_token(self):
+    async def access_data(self):
         await self._oauth_complete.wait()
-        return self._access_token
+        return self._access_data
