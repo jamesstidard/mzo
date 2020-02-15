@@ -44,7 +44,7 @@ $ mzo balance
 | 💰 Total           | 1337.00 |
 +--------------------+---------+
 
-$ mzo pots deposit 50 --into disposable
+$ mzo pots move 50 --into disposable
 +--------------------+---------+---------+
 | Name               | Current |   Final |
 +--------------------+---------+---------+

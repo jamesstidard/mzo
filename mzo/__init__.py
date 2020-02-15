@@ -16,6 +16,7 @@ class ContextObject:
 from mzo.utils import group, command  # NOQA: E402, F401
 from mzo import types, arguments, options  # NOQA: E402, F401
 from mzo.balance import balance  # NOQA: E402, F401
+from mzo.pots import pots  # NOQA: E402, F401
 from mzo.transactions import transactions  # NOQA: E402, F401
 from mzo.login import login  # NOQA: E402, F401
 from mzo.logout import logout  # NOQA: E402, F401

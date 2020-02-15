@@ -71,6 +71,7 @@ cli.add_command(mzo.balance)
 
 if os.environ.get("MZO_PRERELEASE") == "1":
     cli.add_command(mzo.transactions)
+    cli.add_command(mzo.pots)
 
 
 def main():

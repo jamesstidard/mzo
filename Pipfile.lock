@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "c5cb05667a4004fb54d17c3722c1c43f983874c4bf74a4011cf434810813103d"
+            "sha256": "0666e47a5a2dc6a708194c55845e645b58d332aa28211b94a7a2fb7223af13d0"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -114,6 +114,17 @@
             "index": "pypi",
             "version": "==7.0"
         },
+        "fuzzywuzzy": {
+            "extras": [
+                "speedup"
+            ],
+            "hashes": [
+                "sha256:45016e92264780e58972dca1b3d939ac864b78437422beecebb3095f8efd00e8",
+                "sha256:928244b28db720d1e0ee7587acf660ea49d7e4c632569cad4f1cd7e68a5f0993"
+            ],
+            "index": "pypi",
+            "version": "==0.18.0"
+        },
         "h11": {
             "hashes": [
                 "sha256:acca6a44cb52a32ab442b1779adf0875c443c689e9e028f8d831a3769f9c5208",
@@ -137,9 +148,9 @@
         },
         "hstspreload": {
             "hashes": [
-                "sha256:e1fc3184ddf1c8b1af7143b28d76cf648fe385cf29b6d4e7bc9d8fbab98867be"
+                "sha256:cfe1e9f4f01a787b8796e86fb60ff410364f46c7e854bd6270acdddb04ce1650"
             ],
-            "version": "==2020.2.5"
+            "version": "==2020.2.15"
         },
         "httptools": {
             "hashes": [
@@ -252,6 +263,12 @@
             ],
             "index": "pypi",
             "version": "==2.8.1"
+        },
+        "python-levenshtein": {
+            "hashes": [
+                "sha256:033a11de5e3d19ea25c9302d11224e1a1898fe5abd23c61c7c360c25195e3eb1"
+            ],
+            "version": "==0.12.0"
         },
         "rfc3986": {
             "hashes": [

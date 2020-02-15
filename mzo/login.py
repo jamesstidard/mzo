@@ -330,10 +330,11 @@ async def select_default_account(*, http, access_token):
     headers = {"Authorization": f"Bearer {access_token}"}
 
     resp = await http.get(url, headers=headers)
-    body = await resp.json()
 
-    if body.get("code") == "forbidden.insufficient_permissions":
-        raise InsufficientPermissions(body)
+    if resp.status == 401:
+        raise InsufficientPermissions()
+
+    body = await resp.json()
 
     accounts = body["accounts"]
     accounts = [a for a in accounts if not a["closed"]]

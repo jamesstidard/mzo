@@ -17,6 +17,7 @@ terminaltables = "*"
 ordered-set = "*"
 python-dateutil = "*"
 mzo = {editable = true,path = "."}
+fuzzywuzzy = {extras = ["speedup"],version = "*"}
 
 [dev-packages]
 twine = "*"
