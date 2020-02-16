@@ -182,7 +182,8 @@ async def move(ctx, amount, from_, into, auto_yes, fmt: Format):
             )
             ctx.exit(1)
 
-    click.echo("Transfer successful!", color="green", err=True)
+    msg = click.style("Transfer successful!", fg="green")
+    click.echo(msg, err=True)
 
 
 pots.add_command(move)
