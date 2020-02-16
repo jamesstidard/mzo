@@ -31,6 +31,7 @@ REQUIRED = [
     'pynacl',
     'terminaltables',
     'ordered-set',
+    'fuzzywuzzy[speedup]'
 ]
 
 # The rest you shouldn't have to touch too much :)
