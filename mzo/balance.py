@@ -5,6 +5,7 @@ import click
 
 import mzo.utils.authentication
 from mzo.utils.formats import Format
+from mzo.utils.emoji import STYLE_EMOJI, CURRENT_ACCOUNT_EMOJI, ACCOUNT_TOTAL_EMOJI
 
 
 @mzo.command(short_help="View account's current balance.")
@@ -24,29 +25,17 @@ async def balance(ctx, fmt: Format):
 
     balance_, pots = await asyncio.gather(balance_resp.json(), pots_resp.json(),)
 
-    def style_emoji(p):
-        return {
-            "cassette": "📼",
-            "balls": "🎾",
-            "beach_ball": "🏖",
-            "rain": "☔",
-            "fairy_lights": "💡",
-            "yacht": "⛵",
-            "piggy_bank": "🐷",
-            "window": "🏠",
-        }.get(p["style"], "🍯")
-
     rows = [
         {
             "name": "Current Account",
             "balance": f'{balance_["balance"]/100:.2f}',
-            "emoji": "💸",
+            "emoji": CURRENT_ACCOUNT_EMOJI,
         },
         *[
             {
                 "name": p["name"],
                 "balance": f'{p["balance"]/100:.2f}',
-                "emoji": style_emoji(p),
+                "emoji": STYLE_EMOJI[p["style"]],
             }
             for p in pots["pots"]
             if not p["deleted"]
@@ -54,7 +43,7 @@ async def balance(ctx, fmt: Format):
         {
             "name": "Total",
             "balance": f'{balance_["total_balance"]/100:.2f}',
-            "emoji": "💰",
+            "emoji": ACCOUNT_TOTAL_EMOJI,
         },
     ]
 

@@ -148,9 +148,19 @@ $ mzo balance
 For full documentation check out `mzo balance --help`.
 
 ## Transactions
+::: warning
+Work in progress. Available by setting `MZO_PRERELEASE=1` in terminal session's
+environment variables.
+:::
+
 coming soon.
 
 ## Pots
+::: warning
+Work in progress. Available by setting `MZO_PRERELEASE=1` in terminal session's
+environment variables.
+:::
+
 coming soon.
 
 ## Formats
