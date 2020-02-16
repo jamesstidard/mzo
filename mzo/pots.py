@@ -146,9 +146,14 @@ async def move(ctx, amount, from_, into, auto_yes, fmt: Format):
     output = fmt.dumps(preview, keys=key_order, justify_columns=justify_columns)
     click.echo(output)
 
-    click.confirm(
-        "\nConfirm this transfer", default=False, show_default=True, abort=True, err=True
-    )
+    if not auto_yes:
+        click.confirm(
+            "\nConfirm this transfer",
+            default=False,
+            show_default=True,
+            abort=True,
+            err=True,
+        )
 
     if from_ != current_account:
         withdraw_resp = await ctx.obj.http.put(
@@ -182,7 +187,7 @@ async def move(ctx, amount, from_, into, auto_yes, fmt: Format):
             )
             ctx.exit(1)
 
-    msg = click.style("Transfer successful!", fg="green")
+    msg = click.style("Transfer Successful", fg="green")
     click.echo(msg, err=True)
 
 
