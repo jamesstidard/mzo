@@ -30,3 +30,6 @@ black = "*"
 
 [pipenv]
 allow_prereleases = true
+
+[scripts]
+deploy_hombrew = "python scripts/deploy_homebrew.py"

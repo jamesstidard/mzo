@@ -86,15 +86,16 @@ with TemporaryDirectory() as td:
             os.system("pipenv install --dev")
 
             # wait for mzo to be available on pypi
-            print("Waiting for release to be visible on PyPI...")
+            pypi_url = f"https://pypi.org/project/mzo/{mzo_version}/"
+            print(f"Waiting for release to be visible on PyPI... {pypi_url}")
+
             while True:
                 try:
-                    urllib.request.urlopen(
-                        f"https://pypi.org/project/mzo/{mzo_version}/"
-                    )
+                    urllib.request.urlopen(pypi_url)
                 except urllib.error.HTTPError:
                     time.sleep(5)
                 else:
+                    print(f"Found PyPi release")
                     break
 
             resources = subprocess.check_output(
