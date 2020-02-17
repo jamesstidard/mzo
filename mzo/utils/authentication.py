@@ -140,4 +140,6 @@ async def refresh_access_data(refresh_token, *, ctx):
         if 200 <= resp.status < 300:
             return payload
         else:
-            click.Abort(payload["message"])
+            msg = click.style(payload["message"], fg="red")
+            click.echo(msg, err=True)
+            ctx.exit(1)

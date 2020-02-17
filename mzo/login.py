@@ -314,7 +314,7 @@ async def retry(
             return await fn(*args, **kwargs)
         except allowed_exceptions:
             if limit and limit > attempt:
-                return
+                raise TimeoutError()
             elif limit:
                 limit += 1
 
@@ -331,8 +331,10 @@ async def select_default_account(*, http, access_token):
 
     resp = await http.get(url, headers=headers)
 
-    if resp.status == 401:
+    if resp.status == 403:
         raise InsufficientPermissions()
+    elif resp.status != 200:
+        raise RuntimeError(resp)
 
     body = await resp.json()
 
