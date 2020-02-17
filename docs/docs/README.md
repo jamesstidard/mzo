@@ -9,7 +9,7 @@ addressable with the name `mzo`.
 Each command can be invoked with the `--help` option which can be used to
 explore all available commands/options.
 
-```bash
+```
 $ mzo --help
 Usage: mzo [options] COMMAND [ARGS]...
 
