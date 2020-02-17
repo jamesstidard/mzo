@@ -153,7 +153,21 @@ Work in progress. Available by setting `MZO_PRERELEASE=1` in terminal session's
 environment variables.
 :::
 
-coming soon.
+List historic transactions.
+
+```bash
+$ mzo transactions
++------------------+----------------------------------+----------+---------------+
+| Created          | Name                             | Amount   | Category      |
++------------------+----------------------------------+----------+---------------+
+| ...              | ...                              | ...      | ...           |
+| Sun 16 February  | You Wish                         | +100.00  | General       |
+| Sun 16 February  | Amazon                           | 12.99    | Shopping      |
+| Mon 17 February  | Sainsbury's                      | 24.61    | Groceries     |
++------------------+----------------------------------+----------+---------------+
+```
+
+For full documentation check out `mzo transactions --help`.
 
 ## Pots
 ::: warning
@@ -161,7 +175,30 @@ Work in progress. Available by setting `MZO_PRERELEASE=1` in terminal session's
 environment variables.
 :::
 
-coming soon.
+Transfer money between pots and your current account. You can directly transfer from
+one pot to another, and `mzo` will make to transfers `Pot 1 -> Current Account -> Pot 2`.
+
+If only a `--from` or `--into` account is provided, the destination or source, 
+respectively, is assumed to be your current account.
+
+The pot names provided are also fuzzy matched, so don't worry about getting exactly the
+right name for the pot. If you have a pot called "Bike Fund", for example, try
+something like `mzo pots move 100 --into bike`.
+
+```bash
+$ mzo pots move 50 --into disposable
++--------------------+---------+---------+
+| Name               | Current |   Final |
++--------------------+---------+---------+
+| 💸 Current Account | 1337.00 | 1287.00 |
+| 🎾 Disposable      |    0.00 |   50.00 |
++--------------------+---------+---------+
+
+Confirm this transfer [y/N]: y
+Transfer Successful
+```
+
+For full documentation check out `mzo pots move --help`.
 
 ## Formats
 Most commands support different output formats like `human`, `csv`, and `json`.
