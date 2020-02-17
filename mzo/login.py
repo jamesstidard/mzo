@@ -79,7 +79,7 @@ all your money, let's add a password. Keep it secret, keep it safe.
 """
 
 
-@mzo.command(short_help="Authorization & session management")
+@mzo.command(short_help="Authorization & session management.")
 @click.option(
     "-f",
     "--format",

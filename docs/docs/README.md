@@ -14,12 +14,15 @@ $ mzo --help
 Usage: mzo [options] COMMAND [ARGS]...
 
 Options:
-  --help  Show this message and exit.
+  --version  Show the version and exit.
+  --help     Show this message and exit.
 
 Commands:
-  balance  View account's current balance.
-  login    Authorization & session management
-  logout   Logout of authenticated session.
+  balance       View account's current balance.
+  login         Authorization & session management.
+  logout        Logout of authenticated session.
+  pots          View and manage your pots.
+  transactions  View account's current balance.
 ```
 
 The installation, set-up process, and usage should be accessible enough
