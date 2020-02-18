@@ -37,7 +37,8 @@ with TemporaryDirectory() as td:
         tar_release_sha256 = hashlib.sha256(fp.read()).hexdigest()
 
     os.system(f"git clone git@github.com:jamesstidard/mzo-cli")
-    with change_dir("mzo-cli"):
+
+    with change_dir(td):
         snap = SNAPCRAFT_TMPL.format(version=version, sha256=tar_release_sha256)
 
         with open("snapcraft.yaml", "w") as fp:
