@@ -1,5 +1,5 @@
 name: mzo
-version: '{version:}'
+version: "{version:}"
 summary: A command-line interface to your monzo account.
 description: |
   This is a third-party, command-line tool which allows
@@ -22,6 +22,6 @@ parts:
     source: https://github.com/jamesstidard/Mzo-Cli/archive/v{version:}.tar.gz
     source-checksum: sha256/{sha256:}
     override-pull: |
-        snapcraftctl pull
-        pip install --user pipenv
-        pipenv lock --requirements > requirements.txt
+      snapcraftctl pull
+      pip install --user pipenv
+      pipenv lock --requirements > requirements.txt
