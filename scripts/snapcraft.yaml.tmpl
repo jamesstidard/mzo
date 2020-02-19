@@ -8,8 +8,8 @@ description: |
   you balance, move money between pots, view transaction
   history, etc.
 
-grade: devel # must be 'stable' to release into candidate/stable channels
-confinement: devmode # use 'strict' once you have the right plugs and slots
+grade: stable # must be 'stable' to release into candidate/stable channels
+confinement: strict # use 'strict' once you have the right plugs and slots
 
 apps:
   mzo:
@@ -23,4 +23,4 @@ parts:
     source: https://github.com/jamesstidard/Mzo-Cli/archive/v{version:}.tar.gz
     source-checksum: sha256/{sha256:}
     requirements:
-      - requirements.txt
+      - snapcraft-requirements.txt

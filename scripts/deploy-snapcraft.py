@@ -41,7 +41,7 @@ with TemporaryDirectory() as td:
         os.system(f"git clone git@github.com:jamesstidard/mzo-cli")
 
         with change_dir(os.path.join(td, "mzo-cli")):
-            os.system("pipenv lock --requirements > requirements.txt")
+            os.system("pipenv lock --requirements > snapcraft-requirements.txt")
 
             snap = SNAPCRAFT_TMPL.format(version=version, sha256=tar_release_sha256,)
 
