@@ -1,5 +1,6 @@
 name: mzo
-version: '0.2.2'
+base: core18
+version: "0.2.2"
 summary: A command-line interface to your monzo account.
 description: |
   This is a third-party, command-line tool which allows
@@ -22,6 +23,6 @@ parts:
     source: https://github.com/jamesstidard/Mzo-Cli/archive/v0.2.2.tar.gz
     source-checksum: sha256/0bc7be266fb5a9ab49d0ddb08a1dbbf0b9913edfe8ff1cc9b183f1a88bd4f424
     override-pull: |
-        snapcraftctl pull
-        pip install --user pipenv
-        pipenv lock --requirements > requirements.txt
+      snapcraftctl pull
+      pip install --user pipenv
+      pipenv lock --requirements > requirements.txt
