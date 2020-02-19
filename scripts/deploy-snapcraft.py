@@ -1,5 +1,6 @@
 import os
 import hashlib
+import subprocess
 
 from tempfile import TemporaryDirectory
 from contextlib import contextmanager
@@ -40,7 +41,20 @@ with TemporaryDirectory() as td:
         os.system(f"git clone git@github.com:jamesstidard/mzo-cli")
 
         with change_dir(os.path.join(td, "mzo-cli")):
-            snap = SNAPCRAFT_TMPL.format(version=version, sha256=tar_release_sha256)
+            requirements = subprocess.check_output(
+                "pipenv lock --requirements", shell=True
+            )
+            requirements = [
+                r.split(";")[0].strip()
+                for r in requirements.decode("utf8").split("\n")
+                if r and not r.startswith("-")
+            ]
+
+            snap = SNAPCRAFT_TMPL.format(
+                version=version,
+                sha256=tar_release_sha256,
+                requirements="\n      - ".join(requirements),
+            )
 
             with open("snapcraft.yaml", "w") as fp:
                 fp.write(snap)
