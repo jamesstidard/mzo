@@ -38,12 +38,11 @@ with TemporaryDirectory() as td:
 
     os.system(f"git clone git@github.com:jamesstidard/mzo-cli")
 
-    with change_dir(td):
-        snap = SNAPCRAFT_TMPL.format(version=version, sha256=tar_release_sha256)
+    snap = SNAPCRAFT_TMPL.format(version=version, sha256=tar_release_sha256)
 
-        with open("snapcraft.yaml", "w") as fp:
-            fp.write(snap)
+    with open("snapcraft.yaml", "w") as fp:
+        fp.write(snap)
 
-        os.system("git add .")
-        os.system(f'git commit -m "snap v{version}"')
-        os.system("git push origin master")
+    os.system("git add .")
+    os.system(f'git commit -m "snap v{version}"')
+    os.system("git push origin master")
