@@ -22,39 +22,5 @@ parts:
     python-version: python3
     source: https://github.com/jamesstidard/Mzo-Cli/archive/v0.2.4.tar.gz
     source-checksum: sha256/e4f483ae2c7756f07e6832175e84ef5864646f4a01f95f13ddfa44903328acc7
-    stage-packages:
-      - aioconsole
-      - aiofiles
-      - aiohttp
-      - async-timeout
-      - attrs
-      - certifi
-      - cffi
-      - chardet
-      - click
-      - fuzzywuzzy[speedup]
-      - h11
-      - h2
-      - hpack
-      - hstspreload
-      - httptools
-      - httpx
-      - hyperframe
-      - idna
-      - multidict
-      - ordered-set
-      - pycparser
-      - pynacl
-      - python-dateutil
-      - python-levenshtein
-      - rfc3986
-      - sanic
-      - six
-      - sniffio
-      - terminaltables
-      - toml
-      - typing-extensions
-      - ujson
-      - uvloop
-      - websockets
-      - yarl
+    requirements:
+      - requirements.txt
