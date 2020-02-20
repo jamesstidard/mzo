@@ -1,6 +1,6 @@
 name: mzo
 base: core18
-version: "0.2.6"
+version: "0.2.7"
 summary: A command-line interface to your monzo account.
 description: |
   This is a third-party, command-line tool which allows
@@ -20,7 +20,6 @@ parts:
   mzo:
     plugin: python
     python-version: python3
-    source: https://github.com/jamesstidard/Mzo-Cli/archive/v0.2.6.tar.gz
-    source-checksum: sha256/5072b3798ecd272e02d4b256d0450b1722028e63e7dbf48f23270657836de1ae
-    requirements:
-      - snapcraft-requirements.txt
+    source: https://github.com/jamesstidard/Mzo-Cli/archive/v0.2.7.tar.gz
+    source-checksum: sha256/ce6b67e451be708bed09b766131dd2d8aba0820f24bec504ff6dc4807b1fbaf7
+    requirements: snapcraft-requirements.txt
