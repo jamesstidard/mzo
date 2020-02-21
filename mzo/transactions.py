@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import click
 
+from datetime import datetime
+
+from dateutil.relativedelta import relativedelta
 from dateutil.parser import parse as iso8601_parse
 
 import mzo.utils.authentication
@@ -12,7 +15,11 @@ from mzo.utils.formats import Format
 @mzo.options.fmt()
 @mzo.utils.authentication.authenticated
 async def transactions(ctx, fmt: Format):
-    params = {"account_id": ctx.obj.account_id, "expand[]": "merchant"}
+    params = {
+        "account_id": ctx.obj.account_id,
+        "expand[]": "merchant",
+        "since": (datetime.now() - relativedelta(days=30)).isoformat() + "Z",  # strong auth in last 5 mins is needed for >90
+    }
 
     resp = await ctx.obj.http.get("https://api.monzo.com/transactions", params=params)
     payload = await resp.json()
