@@ -3,8 +3,8 @@ name: Continuous Integration
 on: [push]
 
 jobs:
-  build:
-    name: Ubuntu Tests
+  build_and_test:
+    name: Ubuntu Build & Test
     runs-on: ubuntu-latest
     strategy:
       matrix:
