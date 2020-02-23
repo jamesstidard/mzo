@@ -25,12 +25,12 @@ REQUIRED = [
     "click",
     "aiohttp",
     "aioconsole",
-    "python-dateutil",
     "sanic",
     "toml",
     "pynacl",
     "terminaltables",
     "ordered-set",
+    "python-dateutil",
     "fuzzywuzzy[speedup]",
 ]
 
