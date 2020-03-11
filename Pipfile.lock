@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "0666e47a5a2dc6a708194c55845e645b58d332aa28211b94a7a2fb7223af13d0"
+            "sha256": "277a6770aa1ad1f022788783afa8c29da6defcdd066806ae21bb4fbdf0b6f0c8"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -185,10 +185,11 @@
         },
         "idna": {
             "hashes": [
-                "sha256:7588d1c14ae4c77d74036e8c22ff447b26d0fde8f007354fd48a7814db15b7cb",
-                "sha256:a068a21ceac8a4d63dbfd964670474107f541babbd2250d61922f029858365fa"
+                "sha256:c357b3f628cf53ae2c4c05627ecc484553142ca23264e593d327bcde5e9c3407",
+                "sha256:ea8b7f6188e6fa117537c3df7da9fc686d485087abf6ac197f9c46432f7e4a3c"
             ],
-            "version": "==2.9"
+            "index": "pypi",
+            "version": "==2.8"
         },
         "multidict": {
             "hashes": [
@@ -479,10 +480,11 @@
         },
         "idna": {
             "hashes": [
-                "sha256:7588d1c14ae4c77d74036e8c22ff447b26d0fde8f007354fd48a7814db15b7cb",
-                "sha256:a068a21ceac8a4d63dbfd964670474107f541babbd2250d61922f029858365fa"
+                "sha256:c357b3f628cf53ae2c4c05627ecc484553142ca23264e593d327bcde5e9c3407",
+                "sha256:ea8b7f6188e6fa117537c3df7da9fc686d485087abf6ac197f9c46432f7e4a3c"
             ],
-            "version": "==2.9"
+            "index": "pypi",
+            "version": "==2.8"
         },
         "jinja2": {
             "hashes": [

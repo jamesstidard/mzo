@@ -32,6 +32,7 @@ REQUIRED = [
     "ordered-set",
     "python-dateutil",
     "fuzzywuzzy[speedup]",
+    "idna<2.9",
 ]
 
 # The rest you shouldn't have to touch too much :)
@@ -89,7 +90,7 @@ class UploadCommand(Command):
         os.system("git tag v{0}".format(about["__version__"]))
         os.system("git push --tags")
 
-        sys.exit()
+        sys.exit(0)
 
 
 # Where the magic happens:
