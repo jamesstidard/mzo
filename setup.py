@@ -31,7 +31,7 @@ REQUIRED = [
     "terminaltables",
     "ordered-set",
     "python-dateutil",
-    "fuzzywuzzy[speedup]",
+    "rapidfuzz",
     "idna<2.9",
 ]
 

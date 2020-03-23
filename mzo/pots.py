@@ -4,7 +4,7 @@ import asyncio
 
 import click
 
-from fuzzywuzzy import process
+from rapidfuzz import process
 
 import mzo.utils.authentication
 from mzo.utils.formats import Format

@@ -9,7 +9,7 @@ certifi==2019.11.28
 cffi==1.14.0
 chardet==3.0.4
 click==7.0
-fuzzywuzzy[speedup]==0.18.0
+rapidfuzz==0.2.2
 h11==0.8.1
 h2==3.2.0
 hpack==3.0.0

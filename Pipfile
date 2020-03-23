@@ -17,7 +17,7 @@ terminaltables = "*"
 ordered-set = "*"
 python-dateutil = "*"
 mzo = {editable = true,path = "."}
-fuzzywuzzy = {extras = ["speedup"],version = "*"}
+rapidfuzz = "*"
 idna = "<2.9"  # temp: requests requiring <2.9
 
 [dev-packages]
