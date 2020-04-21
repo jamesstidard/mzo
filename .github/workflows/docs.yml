@@ -9,6 +9,7 @@ on:
     paths:
       - docs/**
 env:
+  RELEASE_NAME: ${{ github.ref }}
   PIPENV_VENV_IN_PROJECT: true
 jobs:
   build-docs:
@@ -21,4 +22,4 @@ jobs:
       - id: building_docs
         run: npm run docs:build
       - id: deploying_docs
-        run: cp -R docs/.vuepress/dist ~/Desktop/output
+        run: cp -R docs/.vuepress/dist ~/Desktop/output/${RELEASE_NAME}
