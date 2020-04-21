@@ -9,7 +9,7 @@ on:
     paths:
       - docs/**
 env:
-  RELEASE_NAME: ${{ github.ref }}
+  RELEASE_NAME: ${${{ github.ref }}#*/*/}
   PIPENV_VENV_IN_PROJECT: true
 jobs:
   build-docs:
