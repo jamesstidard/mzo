@@ -1,0 +1,24 @@
+name: Docs
+on:
+  push:
+    branches:
+      - master
+      - dev
+    tags:
+      - v*
+    paths:
+      - docs/**
+env:
+  PIPENV_VENV_IN_PROJECT: true
+jobs:
+  build-docs:
+    name: Building Docs
+    runs-on: [self-hosted, macos-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - id: creating virtual environment
+        run: npm install
+      - id: building docs
+        run: npm run docs:build
+      - id: deploying docs
+        run: cp -R docs/.vuepress/dist ~/Desktop/output
