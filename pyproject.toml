@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mzo"
-version = "0.3.2"
+version = "0.3.3"
 description = "A simple command line interface to your monzo account."
 authors = ["James Stidard <james@stidard.com>"]
 license = "MIT"
