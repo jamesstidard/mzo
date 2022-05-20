@@ -7,9 +7,7 @@ def unify_dicts(dicts, *, key_order=None, fill=None):
     if not key_order:
         key_order = OrderedSet(k for d in dicts for k in d.keys())
 
-    filtered_dicts = [
-        {k: v for k, v in d.items() if k in key_order} for d in dicts
-    ]
+    filtered_dicts = [{k: v for k, v in d.items() if k in key_order} for d in dicts]
 
     empty_template = {k: fill for k in key_order}
     filled_dicts = [{**empty_template, **d} for d in filtered_dicts]

@@ -1,14 +1,16 @@
 import os
 import re
 import time
-import hashlib
 import tarfile
+import hashlib
 import subprocess
-import urllib.error
 import urllib.request
+import urllib.error
 from datetime import datetime
+
 from tempfile import TemporaryDirectory
 from contextlib import contextmanager
+
 
 TAP_TEMPLATE = """
 class Mzo < Formula

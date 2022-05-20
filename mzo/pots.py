@@ -3,11 +3,12 @@ import uuid
 import asyncio
 
 import click
+
 from fuzzywuzzy import process
 
 import mzo.utils.authentication
-from mzo.utils.emoji import STYLE_EMOJI, CURRENT_ACCOUNT_EMOJI
 from mzo.utils.formats import Format
+from mzo.utils.emoji import STYLE_EMOJI, CURRENT_ACCOUNT_EMOJI
 
 
 @click.group(short_help="View and manage your pots.")
@@ -18,8 +19,7 @@ def pots():
 @mzo.command(short_help="Deposit/withdraw from your pots.")
 @click.pass_context
 @click.argument(
-    "amount",
-    type=click.FloatRange(min=0.01),
+    "amount", type=click.FloatRange(min=0.01),
 )
 @click.option(
     "-f",
@@ -56,9 +56,7 @@ async def move(ctx, amount, from_, into, auto_yes, fmt: Format):
         "account_id": ctx.obj.account_id,
     }
 
-    balance_req = ctx.obj.http.get(
-        url="https://api.monzo.com/balance", params=params
-    )
+    balance_req = ctx.obj.http.get(url="https://api.monzo.com/balance", params=params)
     pots_req = ctx.obj.http.get(url="https://api.monzo.com/pots", params=params)
 
     balance_resp, pots_resp = await asyncio.gather(balance_req, pots_req)

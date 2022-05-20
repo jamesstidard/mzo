@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
+import click
+
 from datetime import datetime
 
-import click
-from dateutil.parser import parse as iso8601_parse
 from dateutil.relativedelta import relativedelta
+from dateutil.parser import parse as iso8601_parse
 
 import mzo.utils.authentication
 from mzo.utils.formats import Format
@@ -17,21 +18,16 @@ async def transactions(ctx, fmt: Format):
     params = {
         "account_id": ctx.obj.account_id,
         "expand[]": "merchant",
-        "since": (datetime.now() - relativedelta(days=30)).isoformat()
-        + "Z",  # strong auth in last 5 mins is needed for >90
+        "since": (datetime.now() - relativedelta(days=30)).isoformat() + "Z",  # strong auth in last 5 mins is needed for >90
     }
 
-    resp = await ctx.obj.http.get(
-        "https://api.monzo.com/transactions", params=params,
-    )
+    resp = await ctx.obj.http.get("https://api.monzo.com/transactions", params=params)
     payload = await resp.json()
     key_order = ["created", "name", "amount", "category"]
     transactions_ = [
         {
             "created": t["created"],
-            "name": f"{t['merchant']['name']}"
-            if t["merchant"]
-            else t["description"],
+            "name": f"{t['merchant']['name']}" if t["merchant"] else t["description"],
             "amount": t["amount"] / 100,
             "category": t["category"].replace("_", " ").title(),
         }

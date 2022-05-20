@@ -1,5 +1,6 @@
 from collections import defaultdict
 
+
 CURRENT_ACCOUNT_EMOJI = "💸"
 ACCOUNT_TOTAL_EMOJI = "💰"
 

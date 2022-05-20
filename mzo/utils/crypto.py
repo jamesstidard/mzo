@@ -1,7 +1,7 @@
-import nacl.hash
-import nacl.secret
 import nacl.encoding
 import nacl.exceptions
+import nacl.hash
+import nacl.secret
 
 
 def encrypt(data, *, password):

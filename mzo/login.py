@@ -1,24 +1,24 @@
-import os
-import sys
 import asyncio
+import os
 import secrets
+import sys
 from asyncio import FIRST_COMPLETED
 from contextlib import redirect_stdout
 
-import toml
-import click
 import aioconsole
+import click
 import nacl.exceptions
+import toml
 
 import mzo
 from mzo.utils import ENV_SETTER
-from mzo.utils.crypto import decrypt, encrypt
-from mzo.utils.oauth_server import OAuthServer
 from mzo.utils.authentication import (
     ExpiredAccessToken,
-    test_access_token,
     refresh_access_data,
+    test_access_token,
 )
+from mzo.utils.crypto import decrypt, encrypt
+from mzo.utils.oauth_server import OAuthServer
 
 OAUTH_APPLICATION_PROMPT = f"""\
 Monzo currently have a limit on how many users a single developer can have \
@@ -147,9 +147,7 @@ async def login(ctx, reauthorize, fmt):
 
         click.launch(MONZO_OAUTH_CLIENT_CONSOLE_URL)
         stderr_echo(
-            MANUAL_BROWSER_PROMPT.format(
-                url=style_url(MONZO_OAUTH_CLIENT_CONSOLE_URL)
-            )
+            MANUAL_BROWSER_PROMPT.format(url=style_url(MONZO_OAUTH_CLIENT_CONSOLE_URL))
         )
 
         ctx.obj.client_id = click.prompt("Client ID", err=True)
@@ -187,7 +185,7 @@ async def login(ctx, reauthorize, fmt):
                 fp,
             )
 
-        stderr_echo("Client Authorized", color="green")
+        stderr_echo(f"Client Authorized", color="green")
     else:
         with open(credentials_fp, "rb") as fp:
             cipher_text = fp.read()
@@ -207,12 +205,9 @@ async def login(ctx, reauthorize, fmt):
                     )
                 except ExpiredAccessToken:
                     refresh_token = access_data["refresh_token"]
-                    access_data = await refresh_access_data(
-                        refresh_token, ctx=ctx
-                    )
+                    access_data = await refresh_access_data(refresh_token, ctx=ctx)
                     encrypted_access_data = encrypt(
-                        toml.dumps(access_data).encode("utf-8"),
-                        password=password,
+                        toml.dumps(access_data).encode("utf-8"), password=password
                     )
 
                     with open(credentials_fp, "wb+") as fp:
@@ -226,14 +221,13 @@ async def login(ctx, reauthorize, fmt):
         stderr_echo(f"Login Session Active", color="green")
         click.echo(
             ENV_SETTER.format(
-                name="MZO_ACCESS_TOKEN",
-                value=access_data["access_token"],
-            ),
+                name="MZO_ACCESS_TOKEN", value=access_data["access_token"]
+            )
         )
 
 
 def stderr_echo(message, color=None, underline=False):
-    """All output needs to be over stderr for prompts to show in eval."""
+    """ All output needs to be over stderr for prompts to show in eval. """
     message = click.style(message, fg=color, underline=underline)
     with redirect_stdout(sys.stderr):
         click.echo(message=message)
@@ -280,20 +274,14 @@ async def authorize(ctx):
         access_data = got_access_data.result()
 
         stderr_echo(IN_APP_AUTHENTICATION_PROMPT)
-        got_user = asyncio.Task(
-            retry(
-                select_default_account,
-                kwargs={
-                    "http": ctx.obj.http,
-                    "access_token": access_data["access_token"],
-                },
-                allowed_exceptions=InsufficientPermissions,
-            )
-        )
+        got_user = asyncio.Task(retry(
+            select_default_account,
+            kwargs=dict(http=ctx.obj.http, access_token=access_data["access_token"]),
+            allowed_exceptions=InsufficientPermissions,
+        ))
 
         completed, _ = await asyncio.wait(
-            [user_killed, got_user],
-            return_when=FIRST_COMPLETED,
+            [user_killed, got_user], return_when=FIRST_COMPLETED
         )
 
         if user_killed in completed:

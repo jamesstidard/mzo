@@ -2,8 +2,8 @@ from asyncio import Event
 from urllib.parse import urlencode
 
 from sanic import Sanic
-from sanic.response import text
 from sanic.exceptions import Unauthorized
+from sanic.response import text
 
 from mzo import OAUTH_REDIRECT_URI
 
@@ -55,10 +55,7 @@ class OAuthServer:
 
     async def run(self):
         return await self.app.create_server(
-            host="localhost",
-            port=40004,
-            access_log=False,
-            return_asyncio_server=True,
+            host="localhost", port=40004, access_log=False, return_asyncio_server=True
         )
 
     async def access_data(self):

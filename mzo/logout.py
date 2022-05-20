@@ -1,9 +1,11 @@
 import sys
+
 from contextlib import redirect_stdout
 
 import click
 
 import mzo
+
 from mzo.utils import ENV_SETTER
 
 

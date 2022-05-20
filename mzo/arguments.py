@@ -4,6 +4,7 @@ import click
 
 import mzo
 
+
 name = partial(
     click.argument,
     "name",
