@@ -4,8 +4,24 @@ version = "0.3.2"
 description = "A simple command line interface to your monzo account."
 authors = ["James Stidard <james@stidard.com>"]
 license = "MIT"
+readme = "README.md"
+homepage = "https://mzo.stidard.com"
+repository = "https://github.com/jamesstidard/mzo-cli"
+documentation = "https://mzo.stidard.com"
+keywords = ["mzo", "cli", "monzo"]
+include = [
+    "mzo",
+    "LICENSE",
+]
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/jamesstidard/mzo-cli/issues"
+
+[tool.poetry.scripts]
+mzo = "mzo.__main__:cli"
 
 [tool.poetry.dependencies]
+python = "^3.10"
 aioconsole = "^0.4.1"
 aiohttp = "^3.8.1"
 click = "^8.1.3"
@@ -13,12 +29,14 @@ fuzzywuzzy = "^0.18.0"
 idna = "^3.3"
 ordered-set = "^4.1.0"
 PyNaCl = "^1.5.0"
-python = "^3.10"
 python-dateutil = "^2.8.2"
+python-Levenshtein = {version = "^0.12.2", optional = true}
 sanic = "^22.3.2"
 terminaltables = "^3.1.10"
 toml = "^0.10.2"
-python-Levenshtein = "^0.12.2"
+
+[tool.poetry.extras]
+speedups = ["python-Levenshtein"]
 
 [tool.poetry.dev-dependencies]
 homebrew-pypi-poet = "^0.10.0"
