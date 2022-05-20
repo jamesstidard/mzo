@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "mzo"
+version = "0.3.2"
+description = "A simple command line interface to your monzo account."
+authors = ["James Stidard <james@stidard.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+aioconsole = "^0.4.1"
+aiohttp = "^3.8.1"
+click = "^8.1.3"
+fuzzywuzzy = "^0.18.0"
+idna = "^3.3"
+ordered-set = "^4.1.0"
+PyNaCl = "^1.5.0"
+python = "^3.10"
+python-dateutil = "^2.8.2"
+sanic = "^22.3.2"
+terminaltables = "^3.1.10"
+toml = "^0.10.2"
+python-Levenshtein = "^0.12.2"
+
+[tool.poetry.dev-dependencies]
+homebrew-pypi-poet = "^0.10.0"
+pytest = "^7.1.2"
+twine = "^4.0.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
