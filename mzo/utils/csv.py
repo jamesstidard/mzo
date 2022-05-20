@@ -1,5 +1,5 @@
-import csv
 import io
+import csv
 
 from ordered_set import OrderedSet
 

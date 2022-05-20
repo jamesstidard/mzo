@@ -4,8 +4,12 @@ import asyncio
 import click
 
 import mzo.utils.authentication
+from mzo.utils.emoji import (
+    STYLE_EMOJI,
+    ACCOUNT_TOTAL_EMOJI,
+    CURRENT_ACCOUNT_EMOJI,
+)
 from mzo.utils.formats import Format
-from mzo.utils.emoji import STYLE_EMOJI, CURRENT_ACCOUNT_EMOJI, ACCOUNT_TOTAL_EMOJI
 
 
 @mzo.command(short_help="View account's current balance.")
@@ -17,13 +21,25 @@ async def balance(ctx, fmt: Format):
         "account_id": ctx.obj.account_id,
     }
 
-    balance_req = ctx.obj.http.get(url="https://api.monzo.com/balance", params=params,)
+    balance_req = ctx.obj.http.get(
+        url="https://api.monzo.com/balance",
+        params=params,
+    )
 
-    pots_req = ctx.obj.http.get(url="https://api.monzo.com/pots", params=params,)
+    pots_req = ctx.obj.http.get(
+        url="https://api.monzo.com/pots",
+        params=params,
+    )
 
-    balance_resp, pots_resp = await asyncio.gather(balance_req, pots_req,)
+    balance_resp, pots_resp = await asyncio.gather(
+        balance_req,
+        pots_req,
+    )
 
-    balance_, pots = await asyncio.gather(balance_resp.json(), pots_resp.json(),)
+    balance_, pots = await asyncio.gather(
+        balance_resp.json(),
+        pots_resp.json(),
+    )
 
     rows = [
         {

@@ -1,10 +1,10 @@
-import asyncio
 import os
+import asyncio
 from functools import partial
 
-import aiohttp
-import click
 import toml
+import click
+import aiohttp
 
 import mzo
 from mzo.utils import wait
@@ -31,7 +31,8 @@ async def cli(ctx):
         pass
     except toml.TomlDecodeError:
         click.echo(
-            f'Unable to read config file "{config_fp}". ' "Make sure it is valid TOML."
+            f'Unable to read config file "{config_fp}". '
+            "Make sure it is valid TOML."
         )
         ctx.exit()
     else:

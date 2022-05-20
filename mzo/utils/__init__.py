@@ -1,5 +1,4 @@
 import asyncio
-
 from functools import wraps
 from collections.abc import Awaitable
 
@@ -12,8 +11,9 @@ export {name:}="{value:}"
 """
 
 NO_LOGIN_SESSION_ACTIVE = """\
-No login session currently active. You can authorize this one-off command by providing your \
-password, or see `mzo login --help` for persisting authentication between commands.
+No login session currently active. You can authorize this one-off \
+command by providing your password, or see `mzo login --help` for \
+persisting authentication between commands.
 """
 
 
@@ -39,7 +39,9 @@ def command(name=None, cls=None, options_metavar="[options]", **attrs):
 def group(name=None, options_metavar="[options]", **attrs):
     def decorator(f):
         f = async_command(f)
-        return click.group(name=name, options_metavar=options_metavar, **attrs)(f)
+        return click.group(name=name, options_metavar=options_metavar, **attrs)(
+            f
+        )
 
     return decorator
 

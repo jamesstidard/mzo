@@ -1,10 +1,10 @@
 import os
 from functools import wraps, partial
 
-import aiohttp
-import click
-import nacl.exceptions
 import toml
+import click
+import aiohttp
+import nacl.exceptions
 
 from mzo import OAUTH_REDIRECT_URI
 from mzo.utils import NO_LOGIN_SESSION_ACTIVE, wait
@@ -75,7 +75,9 @@ def authenticated(f):
         # No access token from session or from credentials. Point user in right direction
         else:
             click.echo(
-                "You are not logged in. See `mzo login --help`.", err=True, color="red"
+                "You are not logged in. See `mzo login --help`.",
+                err=True,
+                color="red",
             )
             raise click.Abort()
 
