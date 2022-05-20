@@ -5,13 +5,10 @@ from functools import partial
 import aiohttp
 import click
 import toml
-import uvloop
 
 import mzo
 from mzo.utils import wait
 from mzo.__version__ import __version__
-
-asyncio.set_event_loop(uvloop.new_event_loop())
 
 
 @mzo.group()
@@ -79,6 +76,4 @@ def main():
 
 
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
-    loop.close()
+    asyncio.run(main())

@@ -1,6 +1,7 @@
 import asyncio
-from collections import Awaitable
+
 from functools import wraps
+from collections.abc import Awaitable
 
 import click
 
@@ -45,7 +46,6 @@ def group(name=None, options_metavar="[options]", **attrs):
 
 def wait(f):
     if isinstance(f, Awaitable):
-        loop = asyncio.get_event_loop()
-        return loop.run_until_complete(f)
+        return asyncio.run(f)
     else:
         return f
