@@ -149,7 +149,7 @@ optional = false
 python-versions = "*"
 
 [package.extras]
-test = ["flake8 (==3.7.8)", "hypothesis (==3.55.3)"]
+test = ["hypothesis (==3.55.3)", "flake8 (==3.7.8)"]
 
 [[package]]
 name = "cryptography"
@@ -260,8 +260,8 @@ optional = false
 python-versions = ">=3.7"
 
 [package.extras]
-test = ["pytest", "pytest-trio", "pytest-asyncio (>=0.17)", "testpath", "trio", "async-timeout"]
-trio = ["trio", "async-generator"]
+trio = ["async-generator", "trio"]
+test = ["async-timeout", "trio", "testpath", "pytest-asyncio (>=0.17)", "pytest-trio", "pytest"]
 
 [[package]]
 name = "jinja2"
@@ -353,8 +353,8 @@ optional = false
 python-versions = ">=3.6"
 
 [package.extras]
-dev = ["pre-commit", "tox"]
-testing = ["pytest", "pytest-benchmark"]
+testing = ["pytest-benchmark", "pytest"]
+dev = ["tox", "pre-commit"]
 
 [[package]]
 name = "py"
@@ -527,7 +527,7 @@ jupyter = ["ipywidgets (>=7.5.1,<8.0.0)"]
 
 [[package]]
 name = "sanic"
-version = "22.3.2"
+version = "22.6.1"
 description = "A web server and web framework that's written to go fast. Build fast. Run fast."
 category = "main"
 optional = false
@@ -543,10 +543,11 @@ uvloop = {version = ">=0.5.3", markers = "sys_platform != \"win32\" and implemen
 websockets = ">=10.0"
 
 [package.extras]
-all = ["gunicorn (==20.0.4)", "uvicorn (<0.15.0)", "pytest-cov", "cryptography", "mistune (<2.0.0)", "sphinx (>=2.1.2)", "bandit", "towncrier", "mypy (>=0.901,<0.910)", "pytest-sanic", "black", "sanic-testing (>=22.3.0)", "m2r2", "pytest-benchmark", "pytest (==6.2.5)", "slotscheck (>=0.8.0,<1)", "pytest-sugar", "coverage (==5.3)", "flake8", "pygments", "chardet (>=3.0.0,<4.0.0)", "docutils", "beautifulsoup4", "sphinx-rtd-theme (>=0.4.3)", "isort (>=5.0.0)", "tox", "types-ujson"]
+all = ["isort (>=5.0.0)", "pytest-sugar", "pytest-benchmark", "docutils", "towncrier", "cryptography", "mistune (<2.0.0)", "slotscheck (>=0.8.0,<1)", "flake8", "chardet (>=3.0.0,<4.0.0)", "m2r2", "bandit", "beautifulsoup4", "sanic-testing (>=22.3.0)", "mypy (>=0.901,<0.910)", "sphinx (>=2.1.2)", "tox", "uvicorn (<0.15.0)", "pygments", "black", "coverage (==5.3)", "pytest (==6.2.5)", "pytest-sanic", "pytest-cov", "enum-tools", "gunicorn (==20.0.4)", "sphinx-rtd-theme (>=0.4.3)", "types-ujson"]
 dev = ["sanic-testing (>=22.3.0)", "pytest (==6.2.5)", "coverage (==5.3)", "gunicorn (==20.0.4)", "pytest-cov", "beautifulsoup4", "pytest-sanic", "pytest-sugar", "pytest-benchmark", "chardet (>=3.0.0,<4.0.0)", "flake8", "black", "isort (>=5.0.0)", "bandit", "mypy (>=0.901,<0.910)", "docutils", "pygments", "uvicorn (<0.15.0)", "slotscheck (>=0.8.0,<1)", "cryptography", "tox", "towncrier", "types-ujson"]
-docs = ["sphinx (>=2.1.2)", "sphinx-rtd-theme (>=0.4.3)", "docutils", "pygments", "m2r2", "mistune (<2.0.0)"]
+docs = ["sphinx (>=2.1.2)", "sphinx-rtd-theme (>=0.4.3)", "docutils", "pygments", "m2r2", "enum-tools", "mistune (<2.0.0)"]
 ext = ["sanic-ext"]
+http3 = ["aioquic"]
 test = ["sanic-testing (>=22.3.0)", "pytest (==6.2.5)", "coverage (==5.3)", "gunicorn (==20.0.4)", "pytest-cov", "beautifulsoup4", "pytest-sanic", "pytest-sugar", "pytest-benchmark", "chardet (>=3.0.0,<4.0.0)", "flake8", "black", "isort (>=5.0.0)", "bandit", "mypy (>=0.901,<0.910)", "docutils", "pygments", "uvicorn (<0.15.0)", "slotscheck (>=0.8.0,<1)", "types-ujson"]
 
 [[package]]
@@ -1216,8 +1217,8 @@ rich = [
     {file = "rich-12.4.1.tar.gz", hash = "sha256:d239001c0fb7de985e21ec9a4bb542b5150350330bbc1849f835b9cbc8923b91"},
 ]
 sanic = [
-    {file = "sanic-22.3.2-py3-none-any.whl", hash = "sha256:5a4752261abfe636acdb5f0a587bceb76a1e0d53f0e077a027edce99eaa56e22"},
-    {file = "sanic-22.3.2.tar.gz", hash = "sha256:39d02762a8abbd7aa24130d1bbd12f6b6b15d398bc439a6f1a0387840b0484b9"},
+    {file = "sanic-22.6.1-py3-none-any.whl", hash = "sha256:a6d684ff572a4a8cdba66a28d128c9693b05dac07954d8dab9e7150eaa6714bc"},
+    {file = "sanic-22.6.1.tar.gz", hash = "sha256:da50afbd0ae307fa371f0a7406070c790ef92547c813d8590ae02f0d2f528815"},
 ]
 sanic-routing = [
     {file = "sanic-routing-22.3.0.tar.gz", hash = "sha256:fde5a7d4079794b585b9a2904accd0de5a70abf27c82d2658b40c551ef44f703"},
