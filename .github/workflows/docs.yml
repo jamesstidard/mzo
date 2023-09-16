@@ -22,8 +22,7 @@ jobs:
           asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git || true
           asdf install nodejs latest
           asdf local nodejs latest
-          npm install --global yarn
-          yarn install
-          yarn docs:build
+          npm install
+          npm run docs:build
           rm -rf /home/james/Development/www/public/mzo-cli/*
           cp -r docs/.vuepress/dist/* /home/james/Development/www/public/mzo-cli

@@ -8,11 +8,10 @@
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "predocs:deploy": "npm run docs:build",
-    "docs:deploy": "./scripts/deploy-docs.sh",
     "mzo:deploy": "pipenv run python setup.py upload",
     "postmzo:deploy": "pipenv run python ./scripts/deploy-homebrew.py"
   },
   "devDependencies": {
-    "vuepress": "^1.3.0"
+    "vuepress": "^1.9.10"
   }
 }
