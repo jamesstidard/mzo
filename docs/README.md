@@ -32,7 +32,7 @@ so both could break at any time.
 # Example Usage
 ```bash
 $ eval $(mzo login)
-Password:
+Password: ********
 
 $ mzo balance
 +--------------------+---------+

@@ -1,18 +1,20 @@
-module.exports = {
+import { defineUserConfig } from 'vuepress'
+import { defaultTheme } from '@vuepress/theme-default'
+
+export default defineUserConfig({
+  lang: 'en-US',
   title: 'MZO CLI',
   description: 'Sometimes typing is more convenient then swiping and tapping... Sometimes.',
-  ga: 'UA-33148627-2',
-  // base: '/Monzo-Cli/', // For github pages. Not needed for custom domain
-  themeConfig: {
-    nav: [
+  theme: defaultTheme({
+    navbar: [
       { text: 'Documentation', link: '/docs/' },
-      { text: 'GitHub', link: 'https://github.com/jamesstidard/mzo-cli' },
     ],
+    repo: 'https://github.com/jamesstidard/mzo-cli',
     sidebar: [
       '/docs/',
       '/docs/install',
       '/docs/usage',
       '/docs/uninstall',
     ],
-  },
-}
+  })
+})
