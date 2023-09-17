@@ -46,6 +46,7 @@ def group(name=None, options_metavar="[options]", **attrs):
 
 def wait(f):
     if isinstance(f, Awaitable):
-        return asyncio.run(f)
+        loop = asyncio.get_event_loop()
+        return loop.run_until_complete(f)
     else:
         return f

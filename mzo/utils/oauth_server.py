@@ -11,7 +11,7 @@ from mzo import OAUTH_REDIRECT_URI
 class OAuthServer:
     def __init__(self, *, client_id, client_secret, nonce, http_session):
         self.http = http_session
-        self.app = Sanic(__name__, configure_logging=False)
+        self.app = Sanic("mzo-oauth-server", configure_logging=False)
         self.client_id = client_id
         self.client_secret = client_secret
         self.nonce = nonce
