@@ -3,6 +3,8 @@
 .vscode/
 docs/.vuepress/dist
 app_data
+.cache
+.temp
 
 # Created by https://www.gitignore.io/api/macos,linux,windows,python,node
 
