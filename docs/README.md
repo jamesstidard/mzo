@@ -24,10 +24,10 @@ This is not an official command-line application from Monzo, but a
 third-party, open-source one implemented using Monzo's Developer API.
 :::
 
-::: danger Beta Software
+<!-- ::: danger Beta Software
 The Monzo Developer API and this application are still under development
 so both could break at any time.
-:::
+::: -->
 
 # Example Usage
 ```bash
