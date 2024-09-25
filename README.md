@@ -8,12 +8,12 @@ are looking for the documentation and more straight forward
 installation instructions [see the docs](https://mzo.stidard.com).
 
 ## Prerequisites
-At the time of writing this the project is using Python 3.6.5.
+At the time of writing this the project is using Python 3.10.
 You will need that version of python installed before starting.
 If you don't currently have a method of managing multiple Python
 versions on your machine, I would recommend checking out [pyenv](https://github.com/pyenv/pyenv).
 
-The projects dependencies are also managed by [pipenv](https://docs.pipenv.org/).
+The projects dependencies are also managed by [poetry](https://python-poetry.org).
 You should head over there and make sure that you also have that
 tool setup.
 
