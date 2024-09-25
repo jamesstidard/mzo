@@ -32,8 +32,8 @@ $ git clone https://github.com/jamesstidard/mzo-cli
 
 $ cd mzo-cli/
 
-$ pipenv install --dev --python 3.6.5
-$ pipenv shell
+$ poetry env use /path/to/python/3.10/python
+$ poetry install --with=dev
 ```
 
 ### Run
