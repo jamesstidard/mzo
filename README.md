@@ -3,10 +3,9 @@ A (third-party) command-line interface to your Monzo account.
 Because _Sometimes_ the command-line is more convenient then 
 swiping and tapping.
 
-This README covers the environment setup if you are looking to
-run the applications source code / work on the project. If you
+This README covers the environment setup. If you
 are looking for the documentation and more straight forward
-installation instructions [see the docs](https://jamesstidard.github.io/Mzo-Cli/).
+installation instructions [see the docs](https://mzo.stidard.com).
 
 ## Prerequisites
 At the time of writing this the project is using Python 3.6.5.
